@@ -1,0 +1,3 @@
+rootProject.name = 'BOSWallet'
+
+include ':app'
