@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import PropTypes from 'prop-types';
 
 import CenterElement from './WhiteToolbarElements/CenterElement';
 import LeftElement from './WhiteToolbarElements/LeftElement';
@@ -12,5 +13,9 @@ const WhiteToolbar = ({ title }) => (
     <CenterElement title={title} />
   </View>
 );
+
+WhiteToolbar.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 export default WhiteToolbar;

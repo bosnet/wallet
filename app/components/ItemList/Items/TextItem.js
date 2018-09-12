@@ -8,17 +8,17 @@ import styles from '../styles';
 import arrow from '../../../res/images/arrow.png';
 
 const TextItem = ({ item, text }) => (
-  <TouchableOpacity style={styles.listItem}>
+  <View style={styles.listItem}>
     <Text style={styles.itemText}>
       {item}
     </Text>
-    <View style={styles.rowDirection}>
+    <TouchableOpacity style={styles.rowDirection}>
       <Text style={styles.textItemData}>
         {text}
       </Text>
       <Image style={styles.itemArrow} source={arrow} />
-    </View>
-  </TouchableOpacity>
+    </TouchableOpacity>
+  </View>
 );
 
 TextItem.propTypes = {

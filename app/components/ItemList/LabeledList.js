@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, SectionList } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Item from './Items/index';
+import SectionItem from './Items/SectionItem';
 import styles from './styles';
 
 const LabeledList = ({ sections }) => (
   <SectionList
-    style={styles.sectionList}
+    style={styles.itemList}
     sections={sections}
-    renderItem={Item}
+    renderItem={SectionItem}
     renderSectionHeader={({ section: { title } }) => (
       <Text style={styles.sectionHeader}>{title}</Text>
     )}

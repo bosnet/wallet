@@ -11,7 +11,7 @@ import LabeledList from '../../components/ItemList/LabeledList';
 const SettingMain = () => (
   <View style={styles.container}>
     <WhiteStatusBar />
-    <WhiteToolbar title={strings.Settings.title} />
+    <WhiteToolbar title={strings.Settings.titleSettings} />
     <View style={styles.defaultLayout}>
       <LabeledList
         sections={[
@@ -24,13 +24,17 @@ const SettingMain = () => (
               strings.Settings.dataLanguage,
               strings.Settings.dataNotifyVote,
             ],
+            goto: [
+              strings.nav.Membership,
+              strings.nav.AddressBook,
+            ],
             itemTypes: {
               3: {
                 type: 'TextItem',
                 value: '한국어',
               },
               4: {
-                type: 'SwitchItem',
+                type: 'ToggleItem',
                 value: true,
               },
             },

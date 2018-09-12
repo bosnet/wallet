@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Text, Image, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-
 import PropTypes from 'prop-types';
 
 import styles from '../styles';
@@ -26,8 +25,8 @@ DefaultItem.propTypes = {
 };
 
 
-const mapDispatchToProps = dispatch => ({
-  goMemberShip: () => dispatch(NavigationActions.navigate({ routeName: 'Settings' })),
+const mapDispatchToProps = (dispatch, props) => ({
+  goMemberShip: () => dispatch(NavigationActions.navigate({ routeName: props.goto })),
 });
 
 

@@ -1,35 +1,63 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../res/colors';
+import { colors } from '../../res/index';
 
 const styles = StyleSheet.create({
   homeToolbar: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.toolbarWhite,
     height: 45,
     alignSelf: 'stretch',
   },
   whiteToolbar: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
     height: 45,
-    backgroundColor: colors.white,
+    backgroundColor: colors.toolbarWhite,
   },
   whiteToolbarBack: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 11,
+  },
+  whiteToolbarBackImage: {
     width: 16,
     height: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: '#F00',
+    paddingVertical: 11,
   },
   whiteToolbarTitle: {
-    marginLeft: 8,
     flex: 1,
-    // backgroundColor: 'blue',
   },
   whiteToolbarTitleText: {
     letterSpacing: -0.41,
     fontSize: 17,
-    color: colors.navy,
+    color: colors.toolbarTitleNavy,
+    fontFamily: 'SpoqaHanSans-Regular',
+  },
+  purpleToolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 45,
+    backgroundColor: colors.toolbarPurple,
+  },
+  purpleToolbarTitle: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  purpleToolbarTitleText: {
+    letterSpacing: -0.41,
+    fontSize: 17,
+    textAlign: 'center',
+    color: colors.toolbarTitleWhite,
+    fontFamily: 'SpoqaHanSans-Regular',
+  },
+  purpleToolbarBackText: {
+    fontSize: 15,
+    color: colors.toolbarTitleWhite,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    fontFamily: 'SpoqaHanSans-Regular',
   },
 });
 

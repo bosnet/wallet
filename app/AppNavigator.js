@@ -7,7 +7,8 @@ import {
 
 import HomeScreen from './screens/HomeScreen';
 import SettingMain from './screens/Settings/SettingMain';
-import Membership from './screens/Settings/Membership/index';
+import Membership from './screens/Settings/Membership';
+import AddressBook from './screens/Settings/AddressBook';
 
 const middleware = createReactNavigationReduxMiddleware(
   'root',
@@ -18,6 +19,7 @@ const RootNavigator = createStackNavigator({
   Home: { screen: HomeScreen },
   Settings: { screen: SettingMain },
   Membership: { screen: Membership },
+  AddressBook: { screen: AddressBook },
 });
 
 const AppWithNavigationState = reduxifyNavigator(RootNavigator, 'root');
