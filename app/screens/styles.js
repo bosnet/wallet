@@ -1,17 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../res/index';
+import { colors } from '../resources';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  topArea: {
-    height: 65,
+    backgroundColor: colors.white,
   },
   defaultLayout: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: colors.white,
   },
 });
 

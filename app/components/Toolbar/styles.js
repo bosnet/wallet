@@ -1,63 +1,49 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../res/index';
+import { colors } from '../../resources';
 
 const styles = StyleSheet.create({
-  homeToolbar: {
-    backgroundColor: colors.toolbarWhite,
-    height: 45,
+  toolbarHome: {
+    flexDirection: 'row',
+    height: 40,
     alignSelf: 'stretch',
+    justifyContent: 'space-between',
   },
-  whiteToolbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 45,
-    backgroundColor: colors.toolbarWhite,
-  },
-  whiteToolbarBack: {
-    alignItems: 'center',
+  toolbarElement: {
     justifyContent: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 11,
   },
-  whiteToolbarBackImage: {
-    width: 16,
+  // HomeToolbar 구성요소
+  logoImage: {
+    width: 102,
+    height: 17,
+    marginLeft: 25,
+  },
+  actionGroup: {
+    width: 108,
+    height: 32,
+    padding: 1,
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  actionIcon: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.testBkg, // For Debug
+  },
+  IconIn: {
+    width: 26,
     height: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 11,
+    paddingVertical: 4,
+    paddingLeft: 1,
+    paddingRight: 3,
   },
-  whiteToolbarTitle: {
-    flex: 1,
-  },
-  whiteToolbarTitleText: {
-    letterSpacing: -0.41,
-    fontSize: 17,
-    color: colors.toolbarTitleNavy,
-    fontFamily: 'SpoqaHanSans-Regular',
-  },
-  purpleToolbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 45,
-    backgroundColor: colors.toolbarPurple,
-  },
-  purpleToolbarTitle: {
-    marginLeft: 8,
-    flex: 1,
-  },
-  purpleToolbarTitleText: {
-    letterSpacing: -0.41,
-    fontSize: 17,
-    textAlign: 'center',
-    color: colors.toolbarTitleWhite,
-    fontFamily: 'SpoqaHanSans-Regular',
-  },
-  purpleToolbarBackText: {
-    fontSize: 15,
-    color: colors.toolbarTitleWhite,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    fontFamily: 'SpoqaHanSans-Regular',
+  Icon: {
+    padding: 4,
+    width: 22,
+    height: 22,
   },
 });
 

@@ -1,9 +1,8 @@
-import { NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
 import { RootNavigator } from '../AppNavigator';
+import { Navigation } from '../actions';
 
-import { strings } from '../res/index';
-
-const homeAction = RootNavigator.router.getActionForPathAndParams('Home');
+const homeAction = RootNavigator.router.getActionForPathAndParams(Navigation.Screens.HOME);
 const initialNavState = RootNavigator.router.getStateForAction(
   homeAction,
 );
@@ -11,14 +10,6 @@ const initialNavState = RootNavigator.router.getStateForAction(
 function navigation(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
-    case strings.nav.Settings:
-    case strings.nav.Membership:
-    case strings.nav.AddressBook:
-      nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: action.type }),
-        state,
-      );
-      break;
     default:
       nextState = RootNavigator.router.getStateForAction(action, state);
       break;

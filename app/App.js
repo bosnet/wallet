@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
-import AppReducer from './reducers/index';
+import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
 
 
@@ -13,6 +13,5 @@ const App = () => (
     <AppNavigator />
   </Provider>
 );
-
 
 export default App;
