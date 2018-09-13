@@ -7,6 +7,7 @@ import { types } from '../../resources';
 import { Type, AppStatusBar } from '../../components/StatusBar';
 import { HomeToolbar } from '../../components/Toolbar';
 import { ItemList } from '../../components/List';
+import { Navigation } from '../../actions';
 
 const HomeScreen = () => (
   <View style={styles.container}>
@@ -19,6 +20,7 @@ const HomeScreen = () => (
           data: [
             {
               key: '1-2. 홈 (어카운트 있음)',
+              action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
             },
             {
               key: '3. 계좌 생성 > 계좌 생성 주의사항 > 비밀번호 설정',
@@ -91,9 +93,11 @@ const HomeScreen = () => (
             },
             {
               key: '37. 설정 > 멤버십',
+              action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
             },
             {
               key: '37. 설정 > 멤버십_상세',
+              action: Navigation.pushScreen(Navigation.Screens.MEMBERSHIP),
             },
             {
               key: '40. 설정 > 주소록',

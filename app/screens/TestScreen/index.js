@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import styles from '../styles';
 
-const SettingsScreen = () => (
+const TestScreen = () => (
   <View style={styles.container}>
     <View>
       <Text>Welcome to React Native!</Text>
@@ -12,8 +12,8 @@ const SettingsScreen = () => (
   </View>
 );
 
-SettingsScreen.navigationOptions = {
+TestScreen.navigationOptions = {
   header: null,
 };
 
-export default SettingsScreen;
+export default TestScreen;

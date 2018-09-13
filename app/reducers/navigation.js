@@ -1,4 +1,4 @@
-// import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { RootNavigator } from '../AppNavigator';
 import { Navigation } from '../actions';
 
@@ -10,8 +10,23 @@ const initialNavState = RootNavigator.router.getStateForAction(
 function navigation(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
+    case Navigation.NAV_PUSH:
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: action.routeName }),
+        state,
+      );
+      break;
+    case Navigation.NAV_POP:
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.back(),
+        state,
+      );
+      break;
     default:
-      nextState = RootNavigator.router.getStateForAction(action, state);
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: action.routeName }),
+        state,
+      );
       break;
   }
 

@@ -1,5 +1,4 @@
 import HomeToolbar from './HomeToolbar';
+import DefaultToolbar from './DefaultToolbar';
 
-const dummy = 'dummy';
-
-export { HomeToolbar, dummy };
+export { HomeToolbar, DefaultToolbar };

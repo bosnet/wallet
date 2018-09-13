@@ -45,6 +45,14 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
   },
+
+  // DefaultToolbar 구성요소
+  toolbarDefault: {
+    flexDirection: 'row',
+    height: 45,
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+  },
 });
 
 export default styles;
