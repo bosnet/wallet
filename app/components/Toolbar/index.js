@@ -1,4 +1,4 @@
 import HomeToolbar from './HomeToolbar';
-import DefaultToolbar from './DefaultToolbar';
+import { DefaultToolbar, Theme as DefaultToolbarTheme } from './DefaultToolbar';
 
-export { HomeToolbar, DefaultToolbar };
+export { HomeToolbar, DefaultToolbar, DefaultToolbarTheme };

@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   },
   toolbarElement: {
     justifyContent: 'center',
+    flex: 1,
   },
   // HomeToolbar 구성요소
   logoImage: {
@@ -22,9 +23,10 @@ const styles = StyleSheet.create({
     height: 32,
     padding: 1,
     flexDirection: 'row',
-    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 1,
+    alignSelf: 'flex-end',
   },
   actionIcon: {
     width: 30,
@@ -52,6 +54,60 @@ const styles = StyleSheet.create({
     height: 45,
     alignSelf: 'stretch',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  whiteToolbar: {
+    backgroundColor: colors.toolbarWhite,
+  },
+  purpleToolbar: {
+    backgroundColor: colors.toolbarPurple,
+  },
+  centerElement: {
+    alignItems: 'center',
+  },
+  leftElement: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  rightElement: {
+    alignItems: 'flex-end',
+  },
+  centerTitle: {
+    textAlign: 'center',
+    fontSize: 17,
+    paddingBottom: 6,
+  },
+  backArea: {
+    marginLeft: 5,
+    paddingVertical: 11,
+    paddingHorizontal: 8,
+  },
+  backArrow: {
+    width: 16,
+    height: 22,
+  },
+  noBackMargin: {
+
+  },
+  leftTitle: {
+    fontSize: 17,
+    letterSpacing: -0.41,
+    paddingBottom: 5,
+  },
+  actionArea: {
+    paddingHorizontal: 14,
+    paddingBottom: 13,
+    paddingTop: 10,
+  },
+  actionText: {
+    fontSize: 15,
+  },
+  navyText: {
+    color: colors.toolbarTextNavy,
+  },
+  whiteText: {
+    color: colors.toolbarTextWhite,
   },
 });
 

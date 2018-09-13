@@ -1,17 +1,47 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import styles from '../styles';
+import { types } from '../../resources';
 
-import { Type, AppStatusBar } from '../../components/StatusBar';
-import { HomeToolbar } from '../../components/Toolbar';
+import { ItemList } from '../../components/List';
+import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
+import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 
 const MembershipScreen = () => (
   <View style={styles.container}>
-    <AppStatusBar type={Type.PURPLE} />
-    <HomeToolbar />
+    <AppStatusBar theme={StatusBarTheme.PURPLE} />
+    <DefaultToolbar
+      theme={DefaultToolbarTheme.PURPLE}
+      data={{
+        center: {
+          title: '멤버십',
+        },
+        right: {
+          actionText: '닫기',
+        },
+      }}
+    />
     <View style={styles.defaultLayout}>
-
+      <ItemList
+        listType={types.ListType.FLAT}
+        listData={{
+          data: [
+            {
+              key: 'PIN 변경',
+            },
+            {
+              key: '얼굴 재등록',
+            },
+            {
+              key: '멤버십 탈퇴',
+            },
+            {
+              key: '문의하기',
+            },
+          ],
+        }}
+      />
     </View>
   </View>
 );

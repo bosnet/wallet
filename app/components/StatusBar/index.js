@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { colors } from '../../resources';
 
-const Type = {
+const Theme = {
   WHITE: 'white',
   PURPLE: 'purple',
 };
@@ -20,15 +20,15 @@ const StatusBarStyle = {
   },
 };
 
-const AppStatusBar = ({ type }) => (
+const AppStatusBar = ({ theme }) => (
   <StatusBar
-    backgroundColor={StatusBarStyle[type].backgroundColor}
-    barStyle={StatusBarStyle[type].barStyle}
+    backgroundColor={StatusBarStyle[theme].backgroundColor}
+    barStyle={StatusBarStyle[theme].barStyle}
   />
 );
 
 AppStatusBar.propTypes = {
-  type: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
-export { AppStatusBar, Type };
+export { AppStatusBar, Theme };

@@ -1,25 +1,37 @@
 import React from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 import styles from '../../styles';
-import IconAdd from '../../../../resources/images/icon-add.png';
-import IconIn from '../../../../resources/images/icon-in.png';
-import IconSettings from '../../../../resources/images/icon-setting.png';
 
-const RightElement = () => (
-  <View style={styles.toolbarElement}>
-    <View style={styles.actionGroup}>
-      <TouchableOpacity style={styles.actionIcon}>
-        <Image style={styles.Icon} source={IconAdd} />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.actionIcon}>
-        <Image style={styles.IconIn} source={IconIn} />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.actionIcon}>
-        <Image style={styles.Icon} source={IconSettings} />
-      </TouchableOpacity>
-    </View>
+const ThemeStyle = {
+  white: {
+    text: styles.navyText,
+  },
+  purple: {
+    text: styles.whiteText,
+  },
+};
+
+const actionArea = theme => (
+  <TouchableOpacity style={styles.actionArea}>
+    <Text style={[styles.actionText, ThemeStyle[theme].text]}>닫기</Text>
+  </TouchableOpacity>
+);
+
+const RightElement = ({ theme, data }) => (
+  <View style={[styles.toolbarElement, styles.rightElement]}>
+    { (data && data.actionText) ? actionArea(theme) : null}
   </View>
 );
+
+RightElement.propTypes = {
+  theme: PropTypes.string.isRequired,
+  data: PropTypes.shape({}),
+};
+
+RightElement.defaultProps = {
+  data: null,
+};
 
 export default RightElement;

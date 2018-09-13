@@ -7,8 +7,8 @@ const colors = {
   toolbarWhite: '#ffffff',
   toolbarPurple: '#6770cb',
 
-  toolbarTitleNavy: '#221868',
-  toolbarTitleWhite: '#ffffff',
+  toolbarTextNavy: '#221868',
+  toolbarTextWhite: '#ffffff',
 
   panelBkgPurble: '#6770cb',
   panelTextWhite: '#ffffff',
