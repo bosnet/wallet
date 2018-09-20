@@ -105,6 +105,39 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     color: colors.buttonTextGray,
   },
+
+  panelButtonGroup: {
+    width: 327,
+    height: 42,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: colors.buttonBorderGray,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  pannelButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pannelButtonLong: {
+    width: 143,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  panelButtonText: {
+    fontFamily: 'SpoqaHanSans-Bold',
+    fontSize: 14,
+    color: colors.buttonTextNavy,
+  },
+  panelButtonSeperator: {
+    height: 24,
+    opacity: 0.5,
+    width: 1,
+    borderLeftWidth: 1,
+    borderLeftColor: colors.panelButtonSeperator,
+  },
 });
 
 export default styles;

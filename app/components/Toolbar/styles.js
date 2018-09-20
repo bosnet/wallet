@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.testBkg, // For Debug
   },
   IconIn: {
     width: 26,
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   },
   centerElement: {
     alignItems: 'center',
-    flex: 2,
+    flex: 1.5,
   },
   leftElement: {
     flexDirection: 'row',
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
 
   },
   leftTitle: {
+    width: 200,
     fontSize: 17,
     letterSpacing: -0.41,
     paddingBottom: 5,

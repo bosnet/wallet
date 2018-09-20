@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     color: colors.textAreaContentsGray,
     fontSize: 16,
     marginHorizontal: 8,
-    marginBottom: 12,
+    marginBottom: 16,
     fontFamily: 'SpoqaHanSans-Regular',
   },
   balanceTextArea: {

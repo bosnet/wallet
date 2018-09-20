@@ -4,6 +4,11 @@ const Types = {
     SECTION: 'Section',
     SORTABLE: 'sortable',
   },
+  ListItem: {
+    DEFAULT: 'text',
+    TEXT: 'text',
+    TRANSACTION: 'transaction',
+  },
   TextArea: {
     TEXT: 'text',
     BALACNE: 'balance',

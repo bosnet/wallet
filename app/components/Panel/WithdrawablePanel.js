@@ -8,11 +8,11 @@ import { colors } from '../../resources';
 const WithdrawablePanel = ({
   title, backgroundColor, amount, textColor,
 }) => (
-  <View style={[styles.balancePanel, { backgroundColor: backgroundColor }]}>
-    <Text style={[styles.balanceTitle, { color: textColor }]}>{title}</Text>
-    <View style={styles.balanceContents}>
-      <Text style={[styles.balance, { color: textColor }]}>{amount}</Text>
-      <Text style={[styles.balanceUnit, { color: textColor }]}>BOS</Text>
+  <View style={[styles.withdrawPanel, { backgroundColor: backgroundColor }]}>
+    <Text style={[styles.withdrawTitle, { color: textColor }]}>{title}</Text>
+    <View style={styles.withdrawContents}>
+      <Text style={[styles.withdraw, { color: textColor }]}>{amount}</Text>
+      <Text style={[styles.withdrawUnit, { color: textColor }]}>BOS</Text>
     </View>
   </View>
 );

@@ -1,6 +1,4 @@
 import DefaultItem from './DefaultItem';
+import TransactionItem from './TransactionItem';
 
-
-const dummy = null;
-
-export { DefaultItem, dummy };
+export { DefaultItem, TransactionItem };

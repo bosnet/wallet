@@ -6,7 +6,7 @@ const colors = {
 
   labelTextBlack: '#000000',
   headTextBlack: '#000000',
-  
+
   infoTextBlack: '#4a4a4a',
 
   inputPlaceholderGray: '#999999',
@@ -20,6 +20,7 @@ const colors = {
 
   panelBkgPurble: '#6770cb',
   panelTextWhite: '#ffffff',
+  panelTitleGray: '#8a8a8a',
 
   seperatorGray: '#c8c7cccc',
 
@@ -27,6 +28,13 @@ const colors = {
   listSeperatorGray: '#c8c7cccc',
   itemTextBlack: '#030303',
   itemTextPurple: '#6770cb',
+  itemTextOrange: '#ef7952',
+  itemTextGray: '#6b6785',
+  itemTextLightGray: '#999999',
+  itemTextBlue: '#027bff',
+  itemTextRed: '#f60e4f',
+
+  indicatorWhite: '#ffffff',
 
   buttonPurple: '#6770cb',
   buttonGray: '#ebebeb',
@@ -36,12 +44,13 @@ const colors = {
   buttonTextBlue: '#5960a8',
   buttonTextPurple: '#6770cb',
   buttonTextGray: '#565656',
+  buttonBorderGray: '#979797',
 
   textAreaTitleGray: '#6b6785',
   textAreaContentsGray: '#4a4a4a',
   textAreaContentsNavy: '#221868',
   textAreaNotiTextGray: '#999999',
-  
+
   warningTextPurple: '#6770cb',
   warningTextGray: '#565656',
 

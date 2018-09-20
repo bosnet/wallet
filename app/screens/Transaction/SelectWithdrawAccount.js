@@ -9,7 +9,7 @@ import { BottomButton } from '../../components/Button';
 import { TextArea } from '../../components/Text';
 import { colors, types } from '../../resources';
 
-const SelectReceiveAccount = () => (
+const SelectWithdrawAccount = () => (
   <View style={styles.container}>
     <AppStatusBar theme={StatusBarTheme.PURPLE} />
     <DefaultToolbar
@@ -71,8 +71,8 @@ const SelectReceiveAccount = () => (
   </View>
 );
 
-SelectReceiveAccount.navigationOptions = {
+SelectWithdrawAccount.navigationOptions = {
   header: null,
 };
 
-export default SelectReceiveAccount;
+export default SelectWithdrawAccount;

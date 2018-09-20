@@ -25,7 +25,7 @@ const JoinMembership = () => (
     />
 
     <ScrollView
-      contentContainerStyle={[styles.alignCenter, {margin: 0, padding: 0}]}
+      contentContainerStyle={[styles.alignCenter, { margin: 0, padding: 0 }]}
 
       showsVerticalScrollIndicator={false}
     >
@@ -57,7 +57,7 @@ const JoinMembership = () => (
         label={'프로즌 어카운트에 10,000 BOS 이상\n프리징하지 않으면 멤버십이 박탈됩니다'}
       />
       <CheckBox
-        label={'리워드는 PF_R_00 통과 이후에 받습니다'}
+        label="리워드는 PF_R_00 통과 이후에 받습니다"
       />
       <CheckBox
         label={'멤버십 갱신은 1년주기이며, 갱신을 하지\n않을 경우 자동 탈퇴 되며, 리워드를 받을\n수 없습니다'}

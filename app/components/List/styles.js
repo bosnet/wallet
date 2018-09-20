@@ -39,6 +39,57 @@ const styles = StyleSheet.create({
   sectionFotter: {
     marginBottom: 20,
   },
+  transactionItem: {
+    borderBottomColor: colors.buttonBorderGray,
+    borderBottomWidth: 1,
+    marginRight: 30,
+    marginBottom: 25,
+  },
+  transactionTitle: {
+    marginLeft: 2,
+    fontFamily: 'SpoqaHanSans-Regular',
+    fontSize: 12,
+    color: colors.itemTextOrange,
+    marginBottom: 5,
+    height: 18,
+  },
+  transactionAccount: {
+    marginLeft: 2,
+    fontFamily: 'SpoqaHanSans-Regular',
+    fontSize: 16,
+    color: colors.itemTextGray,
+    height: 24,
+  },
+  transactionDate: {
+    marginLeft: 2,
+    fontFamily: 'SpoqaHanSans-Regular',
+    fontSize: 12,
+    color: colors.itemTextLightGray,
+    height: 18,
+  },
+  transactionAccountArea: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginTop: 5,
+    marginBottom: 8,
+  },
+  transactionAmount: {
+    marginVertical: 6,
+    fontFamily: 'SpoqaHanSans-Regular',
+    fontSize: 22,
+    alignSelf: 'center',
+    textAlignVertical: 'center',
+    marginHorizontal: 3,
+  },
+  transactionUnit: {
+    fontFamily: 'SpoqaHanSans-Bold',
+    alignSelf: 'center',
+    fontSize: 10,
+    height: 15,
+    textAlignVertical: 'center',
+    marginHorizontal: 3,
+  },
 });
 
 export default styles;

@@ -18,7 +18,7 @@ const QRScan = () => (
         <Image
           source={imgFace}
           resizeMode="contain"
-          style={{ width: 296 }}
+          style={{ width: 292 }}
         />
       </View>
 

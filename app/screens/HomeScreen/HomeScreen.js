@@ -23,7 +23,15 @@ const HomeScreen = () => (
               action: Navigation.pushScreen(Navigation.Screens.WALKTHROUGH),
             },
             // {
+            //   key: '1-2. 홈 (어카운트 없음)',
+            //   action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
+            // },
+            // {
             //   key: '1-2. 홈 (어카운트 있음)',
+            //   action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
+            // },
+            // {
+            //   key: '1-2. 홈_이용안내',
             //   action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
             // },
             {
@@ -44,6 +52,9 @@ const HomeScreen = () => (
             // {
             //   key: '5-6-9.PIN 설정하기',
             // },
+            // {
+            //   key: '5-6-9.PIN 설정하기_1',
+            // },
             {
               key: '5. 계좌 가져오기>가져오기선택',
               action: Navigation.pushScreen(Navigation.Screens.SELECT_IMPORT_TYPE),
@@ -56,18 +67,22 @@ const HomeScreen = () => (
               key: '6. 계좌 가져오기 > 보안키로 가져오기 - QRcode reader screen',
               action: Navigation.pushScreen(Navigation.Screens.QR_SCAN),
             },
-            // {
-            //   key: '10. 거래내역 - 공통 - 유효하지 않은 General Account',
-            // },
-            // {
-            //   key: '10. 거래내역 - 멤버십 가입 전 - General Account',
-            // },
-            // {
-            //   key: '11. 거래 상세 내역 - Frozen Account - 계좌 생성 입금',
-            // },
-            // {
-            //   key: '11. 거래내역 - General Account - 거래 상세 내역',
-            // },
+            {
+              key: '10. 거래내역 - 공통 - 유효하지 않은 General Account',
+              action: Navigation.pushScreen(Navigation.Screens.TRANSACTION_LIST),
+            },
+            {
+              key: '10. 거래내역 - 멤버십 가입 전 - General Account',
+              action: Navigation.pushScreen(Navigation.Screens.TRANSACTION_LIST_1),
+            },
+            {
+              key: '11. 거래 상세 내역 - Frozen Account - 계좌 생성 입금',
+              action: Navigation.pushScreen(Navigation.Screens.TRANSACTION_LIST_2),
+            },
+            {
+              key: '11. 거래내역 - General Account - 거래 상세 내역',
+              action: Navigation.pushScreen(Navigation.Screens.TRANSACTION_LIST_3),
+            },
             {
               key: '11. 거래내역 - General Account - 거래 상세 내역_프리징',
               action: Navigation.pushScreen(Navigation.Screens.TRANSACTION_DETAIL),
@@ -78,11 +93,12 @@ const HomeScreen = () => (
             },
             {
               key: '13. 거래내역 > 보내기 > 출금 계좌 선택',
-              action: Navigation.pushScreen(Navigation.Screens.SELECT_RECEIVE_ACCOUNT),
+              action: Navigation.pushScreen(Navigation.Screens.SELECT_WITHDRAW_ACCOUNT),
             },
-            // {
-            //   key: '14. 거래내역 > 보내기 > 받는 계좌 공개 주소 - 직접입력탭',
-            // },
+            {
+              key: '14. 거래내역 > 보내기 > 받는 계좌 공개 주소 - 직접입력탭',
+              action: Navigation.pushScreen(Navigation.Screens.RECEIVE_ACCOUNT),
+            },
             {
               key: '17. 거래내역 > 보내기 > 받는 계좌 공개 주소 > 송금내역 확인 > 비밀번호 인증 > 송금요청생성',
               action: Navigation.pushScreen(Navigation.Screens.CREATE_TRANSACTION),

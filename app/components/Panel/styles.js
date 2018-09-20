@@ -106,36 +106,64 @@ const styles = StyleSheet.create({
     margin: 30,
   },
 
-  balancePanel: {
+  withdrawPanel: {
     alignSelf: 'stretch',
     paddingHorizontal: 30,
   },
-  balanceTitle: {
+  withdrawTitle: {
     marginTop: 18,
     fontFamily: 'SpoqaHanSans-Bold',
     fontSize: 16,
     opacity: 0.6,
     marginLeft: 2,
   },
-  balanceContents: {
+  withdrawContents: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginTop: 12,
     marginBottom: 25,
   },
-  balance: {
+  withdraw: {
     fontFamily: 'SpoqaHanSans-Bold',
     fontSize: 22,
     paddingHorizontal: 3,
     textAlignVertical: 'center',
     textAlign: 'right',
   },
-  balanceUnit: {
+  withdrawUnit: {
     fontFamily: 'NotoSansKR-Bold',
     fontSize: 10,
     paddingHorizontal: 3,
     textAlignVertical: 'center',
     textAlign: 'right',
+  },
+
+  balancePanel: {
+    width: 327,
+    marginTop: 25,
+    marginBottom: 30,
+    alignItems: 'center',
+  },
+  balancePanelTitle: {
+    fontFamily: 'SpoqaHanSans-Bold',
+    fontSize: 13,
+    color: colors.panelTitleGray,
+    height: 19,
+    marginBottom: 9,
+  },
+  balanceText: {
+    height: 38,
+    fontSize: 26,
+    fontFamily: 'SpoqaHanSans-Regular',
+    marginHorizontal: 3,
+    color: colors.textAreaContentsNavy,
+  },
+  balanceUnit: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 10,
+    marginHorizontal: 3,
+    color: colors.textAreaContentsNavy,
+    textAlignVertical: 'center',
   },
 
 });

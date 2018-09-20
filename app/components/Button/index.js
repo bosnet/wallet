@@ -4,6 +4,7 @@ import IconButton from './IconButton';
 import TextButton from './TextButton';
 import LongButton from './LongButton';
 import CheckBox from './CheckBox';
+import PanelButton from './PanelButton';
 
 export {
   BottomButton,
@@ -12,4 +13,5 @@ export {
   TextButton,
   LongButton,
   CheckBox,
+  PanelButton,
 };
