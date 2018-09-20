@@ -8,6 +8,9 @@ const ThemeStyle = {
   white: {
     text: styles.navyText,
   },
+  whiteLight: {
+    text: styles.purpleText,
+  },
   purple: {
     text: styles.whiteText,
   },
@@ -27,7 +30,7 @@ CenterElement.propTypes = {
 };
 
 CenterElement.defaultProps = {
-  data: null,
+  data: {},
 };
 
 export default CenterElement;

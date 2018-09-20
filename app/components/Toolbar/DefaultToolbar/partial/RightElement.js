@@ -8,12 +8,15 @@ const ThemeStyle = {
   white: {
     text: styles.navyText,
   },
+  whiteLight: {
+    text: styles.purpleText,
+  },
   purple: {
     text: styles.whiteText,
   },
 };
 
-const actionArea = theme => (
+const createActionArea = theme => (
   <TouchableOpacity style={styles.actionArea}>
     <Text style={[styles.actionText, ThemeStyle[theme].text]}>닫기</Text>
   </TouchableOpacity>
@@ -21,7 +24,7 @@ const actionArea = theme => (
 
 const RightElement = ({ theme, data }) => (
   <View style={[styles.toolbarElement, styles.rightElement]}>
-    { (data && data.actionText) ? actionArea(theme) : null}
+    { (data && data.actionText) ? createActionArea(theme) : null}
   </View>
 );
 
@@ -31,7 +34,7 @@ RightElement.propTypes = {
 };
 
 RightElement.defaultProps = {
-  data: null,
+  data: {},
 };
 
 export default RightElement;

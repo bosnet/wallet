@@ -1,8 +1,16 @@
 import React from 'react';
-import { View, FlatList, SectionList } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  SectionList,
+} from 'react-native';
 import PropTypes from 'prop-types';
+import SortableList from 'react-native-sortable-list';
 
 import FlatItem from './FlatItem';
+import SectionItem from './SectionItem';
+import SortableItem from './SortableItem';
 
 import styles from './styles';
 import { types } from '../../resources';
@@ -18,7 +26,27 @@ const ItemList = ({ listType, listData }) => {
           />
         );
       case types.ListType.SECTION:
-        return <SectionList />;
+        return (
+          <SectionList
+            sections={listData.data}
+            renderSectionHeader={({ section: { title } }) => (
+              <Text style={styles.sectionHeader}>{title}</Text>
+            )}
+            renderSectionFooter={() => (
+              <View style={styles.sectionFotter} />
+            )}
+            renderItem={SectionItem}
+            keyExtractor={(item, index) => item + index}
+          />
+        );
+      case types.ListType.SORTABLE:
+        return (
+          <SortableList
+            style={{ flex: 1 }}
+            data={listData.data}
+            renderRow={SortableItem}
+          />
+        );
       default:
         return (
           <FlatList

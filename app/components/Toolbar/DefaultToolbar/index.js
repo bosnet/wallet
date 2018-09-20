@@ -7,11 +7,15 @@ import styles from '../styles';
 
 const Theme = {
   WHITE: 'white',
+  WHITE_LIGHT: 'whiteLight',
   PURPLE: 'purple',
 };
 
 const ThemeStyle = {
   white: {
+    toolbar: styles.whiteToolbar,
+  },
+  whiteLight: {
     toolbar: styles.whiteToolbar,
   },
   purple: {
@@ -50,7 +54,11 @@ DefaultToolbar.propTypes = {
     center: {
       title: PropTypes.string, // Null 이면 숨김
     },
-  }).isRequired,
+  }),
+};
+
+DefaultToolbar.defaultProps = {
+  data: {},
 };
 
 export { DefaultToolbar, Theme };

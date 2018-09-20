@@ -29,6 +29,16 @@ const styles = StyleSheet.create({
     marginRight: 16,
     paddingBottom: 2,
   },
+  sectionHeader: {
+    paddingTop: 10,
+    marginLeft: 8,
+    fontSize: 12,
+    color: colors.listLabelOrange,
+    fontFamily: 'SpoqaHanSans-Regular',
+  },
+  sectionFotter: {
+    marginBottom: 20,
+  },
 });
 
 export default styles;

@@ -4,9 +4,9 @@ import { View } from 'react-native';
 import styles from '../styles';
 import { types } from '../../resources';
 
-import { ItemList } from '../../components/List';
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
+import { ItemList } from '../../components/List';
 
 const MembershipScreen = () => (
   <View style={styles.container}>

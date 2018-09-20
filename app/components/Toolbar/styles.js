@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   centerElement: {
     alignItems: 'center',
+    flex: 2,
   },
   leftElement: {
     flexDirection: 'row',
@@ -102,12 +103,17 @@ const styles = StyleSheet.create({
   },
   actionText: {
     fontSize: 15,
+    letterSpacing: -0.36,
+    fontFamily: 'SpoqaHanSans-Regular',
   },
   navyText: {
     color: colors.toolbarTextNavy,
   },
   whiteText: {
     color: colors.toolbarTextWhite,
+  },
+  purpleText: {
+    color: colors.toolbarTextPurple,
   },
 });
 

@@ -11,12 +11,15 @@ const ThemeStyle = {
   white: {
     text: styles.navyText,
   },
+  whiteLight: {
+    text: styles.purpleText,
+  },
   purple: {
     text: styles.whiteText,
   },
 };
 
-const backArea = () => (
+const createBackArea = () => (
   <TouchableOpacity
     style={styles.backArea}
   >
@@ -24,7 +27,7 @@ const backArea = () => (
   </TouchableOpacity>
 );
 
-const noBackMargin = () => (
+const createLeftMargin = () => (
   <View
     style={styles.noBackMargin}
   />
@@ -32,7 +35,7 @@ const noBackMargin = () => (
 
 const LeftElement = ({ theme, data }) => (
   <View style={[styles.toolbarElement, styles.leftElement]}>
-    { (data && data.hasArrow) ? backArea() : noBackMargin()}
+    { (data && data.hasArrow) ? createBackArea() : createLeftMargin()}
     <Text style={[styles.leftTitle, ThemeStyle[theme].text]}>
       {(data && data.title) ? data.title : null}
     </Text>
@@ -45,7 +48,7 @@ LeftElement.propTypes = {
 };
 
 LeftElement.defaultProps = {
-  data: null,
+  data: {},
 };
 
 export default LeftElement;
