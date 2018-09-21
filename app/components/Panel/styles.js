@@ -166,6 +166,37 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
 
+  loadingPanel: {
+    flexDirection: 'row',
+    height: 91,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  loadingTextArea: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  loadingRefreshIcon: {
+    width: 22,
+    height: 18,
+    marginRight: 20,
+  },
+  loadingTitle: {
+    marginLeft: 30,
+    height: 28,
+    fontFamily: 'SpoqaHanSans-Bold',
+    fontSize: 16,
+    lineHeight: 28,
+    color: colors.itemTextPurple,
+  },
+  loadingSubText: {
+    height: 28,
+    lineHeight: 28,
+    color: colors.itemTextPurple,
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSans-Regular',
+    marginLeft: 5,
+  },
 });
 
 export default styles;

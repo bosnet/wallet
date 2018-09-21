@@ -4,22 +4,21 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import styles from '../styles';
-import toogleOn from '../../../res/images/switch_on.png';
+import { ToggleButton } from '../../Button';
 
-const ToggleItem = ({ item }) => (
+import styles from '../styles';
+
+const ToggleItem = ({ text }) => (
   <View style={styles.listItem}>
     <Text style={styles.itemText}>
-      {item}
+      {text}
     </Text>
-    <TouchableOpacity style={styles.rowDirection}>
-      <Image style={styles.itemToggle} source={toogleOn} />
-    </TouchableOpacity>
+    <ToggleButton />
   </View>
 );
 
 ToggleItem.propTypes = {
-  item: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default ToggleItem;

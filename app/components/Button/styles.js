@@ -138,6 +138,11 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderLeftColor: colors.panelButtonSeperator,
   },
+
+  toggleButton: {
+    width: 124,
+    height: 44,
+  },
 });
 
 export default styles;

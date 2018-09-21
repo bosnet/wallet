@@ -8,7 +8,7 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BottomButton } from '../../components/Button';
 import { WithdrawablePanel, NotiPanel } from '../../components/Panel';
 import { BalanceArea } from '../../components/Text';
-import { InputText } from '../../components/Input';
+import { InputText, InputBalance } from '../../components/Input';
 import { colors } from '../../resources';
 
 const SendBalance = () => (
@@ -30,10 +30,9 @@ const SendBalance = () => (
         title="출금 가능 금액"
         amount="5,123,456,789.1234567"
       />
-      <BalanceArea
+      <InputBalance
         label="보낼 금액"
         subLabel="수수료 0.001 BOS"
-        text="5,123,456,789.1234567"
         textColor={colors.textAreaContentsNavy}
       />
       <NotiPanel
@@ -52,12 +51,12 @@ const SendBalance = () => (
           '공개주소를 입력하세요',
         ]}
       />
+      <BottomButton
+        actions={[
+          { text: '확인' },
+        ]}
+      />
     </View>
-    <BottomButton
-      actions={[
-        { text: '확인' },
-      ]}
-    />
   </View>
 );
 

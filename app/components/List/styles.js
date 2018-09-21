@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.listSeperatorGray,
 
   },
+  rowDirection: {
+    flexDirection: 'row',
+  },
   itemText: {
     fontSize: 14,
     color: colors.itemTextBlack,
@@ -89,6 +92,79 @@ const styles = StyleSheet.create({
     height: 15,
     textAlignVertical: 'center',
     marginHorizontal: 3,
+  },
+
+  accountItem: {
+    marginRight: 24,
+    height: 94,
+    borderBottomColor: colors.buttonBorderGray,
+    borderBottomWidth: 1,
+    marginBottom: 9,
+  },
+  accountName: {
+    fontFamily: 'SpoqaHanSans-Regular',
+    fontSize: 16,
+    color: colors.itemTextLightGray,
+  },
+  accoutnItemHead: {
+    marginTop: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 26,
+  },
+  accountIcon: {
+    width: 53,
+    height: 24,
+  },
+  accountFreezing: {
+    fontFamily: 'SpoqaHanSans-Bold',
+    fontSize: 10,
+    color: colors.itemTextDarkGray,
+  },
+  accountItemContent: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: 33,
+  },
+  accountBalance: {
+    fontSize: 22,
+    fontFamily: 'SpoqaHanSans-Regular',
+    color: colors.itemTextDarkGray,
+    marginHorizontal: 3,
+  },
+  accountUnit: {
+    fontSize: 10,
+    fontFamily: 'SpoqaHanSans-Bold',
+    color: colors.itemTextDarkGray,
+    paddingRight: 6,
+    marginLeft: 3,
+  },
+
+  optionTextItem: {
+    fontSize: 14,
+    color: colors.itemTextBlack,
+    fontFamily: 'SpoqaHanSans-Regular',
+  },
+  optionTextItemData: {
+    fontSize: 12,
+    letterSpacing: -0.34,
+    marginRight: 15,
+    color: colors.itemTextBlue,
+    textAlign: 'right',
+    fontFamily: 'SpoqaHanSans-Regular',
+  },
+
+  itemToggle: {
+    width: 124,
+    height: 44,
+  },
+
+  exLinkIcon: {
+    width: 18,
+    height: 18,
+    marginRight: 15,
   },
 });
 

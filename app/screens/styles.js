@@ -35,6 +35,21 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center',
   },
+  sectionHeadText: {
+    lineHeight: 36,
+    fontSize: 18,
+    fontFamily: 'SpoqaHanSans-Bold',
+    color: colors.headTextBlack,
+    marginBottom: 8,
+  },
+  paragraphText: {
+    lineHeight: 24,
+    fontSize: 18,
+    fontFamily: 'SpoqaHanSans-Regular',
+    color: colors.paragraphGray,
+    marginBottom: 11,
+  },
+
   layoutHead: {
     marginTop: 30,
   },

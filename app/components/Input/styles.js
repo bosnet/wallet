@@ -49,6 +49,52 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     fontFamily: 'SpoqaHanSans-Regular',
   },
+  balanceArea: {
+    width: 315,
+    marginTop: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.listSeperatorGray,
+    marginBottom: 10,
+    alignSelf: 'center',
+  },
+  balanceHead: {
+    marginTop: 15,
+    marginBottom: 10,
+    flexDirection: 'row',
+  },
+  balanceTitle: {
+    fontSize: 16,
+    fontFamily: 'SpoqaHanSans-Bold',
+  },
+  balanceSubTitle: {
+    fontSize: 12,
+    marginLeft: 10,
+    color: colors.textAreaNotiTextGray,
+    fontFamily: 'SpoqaHanSans-Regular',
+    textAlignVertical: 'center',
+  },
+  balanceAmount: {
+    flex: 1,
+    fontSize: 24,
+    fontFamily: 'SpoqaHanSans-Regular',
+    textAlignVertical: 'center',
+    paddingHorizontal: 3,
+  },
+  balanceUnit: {
+    fontFamily: 'NotoSansKR-Bold',
+    fontSize: 10,
+    paddingHorizontal: 3,
+    paddingTop: 3, // 폰트 자체 하단 여백 떄문에 적용
+    textAlignVertical: 'center',
+    textAlign: 'right',
+  },
+  balanceContentArea: {
+    marginHorizontal: 8,
+    marginBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

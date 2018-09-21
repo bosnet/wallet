@@ -82,10 +82,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: colors.listSeperatorGray,
     marginBottom: 10,
+    alignSelf: 'center',
   },
   balanceHead: {
     marginTop: 15,
-    marginBottom: 15,
+    marginBottom: 10,
     flexDirection: 'row',
   },
   balanceTitle: {

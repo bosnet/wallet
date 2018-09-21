@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DefaultItem, TransactionItem } from './Items';
+import { DefaultItem, TransactionItem, AccountItem } from './Items';
 import { types } from '../../resources';
 
 const FlatItem = ({ item }) => {
@@ -17,6 +17,15 @@ const FlatItem = ({ item }) => {
     case types.ListItem.TRANSACTION:
       result = (
         <TransactionItem
+          item={item}
+          textColor={item.textColor}
+          action={item.action}
+        />
+      );
+      break;
+    case types.ListItem.ACCOUNT:
+      result = (
+        <AccountItem
           item={item}
           textColor={item.textColor}
           action={item.action}

@@ -11,19 +11,45 @@ import SortableList from 'react-native-sortable-list';
 import FlatItem from './FlatItem';
 import SectionItem from './SectionItem';
 import SortableItem from './SortableItem';
+import { AlertPanel } from '../Panel';
 
 import styles from './styles';
-import { types } from '../../resources';
+import { types, colors } from '../../resources';
+
+import icEmpty from '../../resources/images/empty.png';
 
 const ItemList = ({ listType, listData }) => {
   const getListByType = () => {
     switch (listType) {
       case types.ListType.FLAT:
+        if (listData.data.length > 0) {
+          return (
+            <FlatList
+              data={listData.data}
+              renderItem={FlatItem}
+            />
+          );
+        }
         return (
-          <FlatList
-            data={listData.data}
-            renderItem={FlatItem}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 50,
+              paddingRight: 30,
+              justifyContent: 'center',
+              alignItems: 'stretch',
+              alignSelf: 'center',
+            }}
+          >
+            <AlertPanel
+              icon={icEmpty}
+              color={colors.alertTextLightGrey}
+              text={
+                '아직 등록된\n'
+                + 'Account가 없습니다'
+              }
+            />
+          </View>
         );
       case types.ListType.SECTION:
         return (
@@ -48,10 +74,22 @@ const ItemList = ({ listType, listData }) => {
           />
         );
       default:
+        if (listData.data.length > 0) {
+          return (
+            <FlatList
+              data={listData.data}
+              renderItem={FlatItem}
+            />
+          );
+        }
         return (
-          <FlatList
-            data={listData.data}
-            renderItem={FlatItem}
+          <AlertPanel
+            icon={icEmpty}
+            color={colors.alertTextLightGrey}
+            text={
+              '아직 등록된\n'
+              + 'Account가 없습니다'
+            }
           />
         );
     }

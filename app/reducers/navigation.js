@@ -2,7 +2,7 @@ import { NavigationActions } from 'react-navigation';
 import { RootNavigator } from '../AppNavigator';
 import { Navigation } from '../actions';
 
-const homeAction = RootNavigator.router.getActionForPathAndParams(Navigation.Screens.HOME);
+const homeAction = RootNavigator.router.getActionForPathAndParams(Navigation.Screens.INDEXPAGE);
 const initialNavState = RootNavigator.router.getStateForAction(
   homeAction,
 );

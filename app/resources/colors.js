@@ -6,6 +6,7 @@ const colors = {
 
   labelTextBlack: '#000000',
   headTextBlack: '#000000',
+  paragraphGray: '#565656',
 
   infoTextBlack: '#4a4a4a',
 
@@ -33,6 +34,7 @@ const colors = {
   itemTextLightGray: '#999999',
   itemTextBlue: '#027bff',
   itemTextRed: '#f60e4f',
+  itemTextDarkGray: '#5b5b5b',
 
   indicatorWhite: '#ffffff',
 
@@ -59,6 +61,9 @@ const colors = {
   alertTextRed: '#d0021b',
 
   layoutHeadText: '#333333',
+
+  cardPurple: '#6770cb',
+  cardOrange: '#ef7952',
 };
 
 export default colors;

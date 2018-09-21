@@ -5,25 +5,25 @@ import {
 import PropTypes from 'prop-types';
 
 import styles from '../styles';
-import arrow from '../../../res/images/arrow.png';
+import arrow from '../../../resources/images/arrow.png';
 
-const TextItem = ({ item, text }) => (
+const OptionTextItem = ({ text, value }) => (
   <View style={styles.listItem}>
     <Text style={styles.itemText}>
-      {item}
+      {text}
     </Text>
     <TouchableOpacity style={styles.rowDirection}>
-      <Text style={styles.textItemData}>
-        {text}
+      <Text style={styles.optionTextItemData}>
+        {value}
       </Text>
       <Image style={styles.itemArrow} source={arrow} />
     </TouchableOpacity>
   </View>
 );
 
-TextItem.propTypes = {
-  item: PropTypes.string.isRequired,
+OptionTextItem.propTypes = {
   text: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
-export default TextItem;
+export default OptionTextItem;

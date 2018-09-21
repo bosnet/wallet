@@ -1,6 +1,9 @@
-  
 import Walkthrough from './screens/OnBoarding';
-import HomeScreen from './screens/HomeScreen';
+import {
+  HomeScreen,
+  HomeScreen1,
+  IndexPage,
+} from './screens/Home';
 
 import {
   WarningScreen,
@@ -20,6 +23,7 @@ import {
 import {
   Referrer,
   JoinMembership,
+  IntroMembership,
 } from './screens/Membership';
 
 import QRScan from './screens/QRScan';
@@ -46,6 +50,7 @@ import {
 import TestScreen from './screens/TestScreen';
 
 const router = {
+  IndexPage: { screen: IndexPage },
   Home: { screen: HomeScreen },
   Walkthrough: { screen: Walkthrough },
   Settings: { screen: SettingsScreen },
@@ -77,6 +82,8 @@ const router = {
   TransactionList1: { screen: TransactionList1 },
   TransactionList2: { screen: TransactionList2 },
   TransactionList3: { screen: TransactionList3 },
+  HomeScreen1: { screen: HomeScreen1 },
+  IntroMembership: { screen: IntroMembership },
 };
 
 export default router;

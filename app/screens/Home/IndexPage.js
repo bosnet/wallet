@@ -22,25 +22,26 @@ const HomeScreen = () => (
               key: '0-1. On Boarding > walkthrough',
               action: Navigation.pushScreen(Navigation.Screens.WALKTHROUGH),
             },
-            // {
-            //   key: '1-2. 홈 (어카운트 없음)',
-            //   action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
-            // },
-            // {
-            //   key: '1-2. 홈 (어카운트 있음)',
-            //   action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
-            // },
+            {
+              key: '1-2. 홈 (어카운트 없음)',
+              action: Navigation.pushScreen(Navigation.Screens.HOME),
+            },
+            {
+              key: '1-2. 홈 (어카운트 있음)',
+              action: Navigation.pushScreen(Navigation.Screens.HOME_1),
+            },
             // {
             //   key: '1-2. 홈_이용안내',
-            //   action: Navigation.pushScreen(Navigation.Screens.SETTINGS),
+            //   action: Navigation.pushScreen(Navigation.Screens.HOMEGUIDE),
             // },
             {
               key: '3. 계좌 생성 > 계좌 생성 주의사항 > 비밀번호 설정',
               action: Navigation.pushScreen(Navigation.Screens.SET_PASSWORD),
             },
-            // {
-            //   key: '5-1. 멤버십 소개 페이지',
-            // },
+            {
+              key: '5-1. 멤버십 소개 페이지',
+              action: Navigation.pushScreen(Navigation.Screens.INTRO_MEMBERSHIP),
+            },
             {
               key: '5-2. 멤버십 가입 동의',
               action: Navigation.pushScreen(Navigation.Screens.JOIN_MEMBERSHIP),

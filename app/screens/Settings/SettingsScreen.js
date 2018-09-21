@@ -31,21 +31,58 @@ const SettingsScreen = () => (
           data: [
             {
               title: '멤버십 리워드',
+              // data: [
+              //   '멤버십',
+              //   '주소록',
+              //   '계좌 순서',
+              //   '언어',
+              //   '투표 알림',
+              // ],
               data: [
-                '멤버십',
-                '주소록',
-                '계좌 순서',
-                '언어',
-                '투표 알림',
+                {
+                  text: '멤버십',
+                },
+                {
+                  text: '주소록',
+                },
+                {
+                  text: '계좌 순서',
+                },
+                {
+                  text: '언어',
+                  type: types.ListItem.OPTION_TEXT,
+                  value: '한국어',
+                },
+                {
+                  text: '투표 알림',
+                  type: types.ListItem.TOGGLE,
+                },
               ],
             },
             {
               title: '정보',
+              // data: [
+              //   'FAQ',
+              //   '주의사항',
+              //   '오픈소스 라이센스',
+              //   '버전',
+              // ],
               data: [
-                'FAQ',
-                '주의사항',
-                '오픈소스 라이센스',
-                '버전',
+                {
+                  text: 'FAQ',
+                  type: types.ListItem.EX_LINK,
+                },
+                {
+                  text: '주의사항',
+                },
+                {
+                  text: '오픈소스 라이센스',
+                },
+                {
+                  text: '버전',
+                  type: types.ListItem.OPTION_TEXT,
+                  value: 'v 0.1',
+                },
               ],
             },
           ],

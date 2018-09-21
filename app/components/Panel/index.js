@@ -5,6 +5,7 @@ import AddressPanel from './AddressPanel';
 import QRPanel from './QRPanel';
 import WithdrawablePanel from './WithdrawablePanel';
 import BalancePanel from './BalancePanel';
+import LoadingPanel from './LoadingPanel';
 
 export {
   AlertPanel,
@@ -14,4 +15,5 @@ export {
   AddressPanel,
   QRPanel,
   WithdrawablePanel,
+  LoadingPanel,
 };

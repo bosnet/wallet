@@ -5,6 +5,7 @@ import TextButton from './TextButton';
 import LongButton from './LongButton';
 import CheckBox from './CheckBox';
 import PanelButton from './PanelButton';
+import ToggleButton from './ToggleButton';
 
 export {
   BottomButton,
@@ -14,4 +15,5 @@ export {
   LongButton,
   CheckBox,
   PanelButton,
+  ToggleButton,
 };

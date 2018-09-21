@@ -57,6 +57,37 @@ const styles = StyleSheet.create({
     backgroundColor: '#9b9b9b',
     margin: 3,
   },
+
+  bannerLayout: {
+    alignItems: 'flex-start',
+  },
+  bannerPager: {
+    height: 134,
+  },
+  bannerCard: {
+    width: 304,
+    height: 125,
+    marginHorizontal: 2.5,
+    marginLeft: 15,
+    backgroundColor: colors.buttonTextPurple,
+    elevation: 5,
+  },
+  bannerTextArea: {
+    width: 202,
+    height: 56,
+    marginTop: 13,
+    marginLeft: 23,
+  },
+  bannerText: {
+    fontFamily: 'SpoqaHanSans-Light',
+    fontSize: 16,
+    lineHeight: 28,
+  },
+  bannerPageIndicator: {
+    flexDirection: 'row',
+    marginVertical: 13,
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

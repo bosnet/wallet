@@ -7,7 +7,12 @@ const Types = {
   ListItem: {
     DEFAULT: 'text',
     TEXT: 'text',
+    ICON: 'icon',
+    TOGGLE: 'toggle',
+    OPTION_TEXT: 'optionText',
     TRANSACTION: 'transaction',
+    ACCOUNT: 'account',
+    EX_LINK: 'externalLik',
   },
   TextArea: {
     TEXT: 'text',

@@ -13,7 +13,7 @@ const LongButton = ({
 }) => (
   <View>
     <TouchableOpacity
-      style={[styles.longButton, { backgroundColor: backgroundColor }, { borderColor: borderColor }]}
+      style={[styles.longButton,{ backgroundColor: backgroundColor }, { borderColor: borderColor }]}
     >
       <Text style={[styles.longButtonText, { color: textColor }]}>{text}</Text>
     </TouchableOpacity>
