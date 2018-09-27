@@ -62,15 +62,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bannerPager: {
-    height: 134,
+    height: 160,
   },
   bannerCard: {
     width: 304,
-    height: 125,
+    height: 105,
     marginHorizontal: 2.5,
     marginLeft: 15,
     backgroundColor: colors.buttonTextPurple,
     elevation: 5,
+    borderRadius: 6,
   },
   bannerTextArea: {
     width: 202,

@@ -25,10 +25,12 @@ class BannerPager extends React.Component {
     super(props);
 
     this.state = { pageIndex: 0 };
-    this.onPageSelected = (event) => {
-      const { position } = event.nativeEvent;
-      this.setState({ pageIndex: position });
-    };
+    this.onPageSelected = this.onPageSelected.bind(this);
+  }
+
+  onPageSelected(event) {
+    const { position } = event.nativeEvent;
+    this.setState({ pageIndex: position });
   }
 
   render() {
