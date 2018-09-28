@@ -16,15 +16,15 @@ const ThemeStyle = {
   },
 };
 
-const createActionArea = theme => (
+const createActionArea = (theme, data) => (
   <TouchableOpacity style={styles.actionArea}>
-    <Text style={[styles.actionText, ThemeStyle[theme].text]}>닫기</Text>
+    <Text style={[styles.actionText, ThemeStyle[theme].text]}>{data.actionText}</Text>
   </TouchableOpacity>
 );
 
 const RightElement = ({ theme, data }) => (
   <View style={[styles.toolbarElement, styles.rightElement]}>
-    { (data && data.actionText) ? createActionArea(theme) : null}
+    { (data && data.actionText) ? createActionArea(theme, data) : null}
   </View>
 );
 

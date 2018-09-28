@@ -37,15 +37,21 @@ const Navigation = {
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
+  NAV_RESET: 'NAV_RESET',
 };
 
 Navigation.pushScreen = screenName => ({
-  type: 'NAV_PUSH',
+  type: Navigation.NAV_PUSH,
   routeName: screenName,
 });
 
 Navigation.popScreen = () => ({
   type: Navigation.NAV_POP,
+});
+
+Navigation.resetScreen = screenName => ({
+  type: Navigation.NAV_RESET,
+  routeName: screenName,
 });
 
 

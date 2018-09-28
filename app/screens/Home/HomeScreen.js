@@ -1,48 +1,85 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import {
+  ScrollView, View,
+  AsyncStorage,
+  ToastAndroid,
+} from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { colors, types } from '../../resources';
+import { Modal as ModalAction } from '../../actions';
 
-import { LongButton } from '../../components/Button';
 import { Theme, AppStatusBar } from '../../components/StatusBar';
 import { HomeToolbar } from '../../components/Toolbar';
 import { LoadingPanel } from '../../components/Panel';
 import { ItemList } from '../../components/List';
 import { BalanceArea } from '../../components/Text';
+import { HomeIntro } from '../../components/Modal';
 
-const HomeScreen = () => (
-  <View style={styles.container}>
-    <AppStatusBar theme={Theme.WHITE} />
-    <HomeToolbar />
-    <View style={[styles.container]}>
-      <LoadingPanel
-        text="네트워크 동기화 중"
-        subText="52초"
-      />
-      <BalanceArea
-        label="TOTAL BALANCE"
-        lableColor={colors.itemTextLightGray}
-        text="0"
-        textColor={colors.textAreaContentsNavy}
-      />
-      <ScrollView
-        contentContainerStyle={styles.alignCenter}
-        showsVerticalScrollIndicator={false}
-      >
-        <ItemList
-          listType={types.ListType.FLAT}
-          listData={{
-            data: [],
-          }}
-        />
-      </ScrollView>
-    </View>
-  </View>
-);
+class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      timer: null,
+      counter: 60,
+    };
+  }
+
+  componentDidMount() {
+    const {accounts, showModal} = this.props;
+    if (!accounts || accounts.length === 0) showModal();
+  }
+
+  componentWillUnmount() {
+    const { timer } = this.state;
+    if (timer) this.clearInterval(timer);
+  }
+
+  render() {
+    const { counter } = this.state;
+    return (
+      <View style={styles.container}>
+        <AppStatusBar theme={Theme.WHITE} />
+        <HomeToolbar />
+        <View style={[styles.container]}>
+          <LoadingPanel
+            text="네트워크 동기화 중"
+            subText={`${counter}초`}
+          />
+          <BalanceArea
+            label="TOTAL BALANCE"
+            lableColor={colors.itemTextLightGray}
+            text="0"
+            textColor={colors.textAreaContentsNavy}
+          />
+          <ScrollView
+            contentContainerStyle={styles.alignCenter}
+            showsVerticalScrollIndicator={false}
+          >
+            <ItemList
+              listType={types.ListType.FLAT}
+              listData={{
+                data: [],
+              }}
+            />
+          </ScrollView>
+        </View>
+        <HomeIntro />
+      </View>
+    );
+  }
+}
 
 HomeScreen.navigationOptions = {
   header: null,
 };
 
-export default HomeScreen;
+const mapStateToProps = state => ({ accounts: state.accounts.list });
+
+const mapDispatchToProps = dispatch => ({
+  showModal: () => dispatch(ModalAction.showModal()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

@@ -3,6 +3,7 @@ const colors = {
   testBkg2: '#eeeeff',
 
   white: '#ffffff',
+  transparent: 'transparent',
 
   labelTextBlack: '#000000',
   headTextBlack: '#000000',

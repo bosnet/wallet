@@ -1,5 +1,5 @@
 import Navigation from './Navigation';
+import Modal from './Modal';
+import Accounts from './Accounts';
 
-const dummy = null;
-
-export { Navigation, dummy };
+export { Navigation, Modal, Accounts };

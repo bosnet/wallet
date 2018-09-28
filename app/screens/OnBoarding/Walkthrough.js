@@ -3,6 +3,8 @@ import { View } from 'react-native';
 
 import styles from '../styles';
 
+import { Navigation } from '../../actions';
+
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { InfoPager } from '../../components/Pager';
@@ -42,7 +44,10 @@ const Walkthrough = () => (
       />
       <BottomButton
         actions={[
-          { text: 'BOScoin Wallet 시작하기' },
+          {
+            text: 'BOScoin Wallet 시작하기',
+            action: Navigation.resetScreen(Navigation.Screens.HOME),
+          },
         ]}
       />
     </View>

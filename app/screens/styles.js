@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   footer: {
     alignSelf: 'flex-end',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   section: {
     marginTop: 30,

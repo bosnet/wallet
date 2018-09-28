@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { RootNavigator } from '../AppNavigator';
 import { Navigation } from '../actions';
 
@@ -19,6 +19,18 @@ function navigation(state = initialNavState, action) {
     case Navigation.NAV_POP:
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.back(),
+        state,
+      );
+      break;
+    case Navigation.NAV_RESET:
+      nextState = RootNavigator.router.getStateForAction(
+        StackActions.reset({
+          index: 1,
+          actions: [
+            NavigationActions.navigate({ routeName: Navigation.Screens.INDEXPAGE }), // 추후 삭제예정
+            NavigationActions.navigate({ routeName: action.routeName }),
+          ],
+        }),
         state,
       );
       break;
