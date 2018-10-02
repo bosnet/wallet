@@ -34,6 +34,7 @@ const Navigation = {
     INDEXPAGE: 'IndexPage',
     HOME_1: 'HomeScreen1',
     INTRO_MEMBERSHIP: 'IntroMembership',
+    AGREEMENT: 'Agreement',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
@@ -45,8 +46,9 @@ Navigation.pushScreen = screenName => ({
   routeName: screenName,
 });
 
-Navigation.popScreen = () => ({
+Navigation.popScreen = (count = 1) => ({
   type: Navigation.NAV_POP,
+  n: count,
 });
 
 Navigation.resetScreen = screenName => ({

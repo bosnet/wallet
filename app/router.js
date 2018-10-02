@@ -18,6 +18,7 @@ import {
   SetPassword,
   SelectImportType,
   ImportAccount,
+  Agreement,
 } from './screens/Accounts';
 
 import {
@@ -84,6 +85,7 @@ const router = {
   TransactionList3: { screen: TransactionList3 },
   HomeScreen1: { screen: HomeScreen1 },
   IntroMembership: { screen: IntroMembership },
+  Agreement: { screen: Agreement },
 };
 
 export default router;

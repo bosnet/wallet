@@ -8,6 +8,7 @@ import {
 
 import styles from '../styles';
 
+import { Navigation as NavAction, Modal as ModalAction } from '../../actions';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -20,11 +21,35 @@ import { Accounts } from '../../resources/strings';
 const Strings = Accounts.SetPassword;
 
 const validate = (text) => {
-  const regex = /^([a-zA-Z0-9~!@#$%^&*()-_]){8,16}$/;
-  const match = text.match(regex);
+  // const regex = /^([a-zA-Z0-9~!@#$%^&*()-_]){8,16}$/;
+  // const match = text.match(regex);
 
-  if (match) ToastAndroid.show('match', ToastAndroid.SHORT);
-  else ToastAndroid.show('not match', ToastAndroid.SHORT);
+  // 공백, 사용 불가문자 확인
+  if (text.match(/[\n\r\t ]/) || text.match(/[^a-zA-Z0-9~!@#$%^&*()_-]/)) {
+    return false;
+  }
+
+  // 길이 확인
+  if (text.length < 8 || text.length > 16) {
+    return false;
+  }
+
+  // 문자, 숫자 유무
+  if (!text.match(/[a-zA-Z]/)) {
+    return false;
+  }
+
+  // 숫자 유무
+  if (!text.match(/[0-9]/)) {
+    return false;
+  }
+
+  // 특수문자 유무
+  if (!text.match(/[!@#$%^&*()_-]/)) {
+    return false;
+  }
+
+  return true;
 };
 
 class SetPassword extends React.Component {
@@ -38,6 +63,7 @@ class SetPassword extends React.Component {
         notiVisible: false,
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
+        isValid: false,
       },
       input2: {
         text: '',
@@ -45,9 +71,22 @@ class SetPassword extends React.Component {
         notiVisible: false,
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
+        isValid: false,
       },
       buttonActive: false,
+      buttonAction: this.failAlert,
     };
+
+    this.failAlert = ModalAction.showAlert({
+      content: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
+    });
+
+    this.successAlert = ModalAction.showAlert({
+      title: '비밀번호 설정 완료',
+      content: '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+      confirmText: '확인',
+      cancelable: false,
+    });
 
     this.onChangeText = this.onChangeText.bind(this);
     this.onFocus = this.onFocus.bind(this);
@@ -108,6 +147,11 @@ class SetPassword extends React.Component {
           input.notiColor = colors.alertTextRed;
         } else {
           const result = validate(input.text);
+          input.isValid = result;
+
+          this.setState({
+            buttonAction: this.failAlert,
+          });
 
           if (!result) {
             input.notiText = Strings.HELPER_ERROR_RANGE;
@@ -118,6 +162,10 @@ class SetPassword extends React.Component {
           } else {
             input.notiText = Strings.HELPER_DEFAULT;
             input.notiColor = colors.textAreaNotiTextGray;
+            
+            this.setState({
+              buttonAction: this.successAlert,
+            });
           }
         }
 
@@ -131,7 +179,7 @@ class SetPassword extends React.Component {
   }
 
   render() {
-    const { input1, input2, buttonActive } = this.state;
+    const { input1, input2, buttonActive, buttonAction } = this.state;
 
     return (
       <View style={styles.container}>
@@ -144,6 +192,7 @@ class SetPassword extends React.Component {
             },
             right: {
               actionText: Strings.ACTION_TEXT,
+              action: NavAction.popScreen(2),
             },
           }}
         />
@@ -190,7 +239,7 @@ class SetPassword extends React.Component {
             actions={[
               {
                 text: Strings.BOTTOM_BUTTON,
-                action: { type: 'NONE' },
+                action: buttonAction,
               },
             ]}
             inactive={!buttonActive}

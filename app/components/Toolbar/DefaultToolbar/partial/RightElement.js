@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import styles from '../../styles';
 
@@ -16,25 +17,36 @@ const ThemeStyle = {
   },
 };
 
-const createActionArea = (theme, data) => (
-  <TouchableOpacity style={styles.actionArea}>
+const createActionArea = (theme, data, onPress) => (
+  <TouchableOpacity
+    style={styles.actionArea}
+    onPress={onPress}
+  >
     <Text style={[styles.actionText, ThemeStyle[theme].text]}>{data.actionText}</Text>
   </TouchableOpacity>
 );
 
-const RightElement = ({ theme, data }) => (
+const RightElement = ({ theme, data, onPress }) => (
   <View style={[styles.toolbarElement, styles.rightElement]}>
-    { (data && data.actionText) ? createActionArea(theme, data) : null}
+    { (data && data.actionText) ? createActionArea(theme, data, onPress(data.action)) : null}
   </View>
 );
 
 RightElement.propTypes = {
   theme: PropTypes.string.isRequired,
   data: PropTypes.shape({}),
+  onPress: PropTypes.func,
 };
 
 RightElement.defaultProps = {
   data: {},
+  onPress: null,
 };
 
-export default RightElement;
+const mapDispatchToProps = dispatch => ({
+  onPress: action => () => {
+    dispatch(action);
+  },
+});
+
+export default connect(null, mapDispatchToProps)(RightElement);

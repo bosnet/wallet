@@ -18,7 +18,9 @@ function navigation(state = initialNavState, action) {
       break;
     case Navigation.NAV_POP:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.back(),
+        StackActions.pop({
+          n: action.n,
+        }),
         state,
       );
       break;

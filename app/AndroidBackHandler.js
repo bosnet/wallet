@@ -65,7 +65,7 @@ AndroidBackHandler.propTypes = {
 const mapStateToProps = state => ({ navigation: state.navigation });
 
 const mapDispatchToProps = dispatch => ({
-  goBack: () => dispatch(Navigation.popScreen()),
+  goBack: n => dispatch(Navigation.popScreen(n)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AndroidBackHandler);

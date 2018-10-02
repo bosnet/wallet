@@ -35,6 +35,10 @@ const HomeScreen = () => (
             //   action: Navigation.pushScreen(Navigation.Screens.HOMEGUIDE),
             // },
             {
+              key: '3. 계좌 생성 > 계좌 생성 주의사항',
+              action: Navigation.pushScreen(Navigation.Screens.AGREEMENT),
+            },
+            {
               key: '3. 계좌 생성 > 계좌 생성 주의사항 > 비밀번호 설정',
               action: Navigation.pushScreen(Navigation.Screens.SET_PASSWORD),
             },

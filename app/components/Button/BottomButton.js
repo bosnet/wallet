@@ -1,6 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity, Text } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Text,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
@@ -14,13 +19,23 @@ const createButton = actions => (
   </TouchableOpacity>
 );
 
-const BottomButton = ({ actions, inactive, onPress }) => (
-  <View style={styles.bottomArea}>
-    { actions.length > 1 ? createButton(actions) : null }
+const BottomButton = ({
+  actions,
+  inactive,
+  callback,
+  onPress,
+}) => (
+  <View
+    style={styles.bottomArea}
+    {...this.props}
+  >
+    {actions.length > 1 ? createButton(actions) : null}
     <TouchableOpacity
-      disabled={inactive}
+      disabled={inactive} // Touchable Opacity Style 반영 이슈때문에 Style 변경위해 사용
       style={[styles.bottomButton, inactive ? styles.inactive : null]}
-      onPress={() => onPress(actions[0].action)}
+      onPress={() => {
+        if (!inactive) onPress(actions[0].action);
+      }}
     >
       <Text style={styles.bottomButtonText}>{actions[0].text}</Text>
     </TouchableOpacity>
@@ -34,16 +49,22 @@ BottomButton.propTypes = {
   })),
   inactive: PropTypes.bool,
   onPress: PropTypes.func,
+  callback: PropTypes.func,
 };
 
 BottomButton.defaultProps = {
   inactive: false,
   onPress: null,
   actions: [{ action: { type: 'NONE' } }],
+  callback: null,
 };
 
 const mapDispatchToProps = dispatch => ({
-  onPress: action => dispatch(action),
+  onPress: (action) => {
+    if (action && action.type) return dispatch(action);
+
+    return null;
+  },
 });
 
 export default connect(null, mapDispatchToProps)(BottomButton);
