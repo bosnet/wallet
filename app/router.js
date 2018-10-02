@@ -15,6 +15,7 @@ import {
 } from './screens/Settings';
 
 import {
+  AccountCreated,
   SetPassword,
   SelectImportType,
   ImportAccount,
@@ -86,6 +87,7 @@ const router = {
   HomeScreen1: { screen: HomeScreen1 },
   IntroMembership: { screen: IntroMembership },
   Agreement: { screen: Agreement },
+  AccountCreated: { screen: AccountCreated },
 };
 
 export default router;

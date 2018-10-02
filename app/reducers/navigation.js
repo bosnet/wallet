@@ -12,7 +12,7 @@ function navigation(state = initialNavState, action) {
   switch (action.type) {
     case Navigation.NAV_PUSH:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: action.routeName }),
+        NavigationActions.navigate({ routeName: action.routeName, params: action.params }),
         state,
       );
       break;
@@ -30,7 +30,7 @@ function navigation(state = initialNavState, action) {
           index: 1,
           actions: [
             NavigationActions.navigate({ routeName: Navigation.Screens.INDEXPAGE }), // 추후 삭제예정
-            NavigationActions.navigate({ routeName: action.routeName }),
+            NavigationActions.navigate({ routeName: action.routeName, params: action.params }),
           ],
         }),
         state,
@@ -38,7 +38,7 @@ function navigation(state = initialNavState, action) {
       break;
     default:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: action.routeName }),
+        NavigationActions.navigate({ routeName: action.routeName, params: action.params }),
         state,
       );
       break;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -7,6 +6,7 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
+import { Keypair } from '@pigzbe/react-native-stellar-sdk';
 
 import styles from '../styles';
 
@@ -19,8 +19,6 @@ import { NotiPanel } from '../../components/Panel';
 import { InputPassword } from '../../components/Input';
 import { colors } from '../../resources';
 import { Accounts } from '../../resources/strings';
-
-import { createAccount } from '../../libs/KeyGenerator';
 
 const Strings = Accounts.SetPassword;
 
@@ -56,6 +54,14 @@ const validate = (text) => {
   return true;
 };
 
+const showSuccessAlert = () => {
+
+}
+
+const showFailAlert = () => {
+
+}
+
 
 class SetPassword extends React.Component {
   constructor(props) {
@@ -64,6 +70,7 @@ class SetPassword extends React.Component {
     this.state = {
       input1: {
         text: '',
+        iconVisible: false,
         notiVisible: false,
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
@@ -71,6 +78,7 @@ class SetPassword extends React.Component {
       },
       input2: {
         text: '',
+        iconVisible: false,
         notiVisible: false,
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
@@ -83,7 +91,6 @@ class SetPassword extends React.Component {
     this.onChangeText = this.onChangeText.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onEndEditing = this.onEndEditing.bind(this);
-    this.showAlert = this.showAlert.bind(this);
   }
 
   onChangeText(inputName) {
@@ -93,7 +100,11 @@ class SetPassword extends React.Component {
 
     if (input) {
       return (text) => {
+        if (text.length > 0) input.iconVisible = true;
+        else input.iconVisible = false;
+
         input.text = text;
+
         this.setState({
           [inputName]: input,
           buttonActive: (input1.text.length > 0 && input2.text.length > 0),
@@ -115,7 +126,9 @@ class SetPassword extends React.Component {
           input.notiText = Strings.HELPER_DEFAULT;
         }
 
-        this.setState({ [inputName]: input });
+        this.setState({
+          [inputName]: input,
+        });
       };
     }
 
@@ -136,16 +149,16 @@ class SetPassword extends React.Component {
           const result = validate(input.text);
           input.isValid = result;
 
-          this.setState({ buttonAction: this.failAlert });
+          this.setState({
+            buttonAction: this.failAlert,
+          });
 
           if (!result) {
             input.notiText = Strings.HELPER_ERROR_RANGE;
             input.notiColor = colors.alertTextRed;
           } else if (inputName === 'input2' && input1.text !== input2.text) {
-            input2.notiText = Strings.HELPER_ERROR_NOT_MATCH;
-            input2.notiColor = colors.alertTextRed;
-
-            this.setState({ input2 });
+            input.notiText = Strings.HELPER_ERROR_NOT_MATCH;
+            input.notiColor = colors.alertTextRed;
           } else {
             input.notiText = Strings.HELPER_DEFAULT;
             input.notiColor = colors.textAreaNotiTextGray;
@@ -156,56 +169,17 @@ class SetPassword extends React.Component {
           }
         }
 
-        this.setState({ [inputName]: input });
+        this.setState({
+          [inputName]: input,
+        });
       };
     }
 
     return null;
   }
 
-  showAlert() {
-    const { input1, input2 } = this.state;
-    const { onAlertOk } = this.props;
-
-    if (/* input1.isValid && input2.isValid */ true) {
-      Alert.alert(
-        '비밀번호 설정 완료',
-        '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
-        [
-          {
-            text: '확인',
-            onPress: () => {
-              createAccount().then((account) => {
-                onAlertOk(
-                  NavAction.pushScreen(
-                    NavAction.Screens.ACCOUNT_CREATED,
-                    {
-                      name: account.name,
-                      key: account.publicKey,
-                    },
-                  ),
-                );
-              });
-            },
-          },
-        ],
-        { cancelable: false },
-      );
-    } else {
-      Alert.alert(
-        '',
-        '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
-        [
-          {
-            text: '확인',
-          },
-        ],
-      );
-    }
-  }
-
   render() {
-    const { input1, input2, buttonActive } = this.state;
+    const { input1, input2, buttonActive, buttonCallback } = this.state;
 
     return (
       <View style={styles.container}>
@@ -229,6 +203,7 @@ class SetPassword extends React.Component {
           <InputPassword
             label={Strings.INPUT1_LABEL}
             placeholder={Strings.PLACEHOLDER}
+            isIconVisible={input1.iconVisible}
             onChangeText={this.onChangeText('input1')}
             onFocus={this.onFocus('input1')}
             onEndEditing={this.onEndEditing('input1')}
@@ -242,6 +217,7 @@ class SetPassword extends React.Component {
           <InputPassword
             label={Strings.INPUT2_LABEL}
             placeholder={Strings.PLACEHOLDER}
+            isIconVisible={input2.iconVisible}
             onChangeText={this.onChangeText('input2')}
             onFocus={this.onFocus('input2')}
             onEndEditing={this.onEndEditing('input2')}
@@ -263,11 +239,12 @@ class SetPassword extends React.Component {
             actions={[
               {
                 text: Strings.BOTTOM_BUTTON,
-                callback: this.showAlert,
               },
             ]}
-            
-            inactive={/* !buttonActive */ false}
+            callback={() => {
+              SetPassword.showFailAlert();
+            }}
+            inactive={!buttonActive}
           />
         </ScrollView>
       </View>
@@ -279,8 +256,4 @@ SetPassword.navigationOptions = {
   header: null,
 };
 
-const mapDispatchToProps = dispatch => ({
-  onAlertOk: action => dispatch(action),
-});
-
-export default connect(null, mapDispatchToProps)(SetPassword);
+export default SetPassword;

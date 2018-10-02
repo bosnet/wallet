@@ -35,15 +35,17 @@ const Navigation = {
     HOME_1: 'HomeScreen1',
     INTRO_MEMBERSHIP: 'IntroMembership',
     AGREEMENT: 'Agreement',
+    ACCOUNT_CREATED: 'AccountCreated',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
   NAV_RESET: 'NAV_RESET',
 };
 
-Navigation.pushScreen = screenName => ({
+Navigation.pushScreen = (screenName, params) => ({
   type: Navigation.NAV_PUSH,
   routeName: screenName,
+  params,
 });
 
 Navigation.popScreen = (count = 1) => ({
@@ -51,9 +53,10 @@ Navigation.popScreen = (count = 1) => ({
   n: count,
 });
 
-Navigation.resetScreen = screenName => ({
+Navigation.resetScreen = (screenName, params) => ({
   type: Navigation.NAV_RESET,
   routeName: screenName,
+  params,
 });
 
 

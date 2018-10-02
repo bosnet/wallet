@@ -43,6 +43,10 @@ const HomeScreen = () => (
               action: Navigation.pushScreen(Navigation.Screens.SET_PASSWORD),
             },
             {
+              key: '3. 계좌 생성 > 복구키 저장',
+              action: Navigation.pushScreen(Navigation.Screens.ACCOUNT_CREATED),
+            },
+            {
               key: '5-1. 멤버십 소개 페이지',
               action: Navigation.pushScreen(Navigation.Screens.INTRO_MEMBERSHIP),
             },

@@ -43,9 +43,11 @@ class InputPassword extends React.Component {
 
     this.state = {
       isSecure: true,
+      isIconVisible: false,
     };
 
     this.onPressTouchable = this.onPressTouchable.bind(this);
+    this.setIconVisible = this.setIconVisible.bind(this);
     this.drawIcon = this.drawIcon.bind(this);
   }
 
@@ -53,9 +55,14 @@ class InputPassword extends React.Component {
     this.setState(prevState => ({ isSecure: !prevState.isSecure }));
   }
 
+  setIconVisible(value) {
+    this.setState({
+      isIconVisible: value,
+    });
+  }
+
   drawIcon() {
-    const { isSecure } = this.state;
-    const { isIconVisible } = this.props;
+    const { isSecure, isIconVisible } = this.state;
 
     if (isIconVisible) {
       return (
@@ -93,7 +100,10 @@ class InputPassword extends React.Component {
               placeholderTextColor={colors.inputPlaceholderGray}
               secureTextEntry={isSecure}
               style={styles.inputText}
-              onChangeText={onChangeText}
+              onChangeText={(text) => {
+                this.setIconVisible(text.length > 0);
+                onChangeText(text);
+              }}
               onFocus={onFocus}
               onEndEditing={onEndEditing}
             />
@@ -111,7 +121,6 @@ InputPassword.propTypes = {
   onChangeText: PropTypes.func,
   onFocus: PropTypes.func,
   onEndEditing: PropTypes.func,
-  isIconVisible: PropTypes.bool,
 };
 
 InputPassword.defaultProps = {
@@ -120,7 +129,6 @@ InputPassword.defaultProps = {
   onChangeText: null,
   onFocus: null,
   onEndEditing: null,
-  isIconVisible: false,
 };
 
 export default InputPassword;

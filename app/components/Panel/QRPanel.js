@@ -1,15 +1,21 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
+import QRCode from 'react-native-qrcode';
 
 import styles from './styles';
 
-const QRPanel = ({ img }) => (
-  <Image style={styles.qrPanel} source={img} />
+const QRPanel = ({ value }) => (
+  <View style={styles.qrPanel}>
+    <QRCode
+      value={value}
+      size={163}
+    />
+  </View>
 );
 
 QRPanel.propTypes = {
-  img: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default QRPanel;

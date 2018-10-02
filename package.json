@@ -13,10 +13,12 @@
     ]
   },
   "dependencies": {
+    "@pigzbe/react-native-stellar-sdk": "^1.0.4",
     "prop-types": "^15.6.2",
     "react": "16.4.1",
     "react-native": "0.55.4",
     "react-native-modal": "^6.5.0",
+    "react-native-qrcode": "^0.2.7",
     "react-native-sortable-list": "0.0.22",
     "react-native-tab-view": "^1.0.2",
     "react-navigation": "^2.13.0",
