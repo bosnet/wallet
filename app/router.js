@@ -18,7 +18,8 @@ import {
   AccountCreated,
   SetPassword,
   SelectImportType,
-  ImportAccount,
+  ImportByRestore,
+  ImportBySecure,
   Agreement,
 } from './screens/Accounts';
 
@@ -71,7 +72,8 @@ const router = {
   ReceiveBalance: { screen: ReceiveBalance },
   AuthChangePassword: { screen: AuthChangePassword },
   SelectImportType: { screen: SelectImportType },
-  ImportAccount: { screen: ImportAccount },
+  ImportByRestore: { screen: ImportByRestore },
+  ImportBySecure: { screen: ImportBySecure },
   Test: { screen: TestScreen },
   QRScan: { screen: QRScan },
   CreateTransaction: { screen: CreateTransaction },

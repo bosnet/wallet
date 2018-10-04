@@ -22,7 +22,11 @@ const ExLinkItem = ({ text, value }) => (
 
 ExLinkItem.propTypes = {
   text: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
+};
+
+ExLinkItem.defaultProps = {
+  value: '',
 };
 
 export default ExLinkItem;

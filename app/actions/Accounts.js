@@ -1,11 +1,15 @@
 const Accounts = {
-  SET_ACCOUNTS: 'SET_ACCOUNTS',
-  Accounts_HIDE: 'Accounts_HIDE',
+  ADD_ACCOUNTS: 'ADD_ACCOUNTS',
+  LOAD_ACCOUNTS: 'LOAD_ACCOUNTS',
 };
 
-Accounts.setAccounts = accounts => ({
-  type: Accounts.SET_ACCOUNTS,
-  accounts,
+Accounts.addAccount = account => ({
+  type: Accounts.ADD_ACCOUNTS,
+  account,
+});
+
+Accounts.loadAccounts = () => ({
+  type: Accounts.LOAD_ACCOUNTS,
 });
 
 export default Accounts;

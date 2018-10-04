@@ -25,6 +25,8 @@ class HomeScreen extends React.Component {
       timer: null,
       counter: 60,
     };
+
+    this.buildAccountList = this.buildAccountList.bind(this);
   }
 
   componentDidMount() {
@@ -37,8 +39,25 @@ class HomeScreen extends React.Component {
     if (timer) this.clearInterval(timer);
   }
 
+  buildAccountList() {
+    const { accounts } = this.props;
+    const list = [];
+    accounts.forEach((account, index) => {
+      list.push({
+        key: `${index}`,
+        type: types.ListItem.ACCOUNT,
+        name: account.name,
+        amount: 0,
+      });
+    });
+
+    return list;
+  }
+
   render() {
     const { counter } = this.state;
+    const { accounts } = this.props;
+
     return (
       <View style={styles.container}>
         <AppStatusBar theme={Theme.WHITE} />
@@ -61,7 +80,7 @@ class HomeScreen extends React.Component {
             <ItemList
               listType={types.ListType.FLAT}
               listData={{
-                data: [],
+                data: this.buildAccountList(),
               }}
             />
           </ScrollView>

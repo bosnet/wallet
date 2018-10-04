@@ -28,7 +28,7 @@ const SelectImportType = () => (
         text="보안키로 계좌 가져오기"
       />
       <LongButton
-        text="보안키로 계좌 가져오기"
+        text="복구키로 계좌 가져오기"
         backgroundColor={colors.buttonWhite}
         textColor={colors.buttonTextPurple}
       />

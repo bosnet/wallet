@@ -11,7 +11,7 @@ import { NotiPanel } from '../../components/Panel';
 import { BottomButton } from '../../components/Button';
 import { colors } from '../../resources';
 
-const ImportAccount = () => (
+const ImportByRestore = () => (
   <View style={styles.container}>
     <AppStatusBar theme={StatusBarTheme.PURPLE} />
     <DefaultToolbar
@@ -75,8 +75,8 @@ const ImportAccount = () => (
   </View>
 );
 
-ImportAccount.navigationOptions = {
+ImportByRestore.navigationOptions = {
   header: null,
 };
 
-export default ImportAccount;
+export default ImportByRestore;

@@ -7,7 +7,7 @@ import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBa
 
 import imgFace from '../../resources/images/img_face.png';
 
-const QRScan = () => (
+const QRScan = ({ callback }) => (
   <View style={styles.container}>
     <AppStatusBar theme={StatusBarTheme.WHITE} />
     <View style={[styles.container, styles.noToolbar, { backgroundColor: '#999999' }]}>

@@ -70,7 +70,11 @@ const HomeScreen = () => (
             },
             {
               key: '6. 계좌 가져오기 > 보안키로 가져오기',
-              action: Navigation.pushScreen(Navigation.Screens.IMPORT_ACCOUNT),
+              action: Navigation.pushScreen(Navigation.Screens.IMPORT_BY_SECURE),
+            },
+            {
+              key: '6. 계좌 가져오기 > 복구키로 가져오기',
+              action: Navigation.pushScreen(Navigation.Screens.IMPORT_BY_RESTORE),
             },
             {
               key: '6. 계좌 가져오기 > 보안키로 가져오기 - QRcode reader screen',

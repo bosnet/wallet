@@ -10,8 +10,7 @@ import {
 
 import styles from '../styles';
 
-import { Navigation as NavAction, Modal as ModalAction } from '../../actions';
-
+import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BottomButton } from '../../components/Button';
@@ -20,7 +19,7 @@ import { InputPassword } from '../../components/Input';
 import { colors } from '../../resources';
 import { Accounts } from '../../resources/strings';
 
-import { createAccount } from '../../libs/KeyGenerator';
+import { createAccountAsync } from '../../libs/KeyGenerator';
 
 const Strings = Accounts.SetPassword;
 
@@ -147,8 +146,7 @@ class SetPassword extends React.Component {
 
             this.setState({ input2 });
           } else {
-            input.notiText = Strings.HELPER_DEFAULT;
-            input.notiColor = colors.textAreaNotiTextGray;
+            input.notiColor = colors.transparent;
 
             this.setState({
               buttonAction: this.successAlert,
@@ -165,41 +163,41 @@ class SetPassword extends React.Component {
 
   showAlert() {
     const { input1, input2 } = this.state;
-    const { onAlertOk } = this.props;
+    const { onAlertOk, addAccount } = this.props;
 
     if (/* input1.isValid && input2.isValid */ true) {
       Alert.alert(
         '비밀번호 설정 완료',
         '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
-        [
-          {
-            text: '확인',
-            onPress: () => {
-              createAccount().then((account) => {
-                onAlertOk(
-                  NavAction.pushScreen(
-                    NavAction.Screens.ACCOUNT_CREATED,
-                    {
-                      name: account.name,
-                      key: account.publicKey,
-                    },
-                  ),
-                );
+        [{
+          text: '확인',
+          onPress: () => {
+            createAccountAsync('ehdwns1!').then((account) => {
+              addAccount({
+                name: account.name,
+                address: account.address,
               });
-            },
+              onAlertOk(
+                NavAction.pushScreen(
+                  NavAction.Screens.ACCOUNT_CREATED,
+                  {
+                    name: account.name,
+                    key: account.secretSeed,
+                  },
+                ),
+              );
+            });
           },
-        ],
+        }],
         { cancelable: false },
       );
     } else {
       Alert.alert(
         '',
         '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
-        [
-          {
-            text: '확인',
-          },
-        ],
+        [{
+          text: '확인',
+        }],
       );
     }
   }
@@ -266,8 +264,7 @@ class SetPassword extends React.Component {
                 callback: this.showAlert,
               },
             ]}
-            
-            inactive={/* !buttonActive */ false}
+            // inactive={!buttonActive}
           />
         </ScrollView>
       </View>
@@ -281,6 +278,7 @@ SetPassword.navigationOptions = {
 
 const mapDispatchToProps = dispatch => ({
   onAlertOk: action => dispatch(action),
+  addAccount: account => dispatch(AccountsAction.addAccount(account)),
 });
 
 export default connect(null, mapDispatchToProps)(SetPassword);

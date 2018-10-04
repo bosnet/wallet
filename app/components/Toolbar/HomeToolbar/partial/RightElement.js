@@ -19,10 +19,16 @@ const RightElement = ({ onPress }) => (
       >
         <Image style={styles.Icon} source={IconAdd} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.actionIcon}>
+      <TouchableOpacity
+        style={styles.actionIcon}
+        onPress={onPress(NavAction.pushScreen(NavAction.Screens.SELECT_IMPORT_TYPE))}
+      >
         <Image style={styles.IconIn} source={IconIn} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.actionIcon}>
+      <TouchableOpacity
+        style={styles.actionIcon}
+        onPress={onPress(NavAction.pushScreen(NavAction.Screens.SETTINGS))}
+      >
         <Image style={styles.Icon} source={IconSettings} />
       </TouchableOpacity>
     </View>

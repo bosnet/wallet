@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   inputTitle: {
+    flex: 1,
     color: colors.textAreaTitleGray,
     fontSize: 16,
     marginTop: 15,

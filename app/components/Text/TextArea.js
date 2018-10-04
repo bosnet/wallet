@@ -28,7 +28,14 @@ const createOption = (option) => {
 const createTextField = (type, text) => {
   switch (type) {
     case 'text':
-      return (<Text style={styles.textAreaContents}>{text}</Text>);
+      return (
+        <Text
+          style={styles.textAreaContents}
+          textBreakStrategy="simple"
+        >
+          {text}
+        </Text>
+      );
     case 'balance':
       return (
         <View style={styles.balanceTextArea}>
@@ -56,14 +63,7 @@ const TextArea = ({
     ]}
   >
     <View style={styles.textAreaHead}>
-      <Text
-        style={[
-          styles.textAreaTitle,
-          { color: lableColor },
-        ]}
-      >
-        {label}
-      </Text>
+      <Text style={[styles.textAreaTitle, { color: lableColor }]}>{label}</Text>
       { option ? createOption(option) : null }
     </View>
     {createTextField(type, text)}

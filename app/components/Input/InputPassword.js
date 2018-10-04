@@ -102,7 +102,7 @@ class InputPassword extends React.Component {
               style={styles.inputText}
               onChangeText={(text) => {
                 this.setIconVisible(text.length > 0);
-                onChangeText(text);
+                if (onChangeText) onChangeText(text);
               }}
               onFocus={onFocus}
               onEndEditing={onEndEditing}

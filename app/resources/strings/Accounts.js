@@ -16,6 +16,12 @@ const Accounts = {
 
     BOTTOM_BUTTON: '확인',
   },
+  ImportAccount: {
+    PLACEHOLDER_SECURE: 'S로 시작하는 보안키 입력',
+    HELPER_DEFAULT_SECURE: 'S로 시작하는 보안키를 입력해 주세요',
+    HELPER_ERROR_NO_SECURE: '보안키를 입력하세요',
+    HELPER_ERROR_NOT_VALID: '보안키가 올바르지 않습니다',
+  },
 };
 
 export default Accounts;
