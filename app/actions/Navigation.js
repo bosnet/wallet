@@ -41,6 +41,7 @@ const Navigation = {
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
   NAV_RESET: 'NAV_RESET',
+  NAV_BACK: 'NAV_BACK',
 };
 
 Navigation.pushScreen = (screenName, params) => ({
@@ -58,6 +59,11 @@ Navigation.resetScreen = (screenName, params) => ({
   type: Navigation.NAV_RESET,
   routeName: screenName,
   params,
+});
+
+Navigation.backScreenTo = screenName => ({
+  type: Navigation.NAV_BACK,
+  routeName: screenName,
 });
 
 

@@ -12,7 +12,10 @@ function navigation(state = initialNavState, action) {
   switch (action.type) {
     case Navigation.NAV_PUSH:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: action.routeName, params: action.params }),
+        NavigationActions.navigate({
+          routeName: action.routeName,
+          params: action.params,
+        }),
         state,
       );
       break;
@@ -20,6 +23,14 @@ function navigation(state = initialNavState, action) {
       nextState = RootNavigator.router.getStateForAction(
         StackActions.pop({
           n: action.n,
+        }),
+        state,
+      );
+      break;
+    case Navigation.NAV_BACK:
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.back({
+          key: action.routeName,
         }),
         state,
       );

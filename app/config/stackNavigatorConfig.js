@@ -14,8 +14,10 @@ const stackNavigatorConfig = {
 
       const slideFromRight = { transform: [{ translateX }] };
 
+      if (scene.route.routeName === 'QRScan') return null;
       return slideFromRight;
     },
+    containerStyle: { backgroundColor: 'transparent' },
   }),
 };
 

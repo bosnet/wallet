@@ -3,6 +3,7 @@ import {
   View, Text, Image, TextInput, TouchableOpacity, ToastAndroid,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 import icEye from '../../resources/images/eye.png';
@@ -42,6 +43,7 @@ class InputPassword extends React.Component {
     super(props);
 
     this.state = {
+      text: '',
       isSecure: true,
       isIconVisible: false,
     };
@@ -49,6 +51,7 @@ class InputPassword extends React.Component {
     this.onPressTouchable = this.onPressTouchable.bind(this);
     this.setIconVisible = this.setIconVisible.bind(this);
     this.drawIcon = this.drawIcon.bind(this);
+    this.getText = this.getText.bind(this);
   }
 
   onPressTouchable() {
@@ -59,6 +62,11 @@ class InputPassword extends React.Component {
     this.setState({
       isIconVisible: value,
     });
+  }
+
+  getText() {
+    const { text } = this.state;
+    return text;
   }
 
   drawIcon() {
@@ -83,8 +91,8 @@ class InputPassword extends React.Component {
 
   render() {
     const {
-      label, placeholder,
-      onChangeText, onFocus, onEndEditing,
+      label,
+      onChangeText,
     } = this.props;
     const { isSecure } = this.state;
     return (
@@ -93,19 +101,18 @@ class InputPassword extends React.Component {
           <Text style={styles.inputTitle}>{label}</Text>
           <View style={styles.inputArea}>
             <TextInput
+              {...this.props}
               underlineColorAndroid="transparent"
               autoCapitalize="none"
               autoCorrect={false}
-              placeholder={placeholder}
               placeholderTextColor={colors.inputPlaceholderGray}
               secureTextEntry={isSecure}
               style={styles.inputText}
               onChangeText={(text) => {
+                this.setState({ text });
                 this.setIconVisible(text.length > 0);
                 if (onChangeText) onChangeText(text);
               }}
-              onFocus={onFocus}
-              onEndEditing={onEndEditing}
             />
             {this.drawIcon()}
           </View>
@@ -131,4 +138,8 @@ InputPassword.defaultProps = {
   onEndEditing: null,
 };
 
-export default InputPassword;
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+export default connect(null, mapDispatchToProps, null, { withRef: true })(InputPassword);

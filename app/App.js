@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import {
   AsyncStorage,
 } from 'react-native';
+import AppStorage from './libs/AppStorage';
 
 import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
@@ -21,8 +22,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('Accounts').then((value) => {
-      if (value && value.length > 0) store.dispatch(Accounts.setAccounts(value));
+    AsyncStorage.clear();
+    AppStorage.loadAccountsAsync().then((accounts) => {
+      if (accounts && accounts.length > 0) store.dispatch(Accounts.loadAccounts(accounts));
     });
   }
 

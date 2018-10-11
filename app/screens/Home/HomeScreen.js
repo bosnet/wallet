@@ -44,10 +44,9 @@ class HomeScreen extends React.Component {
     const list = [];
     accounts.forEach((account, index) => {
       list.push({
-        key: `${index}`,
+        listKey: `${index}`,
         type: types.ListItem.ACCOUNT,
-        name: account.name,
-        amount: 0,
+        account,
       });
     });
 
@@ -56,7 +55,6 @@ class HomeScreen extends React.Component {
 
   render() {
     const { counter } = this.state;
-    const { accounts } = this.props;
 
     return (
       <View style={styles.container}>

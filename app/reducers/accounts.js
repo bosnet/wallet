@@ -14,10 +14,7 @@ function accountsAction(state = initialState, action) {
 
       return { ...state };
     case Accounts.LOAD_ACCOUNTS:
-      return AppStorage.loadAccountsAsync().then(accounts => (
-        { ...state, list: accounts }
-      ));
-
+      return { ...state, list: action.list };
     default:
       return state;
   }

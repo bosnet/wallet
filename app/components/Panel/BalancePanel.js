@@ -17,7 +17,7 @@ const BalancePanel = ({ text }) => (
 );
 
 BalancePanel.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.number.isRequired,
 };
 
 export default BalancePanel;

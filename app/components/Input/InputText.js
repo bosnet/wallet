@@ -3,6 +3,9 @@ import {
   View, Text, Image, TextInput, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { Navigation as NavAction } from '../../actions';
 
 import styles from './styles';
 import icInputDel from '../../resources/images/icon_input_del.png';
@@ -10,20 +13,6 @@ import icQR from '../../resources/images/ic_qr.png';
 
 const Options = {
   QR_CODE: 'QRCode',
-};
-
-const createOption = (option) => {
-  const { type } = option;
-  switch (type) {
-    case Options.QR_CODE:
-      return (
-        <TouchableOpacity style={styles.areaOption}>
-          <Image style={styles.optionIcon} source={icQR} />
-        </TouchableOpacity>
-      );
-    default:
-      return null;
-  }
 };
 
 class InputText extends React.Component {
@@ -38,6 +27,7 @@ class InputText extends React.Component {
     this.setIconVisible = this.setIconVisible.bind(this);
     this.drawIcon = this.drawIcon.bind(this);
     this.getText = this.getText.bind(this);
+    this.createOption = this.createOption.bind(this);
   }
 
   setIconVisible(value) {
@@ -48,9 +38,39 @@ class InputText extends React.Component {
 
   getText() {
     const { text } = this.state;
-
     return text;
   }
+
+  async setText(text) {
+    if (text) {
+      this.textinput.setNativeProps({ text });
+      this.setState({
+        text,
+        isIconVisible: true,
+      });
+    }
+  }
+
+  createOption() {
+    const { option, doAction } = this.props;
+    const { type, action } = option;
+    switch (type) {
+      case Options.QR_CODE:
+        return (
+          <TouchableOpacity
+            style={styles.areaOption}
+            onPress={() => {
+              doAction(action);
+            }}
+          >
+            <Image style={styles.optionIcon} source={icQR} />
+          </TouchableOpacity>
+        );
+      default:
+        return null;
+    }
+  }
+
 
   drawIcon() {
     const { isIconVisible } = this.state;
@@ -84,7 +104,7 @@ class InputText extends React.Component {
       <View style={styles.input}>
         <View style={styles.inputHead}>
           <Text style={[styles.inputTitle, { color: labelColor }]}>{label}</Text>
-          {option ? createOption(option) : null}
+          {option ? this.createOption() : null}
         </View>
         <View style={styles.inputArea}>
           <TextInput
@@ -133,4 +153,9 @@ InputText.defaultProps = {
   onEndEditing: null,
 };
 
-export { InputText, Options };
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+const connected = connect(null, mapDispatchToProps, null, { withRef: true })(InputText);
+export { connected as InputText, Options };

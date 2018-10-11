@@ -19,7 +19,8 @@ import { InputPassword } from '../../components/Input';
 import { colors } from '../../resources';
 import { Accounts } from '../../resources/strings';
 
-import { createAccountAsync } from '../../libs/KeyGenerator';
+import { createAccountAsync, createRestoreKeyAsync } from '../../libs/KeyGenerator';
+import AppStorage from '../../libs/AppStorage';
 
 const Strings = Accounts.SetPassword;
 
@@ -62,45 +63,32 @@ class SetPassword extends React.Component {
 
     this.state = {
       input1: {
-        text: '',
-        notiVisible: false,
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
         isValid: false,
       },
       input2: {
-        text: '',
-        notiVisible: false,
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
         isValid: false,
       },
       buttonActive: false,
-      buttonCallback: this.failAlert,
     };
 
     this.onChangeText = this.onChangeText.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onEndEditing = this.onEndEditing.bind(this);
-    this.showAlert = this.showAlert.bind(this);
+    this.callbackBottomButton = this.callbackBottomButton.bind(this);
+    this.validatePasswords = this.validatePasswords.bind(this);
   }
 
-  onChangeText(inputName) {
-    const { state } = this;
-    const input = state[inputName];
-    const { input1, input2 } = state;
+  onChangeText() {
+    const password1 = this.input1.getWrappedInstance().getText();
+    const password2 = this.input2.getWrappedInstance().getText();
 
-    if (input) {
-      return (text) => {
-        input.text = text;
-        this.setState({
-          [inputName]: input,
-          buttonActive: (input1.text.length > 0 && input2.text.length > 0),
-        });
-      };
-    }
-
-    return null;
+    this.setState({
+      buttonActive: (password1.length > 0 && password2.length > 0),
+    });
   }
 
   onFocus(inputName) {
@@ -109,7 +97,9 @@ class SetPassword extends React.Component {
 
     if (input) {
       return () => {
-        if (input.text.length === 0 && input.notiColor === colors.transparent) {
+        const password = this[inputName].getWrappedInstance().getText();
+
+        if (password.length === 0 && input.notiColor === colors.transparent) {
           input.notiColor = colors.textAreaNotiTextGray;
           input.notiText = Strings.HELPER_DEFAULT;
         }
@@ -124,74 +114,78 @@ class SetPassword extends React.Component {
   onEndEditing(inputName) {
     const { state } = this;
     const input = { ...state[inputName] };
-    const { input1, input2 } = state;
 
     if (input) {
       return () => {
-        if (input.text.trim().length === 0) {
+        const password = this[inputName].getWrappedInstance().getText();
+
+        this.validatePasswords();
+
+        if (password.trim().length === 0) {
           input.notiText = Strings.HELPER_ERROR_NOTEXT;
           input.notiColor = colors.alertTextRed;
-        } else {
-          const result = validate(input.text);
-          input.isValid = result;
 
-          this.setState({ buttonAction: this.failAlert });
-
-          if (!result) {
-            input.notiText = Strings.HELPER_ERROR_RANGE;
-            input.notiColor = colors.alertTextRed;
-          } else if (inputName === 'input2' && input1.text !== input2.text) {
-            input2.notiText = Strings.HELPER_ERROR_NOT_MATCH;
-            input2.notiColor = colors.alertTextRed;
-
-            this.setState({ input2 });
-          } else {
-            input.notiColor = colors.transparent;
-
-            this.setState({
-              buttonAction: this.successAlert,
-            });
-          }
+          this.setState({ [inputName]: input });
         }
-
-        this.setState({ [inputName]: input });
       };
     }
 
     return null;
   }
 
-  showAlert() {
-    const { input1, input2 } = this.state;
-    const { onAlertOk, addAccount } = this.props;
+  validatePasswords() {
+    const { state } = this;
+    const { input1, input2 } = state;
 
-    if (/* input1.isValid && input2.isValid */ true) {
-      Alert.alert(
-        '비밀번호 설정 완료',
-        '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
-        [{
-          text: '확인',
-          onPress: () => {
-            createAccountAsync('ehdwns1!').then((account) => {
-              addAccount({
-                name: account.name,
-                address: account.address,
-              });
-              onAlertOk(
-                NavAction.pushScreen(
-                  NavAction.Screens.ACCOUNT_CREATED,
-                  {
-                    name: account.name,
-                    key: account.secretSeed,
-                  },
-                ),
-              );
-            });
-          },
-        }],
-        { cancelable: false },
-      );
+    const password1 = this.input1.getWrappedInstance().getText();
+    const password2 = this.input2.getWrappedInstance().getText();
+
+    let result = true;
+
+    if (password1.length !== 0) {
+      if (validate(password1)) {
+        input1.notiText = Strings.HELPER_DEFAULT;
+        input1.notiColor = colors.transparent;
+      } else {
+        input1.notiText = Strings.HELPER_ERROR_NOT_VALID;
+        input1.notiColor = colors.alertTextRed;
+
+        result = false;
+      }
     } else {
+      result = false;
+    }
+
+    if (password2.length !== 0) {
+      if (validate(password2)) {
+        input2.notiText = Strings.HELPER_DEFAULT;
+        input2.notiColor = colors.transparent;
+      } else {
+        input2.notiText = Strings.HELPER_ERROR_NOT_VALID;
+        input2.notiColor = colors.alertTextRed;
+
+        result = false;
+      }
+    } else {
+      result = false;
+    }
+
+    if (password1 !== password2 && result === true) {
+      input2.notiText = Strings.HELPER_ERROR_NOT_MATCH;
+      input2.notiColor = colors.alertTextRed;
+
+      result = false;
+    }
+
+    this.setState({ input1, input2 });
+
+    return result;
+  }
+
+  callbackBottomButton() {
+    const { onAlertOk, addAccount, navigation, accountList } = this.props;
+
+    if (!this.validatePasswords()) {
       Alert.alert(
         '',
         '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
@@ -199,6 +193,81 @@ class SetPassword extends React.Component {
           text: '확인',
         }],
       );
+
+      return;
+    }
+
+    const getSecureKey = navigation.getParam('getSecureKey');
+    if (!getSecureKey) {
+      createAccountAsync(this.input1.getWrappedInstance().getText()).then((account) => {
+        addAccount({
+          name: account.name,
+          address: account.address,
+        });
+
+        AppStorage.saveAccountAsync(accountList)
+          .then(() => {
+            Alert.alert(
+              '비밀번호 설정 완료',
+              '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+              [{
+                text: '확인',
+                onPress: () => {
+                  onAlertOk(
+                    NavAction.pushScreen(
+                      NavAction.Screens.ACCOUNT_CREATED,
+                      {
+                        name: account.name,
+                        key: account.secretSeed,
+                      },
+                    ),
+                  );
+                },
+              }],
+              { cancelable: false },
+            );
+          })
+          .catch(() => {
+            ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+          });
+      });
+    } else {
+      createRestoreKeyAsync(getSecureKey(), this.input1.getWrappedInstance().getText())
+        .then((account) => {
+          addAccount({
+            name: account.name,
+            address: account.address,
+          });
+
+          AppStorage.saveAccountAsync(accountList)
+            .then(() => {
+              Alert.alert(
+                '비밀번호 설정 완료',
+                '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                [{
+                  text: '확인',
+                  onPress: () => {
+                    onAlertOk(
+                      NavAction.pushScreen(
+                        NavAction.Screens.ACCOUNT_CREATED,
+                        {
+                          name: account.name,
+                          key: account.secretSeed,
+                        },
+                      ),
+                    );
+                  },
+                }],
+                { cancelable: false },
+              );
+            })
+            .catch(() => {
+              ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+            });
+        })
+        .catch((/* error */) => {
+          ToastAndroid.show('올바르지 않은 키입니다.', ToastAndroid.SHORT);
+        });
     }
   }
 
@@ -225,9 +294,10 @@ class SetPassword extends React.Component {
             {Strings.HEAD_TEXT}
           </Text>
           <InputPassword
+            ref={(c) => { this.input1 = c; }}
             label={Strings.INPUT1_LABEL}
             placeholder={Strings.PLACEHOLDER}
-            onChangeText={this.onChangeText('input1')}
+            onChangeText={this.onChangeText}
             onFocus={this.onFocus('input1')}
             onEndEditing={this.onEndEditing('input1')}
           />
@@ -238,9 +308,10 @@ class SetPassword extends React.Component {
             color={input1.notiColor}
           />
           <InputPassword
+            ref={(c) => { this.input2 = c; }}
             label={Strings.INPUT2_LABEL}
             placeholder={Strings.PLACEHOLDER}
-            onChangeText={this.onChangeText('input2')}
+            onChangeText={this.onChangeText}
             onFocus={this.onFocus('input2')}
             onEndEditing={this.onEndEditing('input2')}
           />
@@ -261,10 +332,10 @@ class SetPassword extends React.Component {
             actions={[
               {
                 text: Strings.BOTTOM_BUTTON,
-                callback: this.showAlert,
+                callback: this.callbackBottomButton,
               },
             ]}
-            // inactive={!buttonActive}
+            inactive={!buttonActive}
           />
         </ScrollView>
       </View>
@@ -276,9 +347,13 @@ SetPassword.navigationOptions = {
   header: null,
 };
 
+const mapStateToProps = state => ({
+  accountList: state.accounts.list,
+});
+
 const mapDispatchToProps = dispatch => ({
   onAlertOk: action => dispatch(action),
   addAccount: account => dispatch(AccountsAction.addAccount(account)),
 });
 
-export default connect(null, mapDispatchToProps)(SetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(SetPassword);

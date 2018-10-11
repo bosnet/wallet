@@ -8,8 +8,9 @@ Accounts.addAccount = account => ({
   account,
 });
 
-Accounts.loadAccounts = () => ({
+Accounts.loadAccounts = accounts => ({
   type: Accounts.LOAD_ACCOUNTS,
+  list: accounts,
 });
 
 export default Accounts;

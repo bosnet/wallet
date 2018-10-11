@@ -26,9 +26,9 @@ const FlatItem = ({ item }) => {
     case types.ListItem.ACCOUNT:
       result = (
         <AccountItem
-          item={item}
-          textColor={item.textColor}
-          action={item.action}
+          key={item.listKey}
+          account={item.account}
+          icon={item.icon}
         />
       );
       break;

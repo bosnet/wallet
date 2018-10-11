@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, Image, View } from 'react-native';
+import {
+  Text, Image, View, TouchableOpacity,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from '../styles';
 import { colors } from '../../../resources';
+import { Navigation as NavAction } from '../../../actions';
 
 import icVoting from '../../../resources/images/voting_orange.png';
 
@@ -40,28 +43,28 @@ const isFreezing = (freezing) => {
 };
 
 const AccountItem = ({
-  item,
-  textColor,
-  action,
+  account,
+  icon,
   onPress,
 }) => (
-  <View
+  <TouchableOpacity
     style={styles.accountItem}
-    onPress={action ? onPress : null}
-    key={item.key}
+    onPress={account ? () => {
+      onPress(NavAction.pushScreen(NavAction.Screens.TRANSACTION_LIST, { account }));
+    } : null}
   >
     <View style={styles.accoutnItemHead}>
       <Text style={styles.accountName}>
-        {item.name}
+        {account.name}
       </Text>
-      {createIcon(item.icon)}
+      {createIcon(icon)}
     </View>
-    {isFreezing(item.freezing)}
+    {isFreezing(false)}
     <View style={styles.accountItemContent}>
-      <Text style={styles.accountBalance}>{item.amount}</Text>
+      <Text style={styles.accountBalance}>{account.amount ? account.amount : 0}</Text>
       <Text style={styles.accountUnit}>BOS</Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 AccountItem.propTypes = {
@@ -76,8 +79,8 @@ AccountItem.defaultProps = {
   textColor: colors.itemTextBlack,
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-  onPress: () => dispatch(props.action),
+const mapDispatchToProps = (dispatch) => ({
+  onPress: action => dispatch(action),
 });
 
 export default connect(null, mapDispatchToProps)(AccountItem);

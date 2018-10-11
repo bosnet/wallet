@@ -34,6 +34,8 @@ class ImportBySecure extends React.Component {
     this.onChangeText = this.onChangeText.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onEndEditing = this.onEndEditing.bind(this);
+    this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
+    this.validateInput = this.validateInput.bind(this);
   }
 
   onChangeText() {
@@ -49,7 +51,7 @@ class ImportBySecure extends React.Component {
 
   onFocus() {
     const { helperColor } = this.state;
-    const text = this.input.getText();
+    const text = this.input.getWrappedInstance().getText();
     if (text.length === 0 && helperColor === colors.transparent) {
       this.setState({
         helperText: Accounts.ImportAccount.HELPER_DEFAULT_SECURE,
@@ -59,11 +61,21 @@ class ImportBySecure extends React.Component {
   }
 
   onEndEditing() {
-    const { helperText, helperColor } = this.state;
-    const text = this.input.getText();
+    this.validateInput();
+  }
+
+  onNavigateWithResult(key) {
+    this.input.getWrappedInstance().setText(key.toString()).then(() => {
+      this.validateInput();
+    });
+  }
+
+  validateInput() {
+    const text = this.input.getWrappedInstance().getText();
 
     if (text.trim().length === 0) {
       this.setState({
+        buttonActive: true,
         helperText: Accounts.ImportAccount.HELPER_ERROR_NO_SECURE,
         helperColor: colors.alertTextRed,
       });
@@ -72,10 +84,12 @@ class ImportBySecure extends React.Component {
 
       if (result) {
         this.setState({
+          buttonActive: true,
           helperColor: colors.transparent,
         });
       } else {
         this.setState({
+          buttonActive: false,
           helperText: Accounts.ImportAccount.HELPER_ERROR_NOT_VALID,
           helperColor: colors.alertTextRed,
         });
@@ -84,7 +98,11 @@ class ImportBySecure extends React.Component {
   }
 
   render() {
-    const { helperText, helperColor, buttonActive } = this.state;
+    const {
+      helperText,
+      helperColor,
+      buttonActive,
+    } = this.state;
 
     return (
       <View style={styles.container}>
@@ -112,7 +130,15 @@ class ImportBySecure extends React.Component {
             ref={(c) => { this.input = c; }}
             label="보안키"
             placeholder={Accounts.ImportAccount.PLACEHOLDER_SECURE}
-            option={{ type: InputTextOptions.QR_CODE }}
+            option={{
+              type: InputTextOptions.QR_CODE,
+              action: NavAction.pushScreen(
+                NavAction.Screens.QR_SCAN,
+                {
+                  callback: this.onNavigateWithResult,
+                },
+              ),
+            }}
             multiline
             onFocus={this.onFocus}
             onEndEditing={this.onEndEditing}
@@ -136,7 +162,15 @@ class ImportBySecure extends React.Component {
           </View>
           <BottomButton
             actions={[
-              { text: '다음' },
+              {
+                text: '다음',
+                action: NavAction.pushScreen(
+                  NavAction.Screens.SET_PASSWORD,
+                  {
+                    getSecureKey: () => this.input.getWrappedInstance().getText(),
+                  },
+                ),
+              },
             ]}
             inactive={!buttonActive}
           />

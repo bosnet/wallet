@@ -27,6 +27,7 @@ const ItemList = ({ listType, listData }) => {
             <FlatList
               data={listData.data}
               renderItem={FlatItem}
+              keyExtractor={(item, index) => index.toString()}
             />
           );
         }

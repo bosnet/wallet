@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   View, Text, Image, TouchableOpacity,
 } from 'react-native';
@@ -6,69 +7,93 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import icQR from '../../resources/images/ic_qr.png';
+import { Navigation as NavAction } from '../../actions';
 
 const Options = {
   QR_CODE: 'QRCode',
 };
 
-const createOption = (option) => {
-  const { type } = option;
-  switch (type) {
-    case Options.QR_CODE:
-      return (
-        <TouchableOpacity style={styles.areaOption}>
-          <Image style={styles.optionIcon} source={icQR} />
-        </TouchableOpacity>
-      );
-    default:
-      return null;
-  }
-};
+class TextArea extends React.Component {
+  constructor(props) {
+    super(props);
 
-const createTextField = (type, text) => {
-  switch (type) {
-    case 'text':
-      return (
-        <Text
-          style={styles.textAreaContents}
-          textBreakStrategy="simple"
-        >
-          {text}
-        </Text>
-      );
-    case 'balance':
-      return (
-        <View style={styles.balanceTextArea}>
-          <Text style={styles.balanceText}>{text}</Text>
-          <Text style={styles.balanceTextUnit}>BOS</Text>
+    this.state = {
+
+    };
+
+    this.createTextField = this.createTextField.bind(this);
+    this.createOption = this.createOption.bind(this);
+  }
+
+  createOption() {
+    const { option, doAction } = this.props;
+    const { type, callback } = option;
+    switch (type) {
+      case Options.QR_CODE:
+        return (
+          <TouchableOpacity
+            style={styles.areaOption}
+            onPress={() => {
+              doAction(NavAction.pushScreen(NavAction.Screens.QR_SCAN));
+            }}
+          >
+            <Image style={styles.optionIcon} source={icQR} />
+          </TouchableOpacity>
+        );
+      default:
+        return null;
+    }
+  }
+
+  createTextField() {
+    const { type, text } = this.props;
+
+    switch (type) {
+      case 'text':
+        return (
+          <Text
+            style={styles.textAreaContents}
+            textBreakStrategy="simple"
+          >
+            {text}
+          </Text>
+        );
+      case 'balance':
+        return (
+          <View style={styles.balanceTextArea}>
+            <Text style={styles.balanceText}>{text}</Text>
+            <Text style={styles.balanceTextUnit}>BOS</Text>
+          </View>
+        );
+      default:
+        return (<Text style={styles.textAreaContents}>{text}</Text>);
+    }
+  }
+
+  render() {
+    const {
+      label,
+      lableColor,
+      option,
+      underline,
+    } = this.props;
+
+    return (
+      <View
+        style={[
+          styles.textArea,
+          underline ? null : styles.noUnderline,
+        ]}
+      >
+        <View style={styles.textAreaHead}>
+          <Text style={[styles.textAreaTitle, { color: lableColor }]}>{label}</Text>
+          {option ? this.createOption() : null}
         </View>
-      );
-    default:
-      return (<Text style={styles.textAreaContents}>{text}</Text>);
+        {this.createTextField()}
+      </View>
+    );
   }
-};
-
-const TextArea = ({
-  label,
-  lableColor,
-  option,
-  type,
-  text,
-  underline,
-}) => (
-  <View
-    style={[
-      styles.textArea,
-      underline ? null : styles.noUnderline,
-    ]}
-  >
-    <View style={styles.textAreaHead}>
-      <Text style={[styles.textAreaTitle, { color: lableColor }]}>{label}</Text>
-      { option ? createOption(option) : null }
-    </View>
-    {createTextField(type, text)}
-  </View>
-);
+}
 
 TextArea.propTypes = {
   label: PropTypes.oneOfType(PropTypes.string, PropTypes.element),
@@ -89,5 +114,9 @@ TextArea.defaultProps = {
   type: 'text',
 };
 
-export { TextArea, Options };
-export default TextArea;
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+const connected = connect(null, mapDispatchToProps, null, { withRef: true })(TextArea);
+export { connected as TextArea, Options };
