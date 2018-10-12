@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 import styles from '../styles';
 
