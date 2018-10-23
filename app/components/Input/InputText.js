@@ -19,9 +19,11 @@ class InputText extends React.Component {
   constructor(props) {
     super(props);
 
+    const { value } = props;
+
     this.state = {
       text: '',
-      isIconVisible: false,
+      isIconVisible: value ? Boolean(value) : false,
     };
 
     this.setIconVisible = this.setIconVisible.bind(this);

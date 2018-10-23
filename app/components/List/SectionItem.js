@@ -22,6 +22,7 @@ const SectionItem = ({ item, index, section }) => {
         <OptionTextItem
           text={data.text}
           value={data.value}
+          action={data.action}
         />
       );
       break;

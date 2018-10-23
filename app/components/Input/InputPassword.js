@@ -9,7 +9,7 @@ import styles from './styles';
 import icEye from '../../resources/images/eye.png';
 import icEyeOff from '../../resources/images/eye_off.png';
 import { colors } from '../../resources';
-import { ComponentText } from '../../resources/strings';
+import { ComponentText } from '../../resources/strings/ko';
 import { NotiPanel } from '../Panel';
 
 // const InputPassword = ({ label, placeholder }) => (
@@ -98,7 +98,9 @@ class InputPassword extends React.Component {
     return (
       <View style={{ alignItems: 'center' }}>
         <View style={styles.input}>
-          <Text style={styles.inputTitle}>{label}</Text>
+          <View style={styles.inputHead}>
+            <Text style={styles.inputTitle}>{label}</Text>
+          </View>
           <View style={styles.inputArea}>
             <TextInput
               {...this.props}

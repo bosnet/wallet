@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   Share,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 
@@ -18,6 +19,7 @@ import { BottomButton } from '../../components/Button';
 import { TextArea, LabelText } from '../../components/Text';
 import { colors } from '../../resources';
 import { QRPanel } from '../../components/Panel';
+import { getSecureKey } from '../../libs/KeyGenerator';
 
 import imgQR from '../../resources/images/qr.png';
 
@@ -26,15 +28,38 @@ class AccountCreated extends React.Component {
     super(props);
 
     const { navigation } = this.props;
+    const option = navigation.getParam('option', null);
+    const keyText = (option === 'showSecureKey') ? '보안키' : '복구키';
 
     this.state = {
       key: navigation.getParam('key', ''),
+      keyText,
       name: navigation.getParam('name', ''),
+      backFrom: navigation.getParam('backFrom', null),
+      option,
     };
+
+    if (option === 'showSecureKey') this.setSecureKey();
+  }
+
+  setSecureKey() {
+    const { navigation } = this.props;
+    const account = navigation.getParam('account', null);
+    const password = navigation.getParam('prevPassword', null);
+
+    if (account) {
+      getSecureKey(account.secretSeed, password).then((key) => {
+        this.setState({
+          key,
+          name: account.name,
+        });
+      });
+    }
   }
 
   render() {
-    const { key, name } = this.state;
+    const { key, keyText, name, backFrom, option } = this.state;
+    const { settings } = this.props;
 
     return (
       <View style={styles.container}>
@@ -43,11 +68,11 @@ class AccountCreated extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '복구키 백업',
+              title: `${keyText} 백업`,
             },
             right: {
               actionText: '닫기',
-              action: Navigation.resetScreen(Navigation.Screens.HOME),
+              action: backFrom ? Navigation.backScreen(backFrom) : Navigation.resetScreen(Navigation.Screens.HOME),
             },
           }}
         />
@@ -56,7 +81,11 @@ class AccountCreated extends React.Component {
           showsVerticalScrollIndicator={false}
         >
           <Text style={[styles.layoutHead, styles.headText, { marginBottom: 0 }]}>
-            {'안전한 곳에 복구키를 보관해주세요\n복구키는 비밀번호와 함께 보관해 주세요'}
+            {
+              (option === 'showSecureKey')
+                ? '안전한 곳에 복구키를 보관해주세요\n복구키는 비밀번호와 함께 보관해 주세요'
+                : '안전한 곳에 보안키를 보관해주세요'
+            }
           </Text>
           <View style={styles.section}>
             <TextArea
@@ -75,10 +104,11 @@ class AccountCreated extends React.Component {
               value={key}
             />
           </View>
+          <View style={styles.filler} />
           <BottomButton
             actions={[
               {
-                text: '복구키 저장',
+                text: `${keyText} 저장`,
                 callback: () => {
                   Share.share({ message: key });
                 },
@@ -102,4 +132,11 @@ AccountCreated.navigationOptions = {
   header: null,
 };
 
-export default AccountCreated;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountCreated);

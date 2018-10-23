@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 14,
-    color: colors.itemTextBlack,
     fontFamily: 'SpoqaHanSans-Regular',
   },
   itemArrow: {
@@ -100,6 +99,9 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.buttonBorderGray,
     borderBottomWidth: 1,
     marginBottom: 9,
+  },
+  addressItem: {
+    minHeight: 120,
   },
   accountName: {
     fontFamily: 'SpoqaHanSans-Regular',

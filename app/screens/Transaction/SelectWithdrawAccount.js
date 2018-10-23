@@ -8,6 +8,7 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BottomButton } from '../../components/Button';
 import { TextArea } from '../../components/Text';
 import { colors, types } from '../../resources';
+import { Navigation as NavAction } from '../../actions';
 
 const SelectWithdrawAccount = () => (
   <View style={styles.container}>
@@ -20,6 +21,7 @@ const SelectWithdrawAccount = () => (
         },
         right: {
           actionText: '취소',
+          action: NavAction.popScreen(),
         },
       }}
     />
@@ -41,7 +43,7 @@ const SelectWithdrawAccount = () => (
           underline={false}
         />
         <TextArea
-          label="보낸금액"
+          label="출금 가능 금액"
           text="3,100,000,000.2345678"
           type={types.TextArea.BALACNE}
           underline={false}

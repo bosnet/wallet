@@ -2,7 +2,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { RootNavigator } from '../AppNavigator';
 import { Navigation } from '../actions';
 
-const homeAction = RootNavigator.router.getActionForPathAndParams(Navigation.Screens.INDEXPAGE);
+const homeAction = RootNavigator.router.getActionForPathAndParams(Navigation.Screens.HOME);
 const initialNavState = RootNavigator.router.getStateForAction(
   homeAction,
 );
@@ -14,6 +14,7 @@ function navigation(state = initialNavState, action) {
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.navigate({
           routeName: action.routeName,
+          key: action.key,
           params: action.params,
         }),
         state,
@@ -41,7 +42,11 @@ function navigation(state = initialNavState, action) {
           index: 1,
           actions: [
             NavigationActions.navigate({ routeName: Navigation.Screens.INDEXPAGE }), // 추후 삭제예정
-            NavigationActions.navigate({ routeName: action.routeName, params: action.params }),
+            NavigationActions.navigate({
+              routeName: action.routeName,
+              key: action.key,
+              params: action.params,
+            }),
           ],
         }),
         state,

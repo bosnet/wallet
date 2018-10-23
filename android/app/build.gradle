@@ -157,6 +157,7 @@ dependencies {
     }
 
     implementation project(':react-native-firebase')
+    implementation project(':react-native-splash-screen')
 
     // Firebase dependencies
     implementation "com.google.android.gms:play-services-base:15.0.1"

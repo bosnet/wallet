@@ -14,7 +14,7 @@ const Navigation = {
     ADDRESSBOOK: 'AddressBook',
     MODIFY_ADDRESS: 'ModifyAddress',
     RECEIVE_BALANCE: 'ReceiveBalance',
-    AUTH_CHANGE_PASSWORD: 'AuthChangePassword',
+    AUTH_PASSWORD: 'AuthChangePassword',
     SET_PASSWORD: 'SetPassword',
     REFERRER: 'Referrer',
     SELECT_IMPORT_TYPE: 'SelectImportType',
@@ -37,6 +37,9 @@ const Navigation = {
     INTRO_MEMBERSHIP: 'IntroMembership',
     AGREEMENT: 'Agreement',
     ACCOUNT_CREATED: 'AccountCreated',
+    SELECT_LANGUAGE: 'SelectLanguage',
+    CHANGE_ACCOUNT_NAME: 'ChangeAccountName',
+    BEFORE_TRANSACTION: 'BeforeTransaction',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
@@ -47,6 +50,7 @@ const Navigation = {
 Navigation.pushScreen = (screenName, params) => ({
   type: Navigation.NAV_PUSH,
   routeName: screenName,
+  key: screenName,
   params,
 });
 
@@ -58,10 +62,11 @@ Navigation.popScreen = (count = 1) => ({
 Navigation.resetScreen = (screenName, params) => ({
   type: Navigation.NAV_RESET,
   routeName: screenName,
+  key: screenName,
   params,
 });
 
-Navigation.backScreenTo = screenName => ({
+Navigation.backScreen = screenName => ({
   type: Navigation.NAV_BACK,
   routeName: screenName,
 });

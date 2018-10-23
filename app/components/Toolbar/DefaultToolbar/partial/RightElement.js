@@ -28,7 +28,9 @@ const createActionArea = (theme, data, onPress) => (
 
 const RightElement = ({ theme, data, onPress }) => (
   <View style={[styles.toolbarElement, styles.rightElement]}>
-    { (data && data.actionText) ? createActionArea(theme, data, onPress(data.action)) : null}
+    { (data && data.actionText)
+      ? createActionArea(theme, data, data.action ? onPress(data.action) : null)
+      : null}
   </View>
 );
 

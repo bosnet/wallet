@@ -43,17 +43,29 @@ class QRScan extends React.Component {
             }
           }}
         >
-          <Text style={[styles.layoutHead, styles.headText]}>
-            바코드를 사각형 안에 비춰주세요
-          </Text>
-          <View style={styles.centerLayout}>
-            <Image
-              source={imgFace}
-              resizeMode="contain"
-              style={{ width: 292 }}
-            />
-          </View>
-
+          {({ camera, status }) => {
+            if (status === 'NOT_AUTHORIZED') {
+              goBack();
+              return <View />;
+            }
+            
+            return (
+              <View
+                style={{ flex: 1 }}
+              >
+                <Text style={[styles.layoutHead, styles.headText]}>
+                  바코드를 사각형 안에 비춰주세요
+                </Text>
+                <View style={styles.centerLayout}>
+                  <Image
+                    source={imgFace}
+                    resizeMode="contain"
+                    style={{ width: 292 }}
+                  />
+                </View>
+              </View>
+            );
+          }}
         </RNCamera>
       </View>
     );

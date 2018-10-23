@@ -126,7 +126,7 @@ const HomeScreen = () => (
             },
             {
               key: '23. 거래내역 > 관리 > 비밀번호 변경 - 비밀번호 인증',
-              action: Navigation.pushScreen(Navigation.Screens.AUTH_CHANGE_PASSWORD),
+              action: Navigation.pushScreen(Navigation.Screens.AUTH_PASSWORD),
             },
             {
               key: '27. 거래내역 > 관리 > 보안키 확인 - 보안키 유출 주의',

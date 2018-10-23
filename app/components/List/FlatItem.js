@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DefaultItem, TransactionItem, AccountItem } from './Items';
+import { DefaultItem, TransactionItem, AccountItem, AddressItem } from './Items';
 import { types } from '../../resources';
+import { TextArea } from '../Text';
 
 const FlatItem = ({ item }) => {
   let result = null;
@@ -10,7 +11,9 @@ const FlatItem = ({ item }) => {
       result = (
         <DefaultItem
           text={item.key}
+          textColor={item.textColor}
           action={item.action}
+          onPress={item.onPress}
         />
       );
       break;
@@ -32,11 +35,34 @@ const FlatItem = ({ item }) => {
         />
       );
       break;
+    case types.ListItem.TEXTAREA:
+      result = (
+        <TextArea
+          key={item.listKey}
+          label={item.name}
+          text={item.address}
+        />
+      );
+      break;
+    case types.ListItem.ADDRESS:
+      result = (
+        <AddressItem
+          key={item.listKey}
+          id={`item${item.listKey}`}
+          address={item.address}
+          addItem={item.addItem}
+          resetAllItem={item.resetAllItem}
+          removeItem={item.removeItem}
+        />
+      );
+      break;
     default:
       result = (
         <DefaultItem
           text={item.key}
+          textColor={item.textColor}
           action={item.action}
+          onPress={item.onPress}
         />
       );
   }

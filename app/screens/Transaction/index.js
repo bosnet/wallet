@@ -14,6 +14,8 @@ import TransactionList from './TransactionList';
 import TransactionList1 from './TransactionList1'; // UI 확인용
 import TransactionList2 from './TransactionList2'; // UI 확인용
 import TransactionList3 from './TransactionList3'; // UI 확인용
+import ChangeAccountName from './ChangeAccountName';
+import BeforeTransaction from './BeforeTransaction';
 
 export {
   ManageScreen,
@@ -32,4 +34,6 @@ export {
   TransactionList1,
   TransactionList2,
   TransactionList3,
+  ChangeAccountName,
+  BeforeTransaction,
 };

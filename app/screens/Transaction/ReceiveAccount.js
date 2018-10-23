@@ -7,18 +7,21 @@ import { colors } from '../../resources';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
-import { InputAccounts } from './ReceiveAccountTabs';
+import { InputAccounts, MyAccounts, AddressBook } from './ReceiveAccountTabs';
+import { Navigation as NavAction } from '../../actions';
 
 const FirstRoute = () => (
-  <View style={[styles.container, { backgroundColor: '#ff4081' }]} />
+  <View style={[styles.container, { backgroundColor: '#ffffff' }]} />
 );
 const SecondRoute = () => (
-  <View style={[styles.container, { backgroundColor: '#673ab7' }]} />
+  <View style={[styles.container, { backgroundColor: '#ffffff' }]} />
 );
 
 export default class TabViewExample extends React.Component {
   constructor(props) {
     super(props);
+
+    const { navigation } = this.props;
 
     this.state = {
       index: 0,
@@ -27,10 +30,13 @@ export default class TabViewExample extends React.Component {
         { key: 'addressBook', title: '주소록' },
         { key: 'inputAddress', title: '직접입력' },
       ],
+      callback: navigation.getParam('callback', null),
     };
   }
 
   render() {
+    const { callback } = this.state;
+
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.PURPLE} />
@@ -42,16 +48,41 @@ export default class TabViewExample extends React.Component {
             },
             right: {
               actionText: '취소',
+              action: NavAction.popScreen(),
             },
           }}
         />
         <TabView
           navigationState={this.state}
-          renderScene={SceneMap({
-            myAccount: FirstRoute,
-            addressBook: SecondRoute,
-            inputAddress: InputAccounts,
-          })}
+          // renderScene={SceneMap({
+          //   myAccount: FirstRoute,
+          //   addressBook: SecondRoute,
+          //   inputAddress: InputAccounts,
+          // })}
+          renderScene={({ route }) => {
+            switch (route.key) {
+              case 'myAccount':
+                return (
+                  <MyAccounts
+                    callback={callback}
+                  />
+                );
+              case 'addressBook':
+                return (
+                  <AddressBook
+                    callback={callback}
+                  />
+                );
+              case 'inputAddress':
+                return (
+                  <InputAccounts
+                    callback={callback}
+                  />
+                );
+              default:
+                return null;
+            }
+          }}
           renderTabBar={props => (
             <TabBar
               {...props}

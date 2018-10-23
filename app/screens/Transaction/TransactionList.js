@@ -3,7 +3,9 @@ import {
   View,
   Text,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { colors, types } from '../../resources';
@@ -12,43 +14,67 @@ import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBa
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BalancePanel } from '../../components/Panel';
 import { PanelButton, LongButton } from '../../components/Button';
+import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
+import { retrieveAccount, retrieveTransactions } from '../../libs/Transactions';
 import { ItemList } from '../../components/List';
 
-const TransactionList = ({ navigation }) => {
-  const account = navigation.getParam('account', null);
+class TransactionList extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <View style={styles.container}>
-      <AppStatusBar theme={StatusBarTheme.WHITE} />
-      <DefaultToolbar
-        theme={DefaultToolbarTheme.WHITE}
-        data={{
-          left: {
-            hasArrow: true,
-            title: account ? account.name : '',
-          },
-          right: {
-            actionText: '관리',
-          },
-        }}
-      />
-      <ScrollView
-        contentContainerStyle={styles.alignCenter}
-        showsVerticalScrollIndicator={false}
-      >
-        <BalancePanel
-          text={account.amount ? account.amount : 0}
-        />
-        <PanelButton
-          buttons={[
-            {
-              text: '보내기',
-            },
-            {
-              text: '받기',
-            },
-          ]}
-        />
+    const { navigation, accounts } = this.props;
+    const account = navigation.getParam('account', null);
+
+    this.state = {
+      isLoaded: false,
+      account,
+      transactions: [],
+    };
+
+    this.renderNotValid = this.renderNotValid.bind(this);
+    this.updateAccountData = this.updateAccountData.bind(this);
+  }
+
+  componentDidMount() {
+    const { updateFlags, doAction } = this.props;
+
+    doAction(AccountsAction.addUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
+    this.updateAccountData();
+  }
+
+  componentWillUnmount() {
+    const { updateFlags, doAction } = this.props;
+    doAction(AccountsAction.removeUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
+  }
+
+  updateAccountData(updateFlag) {
+    const { account, transactions } = this.state;
+    const { navigation, accounts, doAction } = this.props;
+
+    doAction(AccountsAction.setUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
+
+    retrieveAccount(account.address)
+      .then((data) => {
+        let storedData = accounts[account.index];
+        storedData.index = account.index;
+        storedData.balance = data.balance;
+
+        this.setState({
+          account: storedData,
+          isLoaded: true,
+        });
+      });
+
+    retrieveTransactions(account.address)
+      .then((data) => {
+        ToastAndroid.show(JSON.stringify(data), ToastAndroid.LONG);
+      });
+  }
+
+  renderNotValid() {
+    const { account } = this.state;
+    return (
+      <View>
         <Text
           style={[
             styles.layoutHead,
@@ -65,14 +91,98 @@ const TransactionList = ({ navigation }) => {
           text="0.1 BOS 받기"
           backgroundColor={colors.buttonWhite}
           textColor={colors.buttonTextPurple}
+          action={NavAction.pushScreen(NavAction.Screens.RECEIVE_BALANCE, { account })}
         />
-      </ScrollView>
-    </View>
-  );
-};
+      </View>
+    );
+  }
+
+  renderTransactionList() {
+    const { account } = this.state;
+    return (
+      <ItemList
+        listType={types.ListType.FLAT}
+        listData={{
+          data: [
+            {
+              title: '계좌 생성',
+              accountName: 'Account 001 G4L',
+              date: '2018.02.28   13:47',
+              textColor: colors.itemTextBlue,
+              amount: '-538',
+              type: types.ListItem.TRANSACTION,
+              key: '2',
+            },
+          ],
+        }}
+      />
+    );
+  }
+
+  render() {
+    const { account, isLoaded } = this.state;
+    const { pushScreen, updateFlags, doAction } = this.props;
+
+    if (updateFlags[NavAction.Screens.TRANSACTION_LIST]) { // Need Update
+      doAction(AccountsAction.setUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
+      this.updateAccountData();
+    }
+
+    return (
+      <View style={styles.container}>
+        <AppStatusBar theme={StatusBarTheme.WHITE} />
+        <DefaultToolbar
+          theme={DefaultToolbarTheme.WHITE}
+          data={{
+            left: {
+              hasArrow: true,
+              title: account ? account.name : '',
+            },
+            right: {
+              actionText: '관리',
+              action: NavAction.pushScreen(NavAction.Screens.TRANSACTION_MANAGE, { account }),
+            },
+          }}
+        />
+        <ScrollView
+          contentContainerStyle={styles.alignCenter}
+          showsVerticalScrollIndicator={false}
+        >
+          <BalancePanel
+            text={account.balance ? account.balance : 0}
+          />
+          <PanelButton
+            buttons={[
+              {
+                text: '보내기',
+                onPress: () => pushScreen(NavAction.Screens.SEND_BALANCE, { account }),
+              },
+              {
+                text: '받기',
+                onPress: () => pushScreen(NavAction.Screens.RECEIVE_BALANCE, { account }),
+              },
+            ]}
+          />
+          {account.balance <= 0 ? this.renderNotValid() : null}
+        </ScrollView>
+      </View>
+    );
+  }
+}
 
 TransactionList.navigationOptions = {
   header: null,
 };
 
-export default TransactionList;
+const mapStateToProps = state => ({
+  accounts: state.accounts.list,
+  updateFlag: state.accounts.updateFlag,
+  updateFlags: state.accounts.updateFlags,
+});
+
+const mapDispatchToProps = dispatch => ({
+  pushScreen: (screen, params) => dispatch(NavAction.pushScreen(screen, params)),
+  doAction: action => dispatch(action),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionList);

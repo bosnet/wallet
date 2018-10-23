@@ -6,8 +6,13 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 
-const IconButton = ({ icon, label }) => (
-  <TouchableOpacity style={styles.iconButton}>
+const IconButton = ({ icon, label, callback }) => (
+  <TouchableOpacity
+    style={styles.iconButton}
+    onPress={() => {
+      if (callback) callback();
+    }}
+  >
     <Image style={styles.icon} source={icon} />
     <Text style={styles.iconText}>{label}</Text>
   </TouchableOpacity>

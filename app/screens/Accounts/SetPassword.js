@@ -17,9 +17,9 @@ import { BottomButton } from '../../components/Button';
 import { NotiPanel } from '../../components/Panel';
 import { InputPassword } from '../../components/Input';
 import { colors } from '../../resources';
-import { Accounts } from '../../resources/strings';
+import { Accounts } from '../../resources/strings/ko';
 
-import { createAccountAsync, createRestoreKeyAsync } from '../../libs/KeyGenerator';
+import { createAccountAsync, createRestoreKeyAsync, createRestoreKey, changeRestoreKey } from '../../libs/KeyGenerator';
 import AppStorage from '../../libs/AppStorage';
 
 const Strings = Accounts.SetPassword;
@@ -56,12 +56,18 @@ const validate = (text) => {
   return true;
 };
 
+const MODE_CREATE = 'create';
+const MODE_CHANGE = 'change';
 
 class SetPassword extends React.Component {
   constructor(props) {
     super(props);
 
+    const { navigation } = this.props;
+    const mode = navigation.getParam('mode', MODE_CREATE);
+
     this.state = {
+      mode,
       input1: {
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
@@ -183,8 +189,8 @@ class SetPassword extends React.Component {
   }
 
   callbackBottomButton() {
-    const { onAlertOk, addAccount, navigation, accountList } = this.props;
-
+    const { onAlertOk, addAccount, changePassword, navigation, accountList } = this.props;
+    const { mode } = this.state;
     if (!this.validatePasswords()) {
       Alert.alert(
         '',
@@ -198,76 +204,165 @@ class SetPassword extends React.Component {
     }
 
     const getSecureKey = navigation.getParam('getSecureKey');
-    if (!getSecureKey) {
-      createAccountAsync(this.input1.getWrappedInstance().getText()).then((account) => {
-        addAccount({
-          name: account.name,
-          address: account.address,
-        });
-
-        AppStorage.saveAccountAsync(accountList)
-          .then(() => {
-            Alert.alert(
-              '비밀번호 설정 완료',
-              '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
-              [{
-                text: '확인',
-                onPress: () => {
-                  onAlertOk(
-                    NavAction.pushScreen(
-                      NavAction.Screens.ACCOUNT_CREATED,
-                      {
-                        name: account.name,
-                        key: account.secretSeed,
-                      },
-                    ),
-                  );
-                },
-              }],
-              { cancelable: false },
-            );
-          })
-          .catch(() => {
-            ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
-          });
-      });
-    } else {
-      createRestoreKeyAsync(getSecureKey(), this.input1.getWrappedInstance().getText())
-        .then((account) => {
-          addAccount({
-            name: account.name,
-            address: account.address,
-          });
-
-          AppStorage.saveAccountAsync(accountList)
-            .then(() => {
-              Alert.alert(
-                '비밀번호 설정 완료',
-                '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
-                [{
-                  text: '확인',
-                  onPress: () => {
-                    onAlertOk(
-                      NavAction.pushScreen(
-                        NavAction.Screens.ACCOUNT_CREATED,
-                        {
-                          name: account.name,
-                          key: account.secretSeed,
-                        },
-                      ),
-                    );
-                  },
-                }],
-                { cancelable: false },
-              );
-            })
-            .catch(() => {
-              ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+    if (mode === MODE_CREATE) {
+      if (!getSecureKey) {
+        createAccountAsync(this.input1.getWrappedInstance().getText())
+          .then((account) => {
+            addAccount({
+              name: account.name,
+              address: account.address,
+              secretSeed: account.secretSeed,
             });
-        })
-        .catch((/* error */) => {
-          ToastAndroid.show('올바르지 않은 키입니다.', ToastAndroid.SHORT);
-        });
+
+            AppStorage.saveAccountAsync(accountList)
+              .then(() => {
+                Alert.alert(
+                  '비밀번호 설정 완료',
+                  '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                  [{
+                    text: '확인',
+                    onPress: () => {
+                      onAlertOk(
+                        NavAction.pushScreen(
+                          NavAction.Screens.ACCOUNT_CREATED,
+                          {
+                            name: account.name,
+                            key: account.secretSeed,
+                          },
+                        ),
+                      );
+                    },
+                  }],
+                  { cancelable: false },
+                );
+              })
+              .catch(() => {
+                ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+              });
+          });
+      } else {
+        createRestoreKeyAsync(getSecureKey(), this.input1.getWrappedInstance().getText())
+          .then((account) => {
+            if (accountList.findIndex(element => element.address === account.address) > -1) {
+              ToastAndroid.show('이미 등록된 키 입니다.', ToastAndroid.SHORT);
+              return;
+            }
+
+            addAccount({
+              name: account.name,
+              address: account.address,
+              secretSeed: account.secretSeed,
+            });
+
+            AppStorage.saveAccountAsync(accountList)
+              .then(() => {
+                Alert.alert(
+                  '비밀번호 설정 완료',
+                  '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                  [{
+                    text: '확인',
+                    onPress: () => {
+                      onAlertOk(
+                        NavAction.pushScreen(
+                          NavAction.Screens.ACCOUNT_CREATED,
+                          {
+                            name: account.name,
+                            key: account.secretSeed,
+                          },
+                        ),
+                      );
+                    },
+                  }],
+                  { cancelable: false },
+                );
+              })
+              .catch(() => {
+                ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+              });
+          })
+          .catch((/* error */) => {
+            ToastAndroid.show('올바르지 않은 키입니다.', ToastAndroid.SHORT);
+          });
+      }
+    }
+
+    if (mode === MODE_CHANGE) {
+      const account = navigation.getParam('account', null);
+
+      if (account) {
+        if (!getSecureKey) {
+          const prevPassword = navigation.getParam('prevPassword', null);
+          changeRestoreKey(account, prevPassword, this.input1.getWrappedInstance().getText())
+            .then((result) => {
+              changePassword(account.index, result.secretSeed);
+
+              AppStorage.saveAccountAsync(accountList)
+                .then(() => {
+                  Alert.alert(
+                    '비밀번호 설정 완료',
+                    '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                    [{
+                      text: '확인',
+                      onPress: () => {
+                        onAlertOk(
+                          NavAction.pushScreen(
+                            NavAction.Screens.ACCOUNT_CREATED,
+                            {
+                              name: result.name,
+                              key: result.secretSeed,
+                              backFrom: NavAction.Screens.AUTH_PASSWORD,
+                            },
+                          ),
+                        );
+                      },
+                    }],
+                    { cancelable: false },
+                  );
+                })
+                .catch(() => {
+                  ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+                });
+            })
+            .catch((/* error */) => {
+              ToastAndroid.show('계정정보가 잘못되었습니다.', ToastAndroid.SHORT);
+            });
+        } else {
+          createRestoreKey(getSecureKey(), this.input1.getWrappedInstance().getText())
+            .then((secretSeed) => {
+              changePassword(account.index, secretSeed);
+
+              AppStorage.saveAccountAsync(accountList)
+                .then(() => {
+                  Alert.alert(
+                    '비밀번호 설정 완료',
+                    '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                    [{
+                      text: '확인',
+                      onPress: () => {
+                        onAlertOk(
+                          NavAction.pushScreen(
+                            NavAction.Screens.ACCOUNT_CREATED,
+                            {
+                              name: account.name,
+                              key: secretSeed,
+                              backFrom: NavAction.Screens.AUTH_PASSWORD,
+                            },
+                          ),
+                        );
+                      },
+                    }],
+                    { cancelable: false },
+                  );
+                })
+                .catch(() => {
+                  ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
+                });
+            })
+            .catch((/* error */) => {
+              ToastAndroid.show('계정정보가 잘못되었습니다.', ToastAndroid.SHORT);
+            });
+        }
+      }
     }
   }
 
@@ -354,6 +449,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onAlertOk: action => dispatch(action),
   addAccount: account => dispatch(AccountsAction.addAccount(account)),
+  changePassword: (index, secretSeed) => dispatch(AccountsAction.changePassword(index, secretSeed)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetPassword);

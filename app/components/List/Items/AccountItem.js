@@ -61,7 +61,7 @@ const AccountItem = ({
     </View>
     {isFreezing(false)}
     <View style={styles.accountItemContent}>
-      <Text style={styles.accountBalance}>{account.amount ? account.amount : 0}</Text>
+      <Text style={styles.accountBalance}>{account.balance !== undefined ? account.balance : ''}</Text>
       <Text style={styles.accountUnit}>BOS</Text>
     </View>
   </TouchableOpacity>

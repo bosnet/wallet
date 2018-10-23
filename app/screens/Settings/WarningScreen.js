@@ -7,6 +7,7 @@ import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBa
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { InfoPager } from '../../components/Pager';
 import { BottomButton } from '../../components/Button';
+import { Navigation as NavAction } from '../../actions';
 
 import icKeep from '../../resources/images/ic_keep.png';
 import icCare from '../../resources/images/ic_care.png';
@@ -19,6 +20,7 @@ const WarningScreen = () => (
       data={{
         right: {
           actionText: '닫기',
+          action: NavAction.popScreen(),
         },
       }}
     />
@@ -48,7 +50,10 @@ const WarningScreen = () => (
     </View>
     <BottomButton
       actions={[
-        { text: '당신만 아는 곳에 꼭꼭 숨겨두세요' },
+        {
+          text: '당신만 아는 곳에 꼭꼭 숨겨두세요',
+          action: NavAction.popScreen(),
+        },
       ]}
     />
   </View>

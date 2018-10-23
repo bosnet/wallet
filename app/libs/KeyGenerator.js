@@ -17,18 +17,35 @@ const checkName = (accountName) => {
 
 const checkAddress = (element, accountAddr) => element.address === accountAddr;
 
+const validatePassword = (account, password) => {
+  try {
+    const secretKey = AES.decrypt(account.secretSeed.slice(3), password);
+    const publicKey = sebakjs.getPublicAddress(secretKey.toString(CryptoJS.enc.Utf8));
+    return publicKey === account.address;
+  } catch (e) {
+    return false;
+  }
+};
+
+const validateSecretKey = (account, secretKey) => {
+  try {
+    const publicKey = sebakjs.getPublicAddress(secretKey);
+    return publicKey === account.address;
+  } catch (e) {
+    return false;
+  }
+};
+
 const createAccountAsync = async (password) => {
   const keypair = sebakjs.generate();
 
   const publicKey = keypair.address;
   const secretKey = keypair.seed;
   // SecretSeed 설정
-  const secretSeed = AES.encrypt(secretKey, password).toString();
+  const secretSeed = `BOS${AES.encrypt(secretKey, password).toString()}`;
 
-  return AppStorage.loadAccountsAsync().then((accountsStr) => {
+  return AppStorage.loadAccountsAsync().then((accounts) => {
     let counter = 1;
-
-    const accounts = JSON.parse(accountsStr);
 
     // Account Name 자동 설정
     let accountName = `Account ${counter}`;
@@ -58,10 +75,8 @@ const createRestoreKeyAsync = async (secretKey, password) => {
   const publicKey = sebakjs.getPublicAddress(secretKey);
   const secretSeed = `BOS${AES.encrypt(secretKey, password).toString()}`;
 
-  return AppStorage.loadAccountsAsync().then((accountsStr) => {
+  return AppStorage.loadAccountsAsync().then((accounts) => {
     let counter = 1;
-
-    const accounts = JSON.parse(accountsStr);
 
     // Account Name 자동 설정
     let accountName = `Account ${counter}`;
@@ -88,13 +103,10 @@ const createRestoreKeyAsync = async (secretKey, password) => {
 
 const getPublicFromRestore = async (resKey, password) => {
   const secretKey = AES.decrypt(resKey.slice(3), password);
-  const keypair = Keypair.fromSecret(secretKey.toString(CryptoJS.enc.Utf8));
-  const publicKey = keypair.publicKey();
+  const publicKey = sebakjs.getPublicAddress(secretKey.toString(CryptoJS.enc.Utf8));
 
-  return AppStorage.loadAccountsAsync().then((accountsStr) => {
+  return AppStorage.loadAccountsAsync().then((accounts) => {
     let counter = 1;
-
-    const accounts = JSON.parse(accountsStr);
 
     // Account Name 자동 설정
     let accountName = `Account ${counter}`;
@@ -119,8 +131,36 @@ const getPublicFromRestore = async (resKey, password) => {
   });
 };
 
+const getSecureKey = async (resKey, password) => {
+  const rawSecretKey = AES.decrypt(resKey.slice(3), password);
+  return rawSecretKey.toString(CryptoJS.enc.Utf8);
+};
+
+const createRestoreKey = async (secretKey, password) => {
+  const secretSeed = `BOS${AES.encrypt(secretKey, password).toString()}`;
+
+  return secretSeed;
+};
+
+const changeRestoreKey = async (account, prevPassword, password) => {
+  const secretKey = AES.decrypt(account.secretSeed.slice(3), prevPassword);
+  const secretSeed = `BOS${AES.encrypt(secretKey, password).toString()}`;
+
+  const result = {
+    name: account.name,
+    address: account.address,
+    secretSeed,
+  };
+  return result;
+};
+
 export {
+  validatePassword,
+  validateSecretKey,
   createAccountAsync,
   createRestoreKeyAsync,
   getPublicFromRestore,
+  createRestoreKey,
+  changeRestoreKey,
+  getSecureKey,
 };

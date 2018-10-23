@@ -18,7 +18,7 @@ import { types, colors } from '../../resources';
 
 import icEmpty from '../../resources/images/empty.png';
 
-const ItemList = ({ listType, listData }) => {
+const ItemList = ({ listType, listData, noDataText }) => {
   const getListByType = () => {
     switch (listType) {
       case types.ListType.FLAT:
@@ -46,8 +46,7 @@ const ItemList = ({ listType, listData }) => {
               icon={icEmpty}
               color={colors.alertTextLightGrey}
               text={
-                '아직 등록된\n'
-                + 'Account가 없습니다'
+                noDataText
               }
             />
           </View>

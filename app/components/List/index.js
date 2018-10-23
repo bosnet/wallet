@@ -1,5 +1,4 @@
 import ItemList from './ItemList';
+import SelectableList from './SelectableList';
 
-const dummy = null;
-
-export { ItemList, dummy };
+export { ItemList, SelectableList };

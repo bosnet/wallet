@@ -4,6 +4,7 @@ import AccountItem from './AccountItem';
 import OptionTextItem from './OptionTextItem';
 import ToggleItem from './ToggleItem';
 import ExLinkItem from './ExLinkItem';
+import AddressItem from './AddressItem';
 
 export {
   DefaultItem,
@@ -12,4 +13,5 @@ export {
   OptionTextItem,
   ToggleItem,
   ExLinkItem,
+  AddressItem,
 };

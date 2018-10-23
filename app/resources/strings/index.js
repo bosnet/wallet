@@ -1,3 +1,12 @@
-import Accounts from './Accounts';
+import ko from './ko';
+import eng from './eng';
 
-export { Accounts };
+const strings = {
+  ko, eng,
+};
+
+export default strings;
+export {
+  ko,
+  eng,
+};

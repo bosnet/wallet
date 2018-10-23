@@ -6,8 +6,13 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 
-const TextButton = ({ text }) => (
-  <TouchableOpacity style={styles.textButton}>
+const TextButton = ({ text, callback }) => (
+  <TouchableOpacity
+    style={styles.textButton}
+    onPress={() => {
+      if (callback) callback();
+    }}
+  >
     <Text style={styles.textButtonContent}>{text}</Text>
   </TouchableOpacity>
 );

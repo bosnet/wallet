@@ -10,7 +10,7 @@ import { colors, types } from '../../resources';
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BalancePanel } from '../../components/Panel';
-import { PanelButton, LongButton } from '../../components/Button';
+import { PanelButton } from '../../components/Button';
 import { ItemList } from '../../components/List';
 
 const TransactionList = () => (

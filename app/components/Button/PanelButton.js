@@ -16,7 +16,11 @@ const createButtons = buttons => buttons.map(
     }
 
     result.push((
-      <TouchableOpacity style={index !== 2 ? styles.pannelButton : styles.pannelButtonLong} key={createKey('button', index)}>
+      <TouchableOpacity
+        style={index !== 2 ? styles.pannelButton : styles.pannelButtonLong}
+        key={createKey('button', index)}
+        onPress={button.onPress}
+      >
         <Text style={styles.panelButtonText}>{button.text}</Text>
       </TouchableOpacity>
     ));

@@ -12,6 +12,7 @@ import {
   AddressBook,
   ModifyAddress,
   MembershipScreen,
+  SelectLanguage,
 } from './screens/Settings';
 
 import {
@@ -48,6 +49,8 @@ import {
   TransactionList1,
   TransactionList2,
   TransactionList3,
+  ChangeAccountName,
+  BeforeTransaction,
 } from './screens/Transaction';
 
 import TestScreen from './screens/TestScreen';
@@ -90,6 +93,9 @@ const router = {
   IntroMembership: { screen: IntroMembership },
   Agreement: { screen: Agreement },
   AccountCreated: { screen: AccountCreated },
+  SelectLanguage: { screen: SelectLanguage },
+  ChangeAccountName: { screen: ChangeAccountName },
+  BeforeTransaction: { screen: BeforeTransaction },
 };
 
 export default router;

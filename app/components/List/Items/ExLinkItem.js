@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, Image, TouchableOpacity,
+  View, Text, Image, TouchableOpacity, Linking,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -9,15 +9,22 @@ import arrow from '../../../resources/images/arrow.png';
 import icExlink from '../../../resources/images/external_link.png';
 
 const ExLinkItem = ({ text, value }) => (
-  <View style={styles.listItem}>
+  <TouchableOpacity
+    style={styles.listItem}
+    onPress={() => {
+      Linking.openURL(value);
+    }}
+  >
     <Text style={styles.itemText}>
       {text}
     </Text>
-    <TouchableOpacity style={styles.rowDirection}>
+    <View
+      style={styles.rowDirection}
+    >
       <Image style={styles.exLinkIcon} source={icExlink} />
       <Image style={styles.itemArrow} source={arrow} />
-    </TouchableOpacity>
-  </View>
+    </View>
+  </TouchableOpacity>
 );
 
 ExLinkItem.propTypes = {

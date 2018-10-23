@@ -96,7 +96,7 @@ class TextArea extends React.Component {
 }
 
 TextArea.propTypes = {
-  label: PropTypes.oneOfType(PropTypes.string, PropTypes.element),
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   option: PropTypes.shape({
     type: PropTypes.string,
   }),

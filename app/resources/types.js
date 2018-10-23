@@ -13,6 +13,8 @@ const Types = {
     TRANSACTION: 'transaction',
     ACCOUNT: 'account',
     EX_LINK: 'externalLik',
+    ADDRESS: 'address',
+    TEXTAREA: 'textArea',
   },
   TextArea: {
     TEXT: 'text',

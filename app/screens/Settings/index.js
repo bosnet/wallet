@@ -4,6 +4,7 @@ import WarningScreen from './WarningScreen';
 import SortAccounts from './SortAccounts';
 import AddressBook from './AddressBook';
 import ModifyAddress from './ModifyAddress';
+import SelectLanguage from './SelectLanguage';
 
 export {
   SettingsScreen,
@@ -12,4 +13,5 @@ export {
   SortAccounts,
   AddressBook,
   ModifyAddress,
+  SelectLanguage,
 };

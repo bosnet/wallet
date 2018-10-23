@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {
+  View,
+  Text,
+  Clipboard,
+  ToastAndroid,
+  Share,
+} from 'react-native';
 
 import styles from '../styles';
 
@@ -9,62 +15,92 @@ import { BottomButton } from '../../components/Button';
 import { TextArea, LabelText } from '../../components/Text';
 import { colors } from '../../resources';
 import { QRPanel } from '../../components/Panel';
+import { Navigation as NavAction } from '../../actions';
 
-import imgQR from '../../resources/images/qr.png';
+class ReceiveBalance extends React.Component {
+  constructor(props) {
+    super(props);
 
-const ReceiveBalance = () => (
-  <View style={styles.container}>
-    <AppStatusBar theme={StatusBarTheme.PURPLE} />
-    <DefaultToolbar
-      theme={DefaultToolbarTheme.PURPLE}
-      data={{
-        center: {
-          title: '받기',
-        },
-        right: {
-          actionText: '닫기',
-        },
-      }}
-    />
-    <View style={styles.defaultLayout}>
-      <View style={styles.section}>
-        <TextArea
-          label={(
-            <Text>
-              <Text style={{ fontWeight: 'bold' }}>어카운트이름기호</Text>
-              <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
-              <Text style={{ fontWeight: 'bold' }}>공개 주소</Text>
-            </Text>
-          )}
-          lableColor={colors.labelTextBlack}
-          text="GBMILVZZSNAJ6KS2VXAWHNOYBJE2VUACRCKRHS4KLVQJAAN74MC5GDAUSD5XCNRRI6GJFH72V6HEOKE7EUBSSXOFKOUHCULWUCANUX24IYNX4ENH"
-          underline={false}
+    const { navigation } = this.props;
+
+    this.state = {
+      account: navigation.getParam('account', null),
+    };
+  }
+
+  render() {
+    const { account } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <AppStatusBar theme={StatusBarTheme.PURPLE} />
+        <DefaultToolbar
+          theme={DefaultToolbarTheme.PURPLE}
+          data={{
+            center: {
+              title: '받기',
+            },
+            right: {
+              actionText: '닫기',
+              action: NavAction.popScreen(),
+            },
+          }}
+        />
+        <View style={styles.defaultLayout}>
+          <View style={styles.section}>
+            <TextArea
+              label={(
+                <Text>
+                  <Text style={{ fontWeight: 'bold' }}>어카운트이름기호</Text>
+                  <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
+                  <Text style={{ fontWeight: 'bold' }}>공개 주소</Text>
+                </Text>
+              )}
+              lableColor={colors.labelTextBlack}
+              text={(account && account.address) ? account.address : ''}
+              underline={false}
+            />
+          </View>
+          <View style={styles.seperator} />
+          <View style={styles.section}>
+            <LabelText
+              text={(
+                <Text>
+                  <Text style={{ fontWeight: 'bold' }}>어카운트이름기호</Text>
+                  <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
+                  <Text style={{ fontWeight: 'bold' }}>QR CODE</Text>
+                </Text>
+              )}
+            />
+            <QRPanel
+              value={(account && account.address) ? account.address : ''}
+            />
+          </View>
+        </View>
+        <BottomButton
+          actions={[
+            {
+              text: '공유',
+              callback: () => {
+                if (account && account.address) Share.share({ message: account.address });
+              },
+            },
+            {
+              text: '복사',
+              callback: () => {
+                if (account && account.address) {
+                  ToastAndroid.show('클립보드에 복사되었습니다', ToastAndroid.SHORT);
+                  Clipboard.setString(account.address);
+                }
+              },
+            },
+          ]}
         />
       </View>
-      <View style={styles.seperator} />
-      <View style={styles.section}>
-        <LabelText
-          text={(
-            <Text>
-              <Text style={{ fontWeight: 'bold' }}>어카운트이름기호</Text>
-              <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
-              <Text style={{ fontWeight: 'bold' }}>QR CODE</Text>
-            </Text>
-          )}
-        />
-        <QRPanel
-          img={imgQR}
-        />
-      </View>
-    </View>
-    <BottomButton
-      actions={[
-        { text: '공유' },
-        { text: '복사' },
-      ]}
-    />
-  </View>
-);
+    );
+  }
+}
+
 
 ReceiveBalance.navigationOptions = {
   header: null,

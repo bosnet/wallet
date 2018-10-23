@@ -17,7 +17,7 @@ import { InputText, InputTextOptions, InputPassword } from '../../components/Inp
 import { NotiPanel } from '../../components/Panel';
 import { BottomButton } from '../../components/Button';
 import { colors } from '../../resources';
-import { Accounts } from '../../resources/strings';
+import { Accounts } from '../../resources/strings/ko';
 import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
 import { getPublicFromRestore } from '../../libs/KeyGenerator';
 
@@ -222,7 +222,7 @@ class ImportByRestore extends React.Component {
             },
             right: {
               actionText: '취소',
-              action: NavAction.popScreen(),
+              action: NavAction.backScreen(NavAction.Screens.SELECT_IMPORT_TYPE),
             },
           }}
         />

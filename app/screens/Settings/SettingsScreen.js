@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, ToastAndroid } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { types } from '../../resources';
@@ -8,92 +9,102 @@ import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBa
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 
 import { ItemList } from '../../components/List';
+import { Navigation as NavAction } from '../../actions';
+import strings from '../../resources/strings';
 
-const SettingsScreen = () => (
-  <View style={styles.container}>
-    <AppStatusBar theme={StatusBarTheme.WHITE} />
-    <DefaultToolbar
-      theme={DefaultToolbarTheme.WHITE}
-      data={{
-        left: {
-          hasArrow: true,
-          title: '설정',
-        },
-      }}
-    />
-    <ScrollView
-      contentContainerStyle={styles.alignCenter}
-      showsVerticalScrollIndicator={false}
-    >
-      <ItemList
-        listType={types.ListType.SECTION}
-        listData={{
-          data: [
-            {
-              title: '멤버십 리워드',
-              // data: [
-              //   '멤버십',
-              //   '주소록',
-              //   '계좌 순서',
-              //   '언어',
-              //   '투표 알림',
-              // ],
+class SettingsScreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const { settings } = this.props;
+
+    this.state = {
+      settings,
+    };
+  }
+
+  render() {
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings;
+
+    return (
+      <View style={styles.container}>
+        <AppStatusBar theme={StatusBarTheme.WHITE} />
+        <DefaultToolbar
+          theme={DefaultToolbarTheme.WHITE}
+          data={{
+            left: {
+              hasArrow: true,
+              title: Strings.SCREEN_TITLE,
+            },
+          }}
+        />
+        <ScrollView
+          contentContainerStyle={styles.alignCenter}
+          showsVerticalScrollIndicator={false}
+        >
+          <ItemList
+            listType={types.ListType.SECTION}
+            listData={{
               data: [
                 {
-                  text: '멤버십',
+                  title: Strings.SECTION1_TITLE,
+                  data: [
+                    {
+                      text: Strings.ADDRESSBOOK,
+                      action: NavAction.pushScreen(NavAction.Screens.ADDRESSBOOK),
+                    },
+                    {
+                      text: Strings.SORT_ACCOUNTS,
+                      action: NavAction.pushScreen(NavAction.Screens.SORT_ACCOUNTS),
+                    },
+                    {
+                      text: Strings.LANGUAGE,
+                      type: types.ListItem.OPTION_TEXT,
+                      value: Strings.CURRENT_LANGUAGE,
+                      action: NavAction.pushScreen(NavAction.Screens.SELECT_LANGUAGE),
+                    },
+                  ],
                 },
                 {
-                  text: '주소록',
-                },
-                {
-                  text: '계좌 순서',
-                },
-                {
-                  text: '언어',
-                  type: types.ListItem.OPTION_TEXT,
-                  value: '한국어',
-                },
-                {
-                  text: '투표 알림',
-                  type: types.ListItem.TOGGLE,
+                  title: Strings.SECTION2_TITLE,
+                  data: [
+                    {
+                      text: Strings.FAQ,
+                      type: types.ListItem.EX_LINK,
+                      value: 'https://boscoin.io/faq/',
+                    },
+                    {
+                      text: Strings.WARNING,
+                      action: NavAction.pushScreen(NavAction.Screens.WARNING),
+                    },
+                    {
+                      text: Strings.LICENSE,
+                    },
+                    {
+                      text: Strings.VERSION,
+                      type: types.ListItem.OPTION_TEXT,
+                      value: 'v 0.1',
+                    },
+                  ],
                 },
               ],
-            },
-            {
-              title: '정보',
-              // data: [
-              //   'FAQ',
-              //   '주의사항',
-              //   '오픈소스 라이센스',
-              //   '버전',
-              // ],
-              data: [
-                {
-                  text: 'FAQ',
-                  type: types.ListItem.EX_LINK,
-                },
-                {
-                  text: '주의사항',
-                },
-                {
-                  text: '오픈소스 라이센스',
-                },
-                {
-                  text: '버전',
-                  type: types.ListItem.OPTION_TEXT,
-                  value: 'v 0.1',
-                },
-              ],
-            },
-          ],
-        }}
-      />
-    </ScrollView>
-  </View>
-);
+            }}
+          />
+        </ScrollView>
+      </View>
+    );
+  }
+}
 
 SettingsScreen.navigationOptions = {
   header: null,
 };
 
-export default SettingsScreen;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

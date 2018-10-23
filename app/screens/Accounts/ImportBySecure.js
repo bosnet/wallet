@@ -10,7 +10,7 @@ import { InputText, InputTextOptions } from '../../components/Input';
 import { NotiPanel } from '../../components/Panel';
 import { BottomButton } from '../../components/Button';
 import { colors } from '../../resources';
-import { Accounts } from '../../resources/strings';
+import { Accounts } from '../../resources/strings/ko';
 import { Navigation as NavAction } from '../../actions';
 
 const validate = (text) => {
@@ -115,7 +115,7 @@ class ImportBySecure extends React.Component {
             },
             right: {
               actionText: '취소',
-              action: NavAction.popScreen(2),
+              action: NavAction.backScreen(NavAction.Screens.SELECT_IMPORT_TYPE),
             },
           }}
         />

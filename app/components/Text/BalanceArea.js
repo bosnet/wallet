@@ -14,7 +14,6 @@ const BalanceArea = ({
   lableColor,
   text,
   textColor,
-  underline,
 }) => (
   <View
     style={styles.balanceArea}
@@ -40,20 +39,18 @@ const BalanceArea = ({
 );
 
 BalanceArea.propTypes = {
-  label: PropTypes.oneOfType(PropTypes.string, PropTypes.element),
-  text: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  subLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  text: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string]).isRequired,
   lableColor: PropTypes.string,
   textColor: PropTypes.string,
-  underline: PropTypes.bool,
 };
 
 BalanceArea.defaultProps = {
   label: null,
-  option: null,
+  subLabel: null,
   lableColor: colors.labelTextBlack,
   textColor: colors.textAreaContentsGray,
-  underline: true,
-  type: 'text',
 };
 
 export default BalanceArea;
