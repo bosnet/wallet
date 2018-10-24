@@ -56,6 +56,34 @@ export const retrieveAccount = address => (
     })
 );
 
+
+export const retrieveOperations = (txHash, date, fee) => {
+
+  return fetch(`${SEREVER_ADDR}/v1/transactions/${txHash}/operations`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then((data) => {
+      const records = data._embedded.records[0];
+
+      const returnData = {
+        source: records.source,
+        target: records.body.target,
+        amount: Number(records.body.amount) / BOS_GON_RATE,
+        type: records.type,
+        txHash,
+        date,
+        fee: fee / BOS_GON_RATE,
+      };
+
+      return returnData;
+    });
+};
+
 export const retrieveTransactions = (address) => {
   return fetch(`${SEREVER_ADDR}/v1/accounts/${address}/transactions?limit=10&reverse=true`, {
     method: 'GET',
@@ -66,14 +94,22 @@ export const retrieveTransactions = (address) => {
   })
     .then(response => response.json())
     .then((data) => {
-      const result = [];
-      const list = data._embedded.records;
+      const promises = [];
+      const { records } = data._embedded;
 
-      list.forEach((item) => {
-        result.push(item.hash);
+      records.forEach((item) => {
+        promises.push(retrieveOperations(item.hash, item.created, item.fee));
       });
 
-      return result;  
+      return Promise.all(promises);
+    })
+    .then((results) => {
+      const returnArray = [];
+      results.forEach((result) => {
+        returnArray.push(result);
+      });
+
+      return returnArray;
     });
 };
 

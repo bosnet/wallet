@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     fontFamily: 'SpoqaHanSans-Regular',
     fontSize: 16,
     color: colors.itemTextGray,
-    height: 24,
   },
   transactionDate: {
     marginLeft: 2,

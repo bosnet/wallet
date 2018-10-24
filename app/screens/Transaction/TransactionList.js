@@ -18,6 +18,23 @@ import { Navigation as NavAction, Accounts as AccountsAction } from '../../actio
 import { retrieveAccount, retrieveTransactions } from '../../libs/Transactions';
 import { ItemList } from '../../components/List';
 
+const formatDate = (rawDate) => {
+  const d = new Date(rawDate);
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const date = d.getDate();
+
+  const dateString = [
+    year,
+    (month > 9 ? '' : '0') + month,
+    (date > 9 ? '' : '0') + date,
+  ].join('.');
+
+  const time = `${d.getHours()}:${d.getMinutes()}`;
+
+  return `${dateString} ${time}`;
+};
+
 class TransactionList extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +66,8 @@ class TransactionList extends React.Component {
 
   updateAccountData(updateFlag) {
     const { account, transactions } = this.state;
-    const { navigation, accounts, doAction } = this.props;
+    const { navigation, accounts, addressBook, doAction } = this.props;
+
 
     doAction(AccountsAction.setUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
 
@@ -61,13 +79,57 @@ class TransactionList extends React.Component {
 
         this.setState({
           account: storedData,
-          isLoaded: true,
         });
       });
 
     retrieveTransactions(account.address)
-      .then((data) => {
-        ToastAndroid.show(JSON.stringify(data), ToastAndroid.LONG);
+      .then((results) => {
+        const data = [];
+
+        results.forEach((result) => {
+          const object = {
+            type: types.ListItem.TRANSACTION,
+            date: formatDate(result.date),
+            txHash: result.txHash,
+            fee: result.fee,
+          };
+          if (result.source === account.address) { // 출금
+            const index = addressBook.map(e => e.address).indexOf(result.target);
+
+            if (index >= 0) {
+              object.name = addressBook[index].name;
+            } else {
+              object.name = '';
+            }
+
+            object.address = result.target;
+            object.amount = -result.amount;
+            object.textColor = colors.itemTextRed;
+          }
+
+          if (result.target === account.address) { // 입금
+            if (result.type === 'create-account') {
+              object.title = '계좌 생성';
+            }
+            const index = addressBook.map(e => e.address).indexOf(result.source);
+            if (index >= 0) {
+              object.name = addressBook[index].name;
+            } else {
+              object.name = '';
+            }
+
+            object.address = result.source;
+            object.textColor = colors.itemTextBlue;
+            object.amount = result.amount;
+          }
+
+          data.push(object);
+        });
+
+        this.setState({
+          transactions: data,
+          isLoaded: true,
+        });
       });
   }
 
@@ -98,29 +160,24 @@ class TransactionList extends React.Component {
   }
 
   renderTransactionList() {
-    const { account } = this.state;
-    return (
-      <ItemList
-        listType={types.ListType.FLAT}
-        listData={{
-          data: [
-            {
-              title: '계좌 생성',
-              accountName: 'Account 001 G4L',
-              date: '2018.02.28   13:47',
-              textColor: colors.itemTextBlue,
-              amount: '-538',
-              type: types.ListItem.TRANSACTION,
-              key: '2',
-            },
-          ],
-        }}
-      />
-    );
+    const { transactions, isLoaded } = this.state;
+
+    if (isLoaded) {
+      return (
+        <ItemList
+          listType={types.ListType.FLAT}
+          listData={{
+            data: transactions,
+          }}
+        />
+      );
+    }
+
+    return null;
   }
 
   render() {
-    const { account, isLoaded } = this.state;
+    const { account, transactions } = this.state;
     const { pushScreen, updateFlags, doAction } = this.props;
 
     if (updateFlags[NavAction.Screens.TRANSACTION_LIST]) { // Need Update
@@ -163,7 +220,7 @@ class TransactionList extends React.Component {
               },
             ]}
           />
-          {account.balance <= 0 ? this.renderNotValid() : null}
+          {account.balance <= 0 ? this.renderNotValid() : this.renderTransactionList(transactions)}
         </ScrollView>
       </View>
     );
@@ -176,6 +233,7 @@ TransactionList.navigationOptions = {
 
 const mapStateToProps = state => ({
   accounts: state.accounts.list,
+  addressBook: state.addressBook.list,
   updateFlag: state.accounts.updateFlag,
   updateFlags: state.accounts.updateFlags,
 });

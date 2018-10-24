@@ -1,24 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, Image, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from '../styles';
 import arrow from '../../../resources/images/arrow.png';
 import { colors } from '../../../resources';
 
-const TransactionItem = ({ item, textColor, action, onPress }) => (
-  <View
+import { Navigation as NavAction } from '../../../actions';
+import { TextArea } from '../../Text';
+
+const TransactionItem = ({ item, textColor, doAction }) => (
+  <TouchableOpacity
     style={styles.transactionItem}
-    onPress={action ? onPress : null}
+    onPress={() => {
+      doAction(NavAction.pushScreen(NavAction.Screens.TRANSACTION_DETAIL, { item }));
+    }}
     key={item.key}
   >
     <Text style={styles.transactionTitle}>
       {item.title}
     </Text>
-    <Text style={styles.transactionAccount}>
-      {item.accountName}
-    </Text>
+    <View style={{ marginLeft: -8 }}>
+      <TextArea
+        label={item.name}
+        text={item.address}
+        underline={false}
+      />
+    </View>
     <Text style={styles.transactionDate}>
       {item.date}
     </Text>
@@ -26,11 +35,11 @@ const TransactionItem = ({ item, textColor, action, onPress }) => (
       <Text style={[styles.transactionAmount, { color: textColor }]}>
         {item.amount}
       </Text>
-      <Text style={[styles.transactionUnit, { color: textColor }]}>
+      <Text style={[styles.transactionUnit]}>
         BOS
       </Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 TransactionItem.propTypes = {
@@ -46,7 +55,7 @@ TransactionItem.defaultProps = {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  onPress: () => dispatch(props.action),
+  doAction: action => dispatch(action),
 });
 
 export default connect(null, mapDispatchToProps)(TransactionItem);
