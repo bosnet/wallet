@@ -31,6 +31,13 @@ const styles = StyleSheet.create({
     marginRight: 16,
     paddingBottom: 2,
   },
+  itemMove: {
+    width: 22,
+    height: 9,
+    marginRight: 30,
+    padding: 5,
+    marginBottom: 6,
+  },
   sectionHeader: {
     paddingTop: 10,
     marginLeft: 8,

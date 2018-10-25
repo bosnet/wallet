@@ -36,14 +36,19 @@ class App extends React.Component {
       const settings = values[1];
       const addressBook = values[2];
 
-      if (accounts && accounts.length > 0) store.dispatch(Accounts.loadAccounts(accounts));
-      else store.dispatch(Accounts.loadAccounts([]));
+      if (accounts && accounts.length > 0) {
+        store.dispatch(Accounts.loadAccounts(accounts));
+        store.dispatch(Navigation.resetScreen(Navigation.Screens.HOME));
+      } else {
+        store.dispatch(Accounts.loadAccounts([]));
+        store.dispatch(Navigation.resetScreen(Navigation.Screens.WALKTHROUGH));
+      }
 
       if (settings) store.dispatch(Settings.setSettings(settings));
 
       if (addressBook) store.dispatch(AddressBook.setAddress(addressBook));
 
-      store.dispatch(Navigation.resetScreen(Navigation.Screens.HOME));
+     
       this.setState({
         isLoaded: true,
       });

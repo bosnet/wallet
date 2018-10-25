@@ -29,7 +29,7 @@ class InputAccounts extends React.Component {
   }
 
   componentDidMount() {
-    this.input.getWrappedInstance().setText('GD2KIHL4OYMHHGX55D2D3LVTT44JDHVC6TPLNCUTLWHGIWTJM5MVNC66');
+    // this.input.getWrappedInstance().setText('GD2KIHL4OYMHHGX55D2D3LVTT44JDHVC6TPLNCUTLWHGIWTJM5MVNC66');
   }
 
   onNavigateWithResult(key) {

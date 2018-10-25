@@ -29,6 +29,7 @@ const makeRLPData = (body) => {
 export const retrieveAccount = address => (
   fetch(`${SEREVER_ADDR}/v1/accounts/${address}`, {
     method: 'GET',
+    timeout: 60,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -61,6 +62,7 @@ export const retrieveOperations = (txHash, date, fee) => {
 
   return fetch(`${SEREVER_ADDR}/v1/transactions/${txHash}/operations`, {
     method: 'GET',
+    timeout: 60,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

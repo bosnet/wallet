@@ -41,7 +41,10 @@ const SelectLanguage = ({ settings, doAction }) => (
                   }),
                 );
 
-                AppStorage.saveSettingsAsync(settings)
+                AppStorage.saveSettingsAsync({
+                  ...settings,
+                  language: SettingAction.LANGUAGE_ENG,
+                })
                   .then(() => {
                     doAction(NavAction.popScreen());
                   });
@@ -56,7 +59,10 @@ const SelectLanguage = ({ settings, doAction }) => (
                   }),
                 );
 
-                AppStorage.saveSettingsAsync(settings)
+                AppStorage.saveSettingsAsync({
+                  ...settings,
+                  language: SettingAction.LANGUAGE_KO,
+                })
                   .then(() => {
                     doAction(NavAction.popScreen());
                   });
@@ -78,7 +84,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  doAction: action => dispatch(action),
+  doAction: async action => dispatch(action),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectLanguage);

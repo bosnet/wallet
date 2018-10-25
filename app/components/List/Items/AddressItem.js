@@ -87,6 +87,13 @@ class AddressItem extends React.Component {
             <IconButton
               icon={iconSend}
               label="보내기"
+              callback={() => {
+                doAction(
+                  NavAction.pushScreen(
+                    NavAction.Screens.SELECT_WITHDRAW_ACCOUNT,
+                  ),
+                );
+              }}
             />
             <IconButton
               icon={iconCopy}

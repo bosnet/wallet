@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  TouchableOpacity, View,
+  TouchableOpacity, View, Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import { colors, types } from '../../../resources';
 import styles from '../styles';
-import { colors } from '../../../resources';
 import { TextArea } from '../../Text';
+import { TRANSACTION_FEE, MINIMUM_BALANCE } from '../../../config/transactionConfig'
 
 class SelectableAccountItem extends React.Component {
   constructor(props) {
@@ -17,13 +18,15 @@ class SelectableAccountItem extends React.Component {
       selected: false,
     };
 
-    const { addItem, id, name, address } = this.props;
+    const { addItem, id, name, address, balance, account } = this.props;
     this.setSelected = this.setSelected.bind(this);
 
     addItem({
       id,
       name,
       address,
+      balance,
+      account,
       setSelected: (value) => {
         this.setState({
           selected: value,
@@ -40,7 +43,7 @@ class SelectableAccountItem extends React.Component {
 
 
   render() {
-    const { id, address, name, setSelected } = this.props;
+    const { id, address, name, balance, setSelected } = this.props;
     const { selected } = this.state;
 
     return (
@@ -53,20 +56,14 @@ class SelectableAccountItem extends React.Component {
       >
         <View style={styles.section}>
           <TextArea
-            label={(
-              <Text>
-                <Text style={{ fontFamily: 'SpoqaHanSans-Bold' }}>어카운트이름기호</Text>
-                <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
-                <Text style={{ fontFamily: 'SpoqaHanSans-Bold' }}>공개 주소</Text>
-              </Text>
-            )}
+            label={name}
             lableColor={colors.labelTextBlack}
-            text="GBMILVZZSNAJ6KS2VXAWHNOYBJE2VUACRCKRHS4KLVQJAAN74MC5GDAUSD5XCNRRI6GJFH72V6HEOKE7EUBSSXOFKOUHCULWUCANUX24IYNX4ENH"
+            text={address}
             underline={false}
           />
           <TextArea
             label="출금 가능 금액"
-            text="3,100,000,000.2345678"
+            text={(balance > 0) ? balance - TRANSACTION_FEE - MINIMUM_BALANCE : 0}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -85,12 +82,9 @@ SelectableAccountItem.defaultProps = {
   action: null,
 };
 
-const mapStateToProps = state => ({
-  addressBook: state.addressBook.list,
-});
 
 const mapDispatchToProps = dispatch => ({
   doAction: action => dispatch(action),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectableAccountItem);
+export default connect(null, mapDispatchToProps)(SelectableAccountItem);

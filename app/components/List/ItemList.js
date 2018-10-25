@@ -6,7 +6,6 @@ import {
   SectionList,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import SortableList from 'react-native-sortable-list';
 
 import FlatItem from './FlatItem';
 import SectionItem from './SectionItem';

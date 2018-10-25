@@ -4,6 +4,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 import styles from '../styles';
 import { colors, types } from '../../resources';
@@ -26,6 +27,7 @@ class HomeScreen extends React.Component {
     this.state = {
       list: [],
       isLoaded: false,
+      isLoading: false,
       timer: null,
       counter: 60,
       totalBalance: '',
@@ -41,6 +43,8 @@ class HomeScreen extends React.Component {
 
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.HOME));
     this.loadAccounts();
+
+    SplashScreen.hide();
   }
 
   componentWillUnmount() {
@@ -117,6 +121,20 @@ class HomeScreen extends React.Component {
     }
     return null;
   }
+  
+  renderLoadingPanel() {
+    const { counter, isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <LoadingPanel
+          text="네트워크 동기화 중"
+          subText={`${counter}초`}
+        />
+      );
+    }
+    return null;
+  }
 
   render() {
     const { isLoaded, counter, totalBalance, list } = this.state;
@@ -131,10 +149,7 @@ class HomeScreen extends React.Component {
         <AppStatusBar theme={Theme.WHITE} />
         <HomeToolbar />
         <View style={[styles.container]}>
-          <LoadingPanel
-            text="네트워크 동기화 중"
-            subText={`${counter}초`}
-          />
+          {this.renderLoadingPanel()}
           <BalanceArea
             label="TOTAL BALANCE"
             lableColor={colors.itemTextLightGray}

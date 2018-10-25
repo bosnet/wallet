@@ -55,8 +55,13 @@ class SelectableList extends React.Component {
           result = (
             <SelectableAccountItem
               key={item.listKey}
+              id={`item${item.listKey}`}
+              name={item.name}
+              address={item.address}
               account={item.account}
-              icon={item.icon}
+              addItem={this.addItem}
+              balance={item.balance}
+              setSelected={this.setSelected}
             />
           );
           break;

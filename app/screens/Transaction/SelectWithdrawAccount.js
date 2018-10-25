@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 
@@ -9,72 +10,127 @@ import { BottomButton } from '../../components/Button';
 import { TextArea } from '../../components/Text';
 import { colors, types } from '../../resources';
 import { Navigation as NavAction } from '../../actions';
+import { SelectableList } from '../../components/List';
+import { retrieveAccount, retrieveTransactions } from '../../libs/Transactions';
 
-const SelectWithdrawAccount = () => (
-  <View style={styles.container}>
-    <AppStatusBar theme={StatusBarTheme.PURPLE} />
-    <DefaultToolbar
-      theme={DefaultToolbarTheme.PURPLE}
-      data={{
-        center: {
-          title: '출금계좌 선택',
-        },
-        right: {
-          actionText: '취소',
-          action: NavAction.popScreen(),
-        },
-      }}
-    />
-    <ScrollView
-      contentContainerStyle={styles.alignCenter}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={styles.section}>
-        <TextArea
-          label={(
-            <Text>
-              <Text style={{ fontFamily: 'SpoqaHanSans-Bold' }}>어카운트이름기호</Text>
-              <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
-              <Text style={{ fontFamily: 'SpoqaHanSans-Bold' }}>공개 주소</Text>
-            </Text>
-          )}
-          lableColor={colors.labelTextBlack}
-          text="GBMILVZZSNAJ6KS2VXAWHNOYBJE2VUACRCKRHS4KLVQJAAN74MC5GDAUSD5XCNRRI6GJFH72V6HEOKE7EUBSSXOFKOUHCULWUCANUX24IYNX4ENH"
-          underline={false}
+class SelectWithdrawAccount extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const { navigation } = this.props;
+
+    this.state = {
+      list: [],
+      callback: navigation.getParam('callback', null),
+    };
+
+    this.buildAccountList = this.buildAccountList.bind(this);
+    this.callbackBottomButton = this.callbackBottomButton.bind(this);
+  }
+
+  componentDidMount() {
+    this.buildAccountList();
+  }
+
+  buildAccountList() {
+    const { accounts } = this.props;
+    const promises = [];
+
+    accounts.forEach((account, index) => {
+      promises.push(retrieveAccount(account.address));
+    });
+
+    Promise.all(promises)
+      .then((results) => {
+        const returnArray = [];
+        results.forEach((account, index) => {
+          returnArray.push({
+            listKey: `${index}`,
+            type: types.ListItem.ACCOUNT,
+            name: accounts[index].name,
+            address: accounts[index].address,
+            balance: account.balance,
+            account,
+          });
+        });
+
+        this.setState({
+          list: returnArray,
+        });
+      });
+  }
+
+  callbackBottomButton() {
+    const { callback } = this.state;
+    const { doAction } = this.props;
+
+    const item = this.list.getSelected();
+
+    if (callback) {
+      callback(item.account);
+      doAction(NavAction.popScreen());
+    } else {
+      doAction(NavAction.pushScreen(NavAction.Screens.SEND_BALANCE, { account: item.account }));
+    }
+  }
+
+
+  render() {
+    const { list } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <AppStatusBar theme={StatusBarTheme.PURPLE} />
+        <DefaultToolbar
+          theme={DefaultToolbarTheme.PURPLE}
+          data={{
+            center: {
+              title: '출금계좌 선택',
+            },
+            right: {
+              actionText: '취소',
+              action: NavAction.popScreen(),
+            },
+          }}
         />
-        <TextArea
-          label="출금 가능 금액"
-          text="3,100,000,000.2345678"
-          type={types.TextArea.BALACNE}
-          underline={false}
+        <ScrollView
+          contentContainerStyle={styles.alignCenter}
+          showsVerticalScrollIndicator={false}
+        >
+          <SelectableList
+            ref={(c) => { this.list = c; }}
+            listData={{
+              data: list,
+            }}
+            noDataText="아직 등록된 주소가 없습니다"
+          />
+          <View style={{ marginBottom: 10 }} />
+        </ScrollView>
+        <BottomButton
+          actions={[
+            {
+              text: '확인',
+              callback: this.callbackBottomButton,
+            },
+          ]}
         />
       </View>
-      <View style={styles.seperator} />
-      <View style={styles.section}>
-        <TextArea
-          label={(<Text style={{ fontFamily: 'SpoqaHanSans-Bold' }}>여유자금</Text>)}
-          lableColor={colors.labelTextBlack}
-          text="GBMILVZZSNAJ6KS2VXAWHNOYBJE2VUACRCKRHS4KLVQJAAN74MC5GDAUSD5XCNRRI6GJFH72V6HEOKE7EUBSSXOFKOUHCULWUCANUX24IYNX4ENH"
-          underline={false}
-        />
-        <TextArea
-          label="출금 가능 금액"
-          text="3,100,000,000.2345678"
-          type={types.TextArea.BALACNE}
-          underline={false}
-        />
-      </View>
-    </ScrollView>
-    <BottomButton
-      actions={[
-        { text: '확인' },
-      ]}
-    />
-  </View>
-);
+    );
+  }
+}
 
 SelectWithdrawAccount.navigationOptions = {
   header: null,
 };
 
-export default SelectWithdrawAccount;
+const mapStateToProps = state => ({
+  accounts: state.accounts.list,
+  settings: state.settings,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectWithdrawAccount);

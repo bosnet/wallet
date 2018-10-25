@@ -57,9 +57,7 @@ const AccountItem = ({
       <Text style={styles.accountName}>
         {account.name}
       </Text>
-      {createIcon(icon)}
     </View>
-    {isFreezing(false)}
     <View style={styles.accountItemContent}>
       <Text style={styles.accountBalance}>{account.balance !== undefined ? account.balance : ''}</Text>
       <Text style={styles.accountUnit}>BOS</Text>

@@ -73,7 +73,7 @@ class TransactionList extends React.Component {
 
     retrieveAccount(account.address)
       .then((data) => {
-        let storedData = accounts[account.index];
+        const storedData = accounts[account.index];
         storedData.index = account.index;
         storedData.balance = data.balance;
 

@@ -39,9 +39,8 @@ function navigation(state = initialNavState, action) {
     case Navigation.NAV_RESET:
       nextState = RootNavigator.router.getStateForAction(
         StackActions.reset({
-          index: 1,
+          index: 0,
           actions: [
-            NavigationActions.navigate({ routeName: Navigation.Screens.INDEXPAGE }), // 추후 삭제예정
             NavigationActions.navigate({
               routeName: action.routeName,
               key: action.key,
