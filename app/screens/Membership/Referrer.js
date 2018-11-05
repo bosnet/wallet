@@ -41,15 +41,15 @@ const Referrer = () => (
         됩니다
       </Text>
       <InputText
-        label={(<Text style={styles.textBold}>공개주소</Text>)}
+        label={(<Text style={styles.textBold}>공개 주소</Text>)}
         labelColor={colors.labelTextBlack}
-        placeholder="G로 시작하는 공개주소 56자를 입력하세요"
+        placeholder="G로 시작하는 공개 주소 56자를 입력하세요"
         option={{ type: InputTextOptions.QR_CODE }}
         multiline
       />
       <NotiPanel
         texts={[
-          'G로 시작하는 공개주소 56자를 입력하세요',
+          'G로 시작하는 공개 주소 56자를 입력하세요',
         ]}
       />
       <CheckBox

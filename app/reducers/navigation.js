@@ -51,6 +51,25 @@ function navigation(state = initialNavState, action) {
         state,
       );
       break;
+    case Navigation.NAV_RESET_TO_LIST:
+      nextState = RootNavigator.router.getStateForAction(
+        StackActions.reset({
+          index: 1,
+          actions: [
+            NavigationActions.navigate({
+              routeName: Navigation.Screens.HOME,
+              key: Navigation.Screens.HOME,
+            }),
+            NavigationActions.navigate({
+              routeName: Navigation.Screens.TRANSACTION_LIST,
+              key: Navigation.Screens.TRANSACTION_LIST,
+              params: action.params,
+            }),
+          ],
+        }),
+        state,
+      );
+      break;
     default:
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: action.routeName, params: action.params }),

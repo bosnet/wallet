@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, ScrollView, ToastAndroid } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
-
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -12,6 +13,8 @@ import { BottomButton } from '../../components/Button';
 import { colors } from '../../resources';
 import { Accounts } from '../../resources/strings/ko';
 import { Navigation as NavAction } from '../../actions';
+import { checkSecretKey } from '../../libs/KeyGenerator';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 const validate = (text) => {
   if (text.match(/^S.+/)) {
@@ -25,22 +28,23 @@ class ImportBySecure extends React.Component {
   constructor(props) {
     super(props);
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.ImportAccount;
+
     this.state = {
-      helperText: Accounts.ImportAccount.HELPER_DEFAULT_SECURE,
-      helperColor: colors.transparent,
+      helperText: Strings.HELPER_DEFAULT_SECURE,
+      helperColor: colors.textAreaNotiTextGray,
       buttonActive: false,
     };
 
     this.onChangeText = this.onChangeText.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.onEndEditing = this.onEndEditing.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
     this.validateInput = this.validateInput.bind(this);
   }
 
   onChangeText() {
     return (text) => {
-      if (text.length > 0 && validate(text)) {
+      if (text.length > 0) {
         this.setState({ buttonActive: true });
       } else {
         this.setState({ buttonActive: false });
@@ -48,49 +52,42 @@ class ImportBySecure extends React.Component {
     };
   }
 
-
-  onFocus() {
-    const { helperColor } = this.state;
-    const text = this.input.getWrappedInstance().getText();
-    if (text.length === 0 && helperColor === colors.transparent) {
-      this.setState({
-        helperText: Accounts.ImportAccount.HELPER_DEFAULT_SECURE,
-        helperColor: colors.textAreaNotiTextGray,
-      });
-    }
-  }
-
-  onEndEditing() {
-    this.validateInput();
-  }
-
   onNavigateWithResult(key) {
     this.input.getWrappedInstance().setText(key.toString()).then(() => {
+      const text = this.input.getWrappedInstance().getText();
+
+      if (text.length > 0) {
+        this.setState({ buttonActive: true });
+      } else {
+        this.setState({ buttonActive: false });
+      }
+
       this.validateInput();
     });
   }
 
   validateInput() {
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.ImportAccount;
+
     const text = this.input.getWrappedInstance().getText();
+
 
     if (text.trim().length === 0) {
       this.setState({
-        buttonActive: true,
-        helperText: Accounts.ImportAccount.HELPER_ERROR_NO_SECURE,
+        helperText: Strings.HELPER_ERROR_NO_SECURE,
         helperColor: colors.alertTextRed,
       });
     } else {
-      const result = validate(text);
+      const result = checkSecretKey(text);
 
       if (result) {
         this.setState({
-          buttonActive: true,
           helperColor: colors.transparent,
         });
       } else {
         this.setState({
-          buttonActive: false,
-          helperText: Accounts.ImportAccount.HELPER_ERROR_NOT_VALID,
+          helperText: Strings.HELPER_ERROR_NOT_VALID,
           helperColor: colors.alertTextRed,
         });
       }
@@ -102,7 +99,10 @@ class ImportBySecure extends React.Component {
       helperText,
       helperColor,
       buttonActive,
+
     } = this.state;
+    const { settings, accounts, doAction } = this.props;
+    const Strings = strings[settings.language].Accounts.ImportAccount;
 
     return (
       <View style={styles.container}>
@@ -111,11 +111,11 @@ class ImportBySecure extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '계좌 가져오기',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '취소',
-              action: NavAction.backScreen(NavAction.Screens.SELECT_IMPORT_TYPE),
+              actionText: Strings.BACK_BUTTON,
+              action: NavAction.resetScreen(NavAction.Screens.HOME),
             },
           }}
         />
@@ -124,12 +124,12 @@ class ImportBySecure extends React.Component {
           showsVerticalScrollIndicator={false}
         >
           <Text style={[styles.layoutHead, styles.headText]}>
-            가져올 계좌의 보안키를 입력해 주세요
+            {Strings.IMPORT_SS_MESSAGE}
           </Text>
           <InputText
             ref={(c) => { this.input = c; }}
-            label="보안키"
-            placeholder={Accounts.ImportAccount.PLACEHOLDER_SECURE}
+            label={Strings.IMPORT_SS_LABEL}
+            placeholder={Strings.PLACEHOLDER_SECURE}
             option={{
               type: InputTextOptions.QR_CODE,
               action: NavAction.pushScreen(
@@ -140,8 +140,6 @@ class ImportBySecure extends React.Component {
               ),
             }}
             multiline
-            onFocus={this.onFocus}
-            onEndEditing={this.onEndEditing}
             onChangeText={this.onChangeText()}
           />
           <NotiPanel
@@ -154,27 +152,43 @@ class ImportBySecure extends React.Component {
           <View style={styles.footer}>
             <NotiPanel
               texts={[
-                '* 보안키는 본인 외에 아무도 알 수 없습니다',
-                '* 보안키를 잊어버린 경우 보안키로 Account를 가져올 수 없으\n'
-                + '   오니 복구키로 Account 가져오기를 이용해 주시기 바랍니다\n',
+                Strings.NOTICE1_SS,
+                Strings.NOTICE2_SS,
               ]}
             />
           </View>
           <BottomButton
             actions={[
               {
-                text: '다음',
-                action: NavAction.pushScreen(
-                  NavAction.Screens.SET_PASSWORD,
-                  {
-                    getSecureKey: () => this.input.getWrappedInstance().getText(),
-                  },
-                ),
+                text: Strings.BUTTON_NEXT,
+                callback: () => {
+                  this.validateInput();
+
+                  const text = this.input.getWrappedInstance().getText();
+                  const address = checkSecretKey(text);
+
+                  if (!address) return;
+
+                  if (accounts.map(e => e.address).indexOf(address) >= 0) {
+                    ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
+                    return;
+                  }
+
+                  doAction(NavAction.pushScreen(
+                    NavAction.Screens.SET_PASSWORD,
+                    {
+                      getSecureKey: () => this.input.getWrappedInstance().getText(),
+                    },
+                  ));
+                },
               },
             ]}
             inactive={!buttonActive}
           />
         </ScrollView>
+        <AndroidBackHandler
+          action={NavAction.resetScreen(NavAction.Screens.HOME)}
+        />
       </View>
     );
   }
@@ -184,4 +198,13 @@ ImportBySecure.navigationOptions = {
   header: null,
 };
 
-export default ImportBySecure;
+const mapStateToProps = state => ({
+  accounts: state.accounts.list,
+  settings: state.settings,
+});
+
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImportBySecure);

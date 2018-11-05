@@ -11,6 +11,7 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { ItemList } from '../../components/List';
 import { Navigation as NavAction } from '../../actions';
 import strings from '../../resources/strings';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class SettingsScreen extends React.Component {
   constructor(props) {
@@ -55,10 +56,6 @@ class SettingsScreen extends React.Component {
                       action: NavAction.pushScreen(NavAction.Screens.ADDRESSBOOK),
                     },
                     {
-                      text: Strings.SORT_ACCOUNTS,
-                      action: NavAction.pushScreen(NavAction.Screens.SORT_ACCOUNTS),
-                    },
-                    {
                       text: Strings.LANGUAGE,
                       type: types.ListItem.OPTION_TEXT,
                       value: Strings.CURRENT_LANGUAGE,
@@ -79,7 +76,18 @@ class SettingsScreen extends React.Component {
                       action: NavAction.pushScreen(NavAction.Screens.WARNING),
                     },
                     {
+                      text: '서비스개선 참여',
+                      action: NavAction.pushScreen(NavAction.Screens.SERVICE_AGREEMENT),
+                    },
+                    {
+                      text: '개인정보처리취급방침',
+                      type: types.ListItem.EX_LINK,
+                      value: 'https://boscoin.io/privacy/',
+                    },
+                    {
                       text: Strings.LICENSE,
+                      type: types.ListItem.EX_LINK,
+                      value: 'https://github.com/bosnet/sebak/blob/master/LICENSE',
                     },
                     {
                       text: Strings.VERSION,
@@ -92,6 +100,7 @@ class SettingsScreen extends React.Component {
             }}
           />
         </ScrollView>
+        <AndroidBackHandler />
       </View>
     );
   }

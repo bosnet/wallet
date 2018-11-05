@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { types } from '../../resources';
+import strings from '../../resources/strings';
 
 import { Navigation as NavAction, Settings as SettingAction } from '../../actions';
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
@@ -11,69 +12,75 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { ItemList } from '../../components/List';
 
 import AppStorage from '../../libs/AppStorage';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
-const SelectLanguage = ({ settings, doAction }) => (
-  <View style={styles.container}>
-    <AppStatusBar theme={StatusBarTheme.PURPLE} />
-    <DefaultToolbar
-      theme={DefaultToolbarTheme.PURPLE}
-      data={{
-        center: {
-          title: '언어 설정',
-        },
-        right: {
-          actionText: '닫기',
-          action: NavAction.popScreen(),
-        },
-      }}
-    />
-    <View style={styles.defaultLayout}>
-      <ItemList
-        listType={types.ListType.FLAT}
-        listData={{
-          data: [
-            {
-              key: 'English',
-              onPress: () => {
-                doAction(
-                  SettingAction.setSettings({
-                    language: SettingAction.LANGUAGE_ENG,
-                  }),
-                );
+const SelectLanguage = ({ settings, doAction }) => {
+  const Strings = strings[settings.language].Settings.SelectLanguage;
 
-                AppStorage.saveSettingsAsync({
-                  ...settings,
-                  language: SettingAction.LANGUAGE_ENG,
-                })
-                  .then(() => {
-                    doAction(NavAction.popScreen());
-                  });
-              },
-            },
-            {
-              key: '한국어',
-              onPress: () => {
-                doAction(
-                  SettingAction.setSettings({
-                    language: SettingAction.LANGUAGE_KO,
-                  }),
-                );
-
-                AppStorage.saveSettingsAsync({
-                  ...settings,
-                  language: SettingAction.LANGUAGE_KO,
-                })
-                  .then(() => {
-                    doAction(NavAction.popScreen());
-                  });
-              },
-            },
-          ],
+  return (
+    <View style={styles.container}>
+      <AppStatusBar theme={StatusBarTheme.PURPLE} />
+      <DefaultToolbar
+        theme={DefaultToolbarTheme.PURPLE}
+        data={{
+          center: {
+            title: Strings.TITLE,
+          },
+          right: {
+            actionText: Strings.BACK_BUTTON,
+            action: NavAction.popScreen(),
+          },
         }}
       />
+      <View style={styles.defaultLayout}>
+        <ItemList
+          listType={types.ListType.FLAT}
+          listData={{
+            data: [
+              {
+                key: Strings.OPTION_ENG,
+                onPress: () => {
+                  doAction(
+                    SettingAction.setSettings({
+                      language: SettingAction.LANGUAGE_ENG,
+                    }),
+                  );
+  
+                  AppStorage.saveSettingsAsync({
+                    ...settings,
+                    language: SettingAction.LANGUAGE_ENG,
+                  })
+                    .then(() => {
+                      doAction(NavAction.popScreen());
+                    });
+                },
+              },
+              {
+                key: Strings.OPTION_KOR,
+                onPress: () => {
+                  doAction(
+                    SettingAction.setSettings({
+                      language: SettingAction.LANGUAGE_KO,
+                    }),
+                  );
+  
+                  AppStorage.saveSettingsAsync({
+                    ...settings,
+                    language: SettingAction.LANGUAGE_KO,
+                  })
+                    .then(() => {
+                      doAction(NavAction.popScreen());
+                    });
+                },
+              },
+            ],
+          }}
+        />
+      </View>
+      <AndroidBackHandler />
     </View>
-  </View>
-);
+  );
+};
 
 SelectLanguage.navigationOptions = {
   header: null,

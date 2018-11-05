@@ -1,35 +1,51 @@
 import sebakjs from 'sebakjs-util';
 import CryptoJS from 'crypto-js';
-import { Buffer } from 'buffer';
 import {
   ToastAndroid,
   Clipboard,
 } from 'react-native';
-
+import fetch from 'react-native-fetch-polyfill';
 
 import { SEREVER_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
 
-
 const { AES } = CryptoJS;
 
-const makeRLPData = (body) => {
+const makeRLPData = (type, body) => {
+
+  if (type === 'payment') {
+    const tx = [
+      body.source,
+      Number(body.fee),
+      Number(body.sequence_id),
+      [[
+        [body.operations[0].H.type],
+        [body.operations[0].B.target, Number(body.operations[0].B.amount)],
+      ]],
+    ];
+    return tx;
+  }
+
   const tx = [
     body.source,
-    body.fee,
-    body.sequenceID,
+    Number(body.fee),
+    Number(body.sequence_id),
     [[
       [body.operations[0].H.type],
-      [body.operations[0].B.target, body.operations[0].B.amount],
+      [body.operations[0].B.target, Number(body.operations[0].B.amount), ''],
     ]],
   ];
 
   return tx;
 };
 
+const makeFullISOString = (str) => {
+  return str.slice(0, str.length - 1) + '000000' + str.slice(str.length - 1 + Math.abs(0));
+};
+
 export const retrieveAccount = address => (
   fetch(`${SEREVER_ADDR}/v1/accounts/${address}`, {
     method: 'GET',
-    timeout: 60,
+    timeout: 3000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -62,7 +78,7 @@ export const retrieveOperations = (txHash, date, fee) => {
 
   return fetch(`${SEREVER_ADDR}/v1/transactions/${txHash}/operations`, {
     method: 'GET',
-    timeout: 60,
+    timeout: 3000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -75,7 +91,7 @@ export const retrieveOperations = (txHash, date, fee) => {
       const returnData = {
         source: records.source,
         target: records.body.target,
-        amount: Number(records.body.amount) / BOS_GON_RATE,
+        amount: (Number(records.body.amount) / BOS_GON_RATE),
         type: records.type,
         txHash,
         date,
@@ -122,15 +138,15 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   const body = {
     T: 'transaction',
     H: {
-      version: '0.1.0',
-      created: new Date().toISOString(),
+      version: '``',
+      created: makeFullISOString(new Date().toISOString()),
       // 'hash': '2g3ZSrEnsUWeX5Mxz5uTh2b4KVpVQS7Ek2HzZd759FHn',
       // 'signature': '3oWmCMNHExRQnZVEBSH16ZBgLE6ayz7t1fsjzTjAB6WpXMpkDJbhcL8KudqFFG21XmfSXnJH1BLhnBUh4p68yFeR'
     },
     B: {
       source: source.address,
-      fee: String(10000),
-      sequenceID: String(Number(lastSequenceId) + 1),
+      fee: String('10000'),
+      sequence_id: (Number(lastSequenceId)),
       operations: [
         {
           H: {
@@ -138,41 +154,31 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
           },
           B: {
             target,
-            amount: String(amount),
+            amount: String(amount * BOS_GON_RATE),
+            // linked: '',
           },
         },
       ],
     },
   };
 
-  const RDPData = makeRLPData(body.B);
+
+  const RDPData = makeRLPData(HType, body.B);
+  console.log(JSON.stringify(RDPData));
 
   const secretKey = AES.decrypt(source.secretSeed.slice(3), password);
+  const hash = sebakjs.hash(RDPData);
+  const sig = sebakjs.sign(hash, NETWORK_ID, secretKey.toString(CryptoJS.enc.Utf8));
 
-  body.H.signature = sebakjs.sign(RDPData.toString(), NETWORK_ID, secretKey.toString(CryptoJS.enc.Utf8));
-  body.H.hash = sebakjs.hash(RDPData);
+  body.H.hash = hash;
+  body.H.signature = sig;
 
-  ToastAndroid.show(JSON.stringify(body), ToastAndroid.LONG);
-  
-  // const request = new XMLHttpRequest();
-  // request.onreadystatechange = (e) => {
-  //   if (request.readyState !== 4) {
-  //     return;
-  //   }
-  
-  //   if (request.status === 200) {
-  //     console.log('success', request.responseText);
-  //   } else {
-  //     console.warn('error');
-  //   }
-  // };
-  // request.open('POST', `${SEREVER_ADDR}/v1/transactions`);
-  // request.setRequestHeader('Content-Type', 'application/json');
-  // request.send(JSON.stringify(body));
+  console.log(JSON.stringify(body));
+  Clipboard.setString(JSON.stringify(body));
 
-  fetch(`${SEREVER_ADDR}/v1/transactions`, {
+  return fetch(`${SEREVER_ADDR}/v1/transactions`, {
     method: 'POST',
-    mode: "no-cors",
+    timeout: 1000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -180,17 +186,30 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
     body: JSON.stringify(body),
   })
     .then((response) => {
-      ToastAndroid.show(JSON.stringify(response), ToastAndroid.LONG);
+      console.log(response);
+
       return response.json();
     })
-    .then(res => ({
-      status: 200,
-      transactionId: res.data.H.hash,
-      source: res.data.B.source,
-      fee: res.data.B.fee,
-      amount: res.data.B.operations.B.amount,
-      target: res.data.B.operations.B.target,
-    }));
+    .then((res) => {
+      console.log(JSON.stringify(res));
+
+      if (res.status !== 'submitted') {
+        return ({
+          status: res.status,
+          title: res.title,
+          detail: res.detail,
+        });
+      }
+
+      return ({
+        status: 200,
+        transactionId: res.hash,
+        source: res.message.source,
+        fee: Number(res.message.fee) / BOS_GON_RATE,
+        amount: Number(res.message.operations[0].B.amount) / BOS_GON_RATE,
+        target: res.message.operations[0].B.target,
+      });
+    });
 
   // return fetch(`http://conall.co.kr/moon.php`, {
   //   method: 'POST',

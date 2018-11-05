@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ToastAndroid, Alert } from 'react-native';
+import { View, Text, ToastAndroid, Alert,ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
@@ -15,6 +15,7 @@ import AppStorage from '../../libs/AppStorage';
 
 import { colors } from '../../resources';
 import strings from '../../resources/strings';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 const MODE_PASSWORD = 'modePassword';
 const MODE_SECURE_KEY = 'modeSecure';
@@ -33,11 +34,9 @@ class AuthChangePassword extends React.Component {
       mode: MODE_PASSWORD,
       next: navigation.getParam('next', NavAction.Screens.SET_PASSWORD),
       option: navigation.getParam('option', null),
-      settings,
       account: navigation.getParam('account', null),
       helperText: Strings[MODE_PASSWORD].HELPER_DEFAULT,
       helperColor: colors.transparent,
-      buttonActive: false,
       callback: navigation.getParam('callback', null),
     };
 
@@ -68,89 +67,115 @@ class AuthChangePassword extends React.Component {
     const { doAction, accounts } = this.props;
     const { mode, account, next, option, callback } = this.state;
     const text = this.input.getWrappedInstance().getText();
-    ToastAndroid.show(JSON.stringify(account), ToastAndroid.SHORT);
 
-    if (mode === MODE_PASSWORD && validatePassword(account, text)) {
-      if (option === 'removeAccount') {
-        doAction(AccountsAction.removeAccount(account));
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.AuthChangePassword;
 
-        AppStorage.saveAccountAsync(accounts)
-          .then(() => {
-            Alert.alert(
-              '계좌 삭제 완료',
-              '계좌 삭제가 완료되었습니다',
-              [{
-                text: '확인',
-                onPress: () => {
-                  doAction(NavAction.resetScreen(NavAction.Screens.HOME));
-                },
-              }],
-              { cancelable: false },
-            );
-          });
+    if (text.length === 0) {
+      this.setState({
+        helperText: Strings[mode].HELPER_NO_INPUT,
+        helperColor: colors.alertTextRed,
+      });
 
-        return;
+      return;
+    }
+    if (mode === MODE_PASSWORD) {
+      if (validatePassword(account, text)) {
+        this.setState({
+          helperText: Strings[mode].HELPER_DEFAULT,
+          helperColor: colors.transparent,
+        });
+
+        if (option === 'removeAccount') {
+          doAction(AccountsAction.removeAccount(account));
+
+          AppStorage.saveAccountAsync(accounts)
+            .then(() => {
+              Alert.alert(
+                Strings.ALERT_REMOVE_OK_TITLE,
+                Strings.ALERT_REMOVE_OK_CONTEXT,
+                [{
+                  text: Strings.ALERT_BUTTON_OK,
+                  onPress: () => {
+                    doAction(NavAction.resetScreen(NavAction.Screens.HOME));
+                  },
+                }],
+                { cancelable: false },
+              );
+            });
+
+          return;
+        }
+
+        if (option === 'callback') {
+          // doAction(NavAction.popScreen());
+          callback(text);
+
+          return;
+        }
+
+        doAction(NavAction.pushScreen(
+          next,
+          {
+            mode: 'change',
+            account,
+            prevPassword: text,
+            option,
+            backFrom: (option === 'showSecureKey') ? NavAction.Screens.WARNING_KEY_LEAKAGE : null,
+          },
+        ));
+      } else {
+        this.setState({
+          helperText: Strings[mode].HELPER_INVALID,
+          helperColor: colors.alertTextRed,
+        });
       }
-
-      if (option === 'callback') {
-        doAction(NavAction.popScreen());
-        callback(text);
-
-        return;
-      }
-
-
-      ToastAndroid.show('비밀번호 일치', ToastAndroid.SHORT);
-      doAction(NavAction.pushScreen(
-        next,
-        {
-          mode: 'change',
-          account,
-          prevPassword: text,
-          option,
-          backFrom: (option === 'showSecureKey') ? NavAction.Screens.WARNING_KEY_LEAKAGE : null,
-        },
-      ));
     }
 
-    if (mode === MODE_SECURE_KEY && validateSecretKey(account, text)) {
-      if (option === 'removeAccount') {
-        doAction(AccountsAction.removeAccount(account));
+    if (mode === MODE_SECURE_KEY) {
+      if (validateSecretKey(account, text)) {
+        if (option === 'removeAccount') {
+          doAction(AccountsAction.removeAccount(account));
 
-        AppStorage.saveAccountAsync(accounts)
-          .then(() => {
-            Alert.alert(
-              '계좌 삭제 완료',
-              '계좌 삭제가 완료되었습니다',
-              [{
-                text: '확인',
-                onPress: () => {
-                  doAction(NavAction.resetScreen(NavAction.Screens.HOME));
-                },
-              }],
-              { cancelable: false },
-            );
-          });
+          AppStorage.saveAccountAsync(accounts)
+            .then(() => {
+              Alert.alert(
+                Strings.ALERT_REMOVE_OK_TITLE,
+                Strings.ALERT_REMOVE_OK_CONTEXT,
+                [{
+                  text: Strings.ALERT_BUTTON_OK,
+                  onPress: () => {
+                    doAction(NavAction.resetScreen(NavAction.Screens.HOME));
+                  },
+                }],
+                { cancelable: false },
+              );
+            });
 
-        return;
+          return;
+        }
+
+        if (option === 'callback') {
+          // doAction(NavAction.popScreen());
+          callback(this.input.getWrappedInstance().getText());
+
+          return;
+        }
+
+        doAction(NavAction.pushScreen(
+          NavAction.Screens.SET_PASSWORD,
+          {
+            mode: 'change',
+            account,
+            getSecureKey: () => this.input.getWrappedInstance().getText(),
+          },
+        ));
+      } else {
+        this.setState({
+          helperText: Strings[mode].HELPER_INVALID,
+          helperColor: colors.alertTextRed,
+        });
       }
-
-      if (option === 'callback') {
-        doAction(NavAction.popScreen());
-        callback(this.input.getWrappedInstance().getText());
-
-        return;
-      }
-
-      ToastAndroid.show('보안키 일치', ToastAndroid.SHORT);
-      doAction(NavAction.pushScreen(
-        NavAction.Screens.SET_PASSWORD,
-        {
-          mode: 'change',
-          account,
-          getSecureKey: () => this.input.getWrappedInstance().getText(),
-        },
-      ));
     }
   }
 
@@ -208,11 +233,15 @@ class AuthChangePassword extends React.Component {
           if (mode === MODE_PASSWORD) {
             this.setState({
               mode: MODE_SECURE_KEY,
+              helperText: Strings[MODE_SECURE_KEY].HELPER_NO_INPUT,
+              helperColor: colors.alertTextRed,
             });
           }
           if (mode === MODE_SECURE_KEY) {
             this.setState({
               mode: MODE_PASSWORD,
+              helperText: Strings[MODE_PASSWORD].HELPER_NO_INPUT,
+              helperColor: colors.alertTextRed,
             });
           }
         }}
@@ -221,8 +250,8 @@ class AuthChangePassword extends React.Component {
   }
 
   render() {
-    const { settings } = this.props;
     const { mode, helperColor, helperText, option } = this.state;
+    const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.AuthChangePassword;
 
     return (
@@ -241,37 +270,42 @@ class AuthChangePassword extends React.Component {
           }}
         />
         <View style={styles.defaultLayout}>
-          <Text style={[styles.layoutHead, styles.headText]}>
-            {Strings[mode].HEAD_TEXT}
-          </Text>
-          {this.renderInput(mode)}
-          <NotiPanel
-            texts={[
-              helperText,
-            ]}
-            color={helperColor}
-          />
-          {this.renderTextButton()}
-          <View style={styles.filler} />
-          <View style={styles.footer}>
+          <ScrollView
+            contentContainerStyle={[styles.alignCenter, { marginLeft: -6 }]}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={[styles.layoutHead, styles.headText]}>
+              {Strings[mode].HEAD_TEXT}
+            </Text>
+            {this.renderInput(mode)}
             <NotiPanel
               texts={[
-                Strings.NOTICE1,
-                Strings.NOTICE2,
+                helperText,
               ]}
+              color={helperColor}
             />
-          </View>
+            {this.renderTextButton()}
+            <View style={styles.footer}>
+              <NotiPanel
+                texts={[
+                  Strings.NOTICE1,
+                  Strings.NOTICE2,
+                ]}
+              />
+            </View>
+          </ScrollView>
+          <View style={styles.filler} />
           <BottomButton
             actions={[
               {
-                text: Strings.BOTTOM_BUTTON_TEXT,
+                text: Strings.BUTTON_TEXT_OK,
                 callback: this.callbackBottomButton,
               },
             ]}
-            // inactive={!buttonActive}
+          // inactive={!buttonActive}
           />
         </View>
-
+        <AndroidBackHandler />
       </View>
     );
   }

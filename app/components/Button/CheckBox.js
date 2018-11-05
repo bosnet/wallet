@@ -36,17 +36,25 @@ class CheckBox extends React.Component {
     const { label, callback } = this.props;
 
     return (
-      <View style={styles.checkBox}>
-        <TouchableOpacity
+      <TouchableOpacity
+        style={styles.checkBox}
+        onPress={() => {
+          this.onPress(callback);
+        }}
+      >
+        <View
           style={styles.checkArea}
-          onPress={() => {
-            this.onPress(callback);
-          }}
+          
         >
           <Image style={styles.checkIcon} source={value ? icCheckOn : icCheckOff} />
-        </TouchableOpacity>
-        <Text style={styles.checkBoxLabel}>{label}</Text>
-      </View>
+        </View>
+        <Text
+          style={styles.checkBoxLabel}
+          textBreakStrategy="simple"
+        >
+          {label}
+        </Text>
+      </TouchableOpacity>
     );
   }
 }

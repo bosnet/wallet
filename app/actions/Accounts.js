@@ -7,6 +7,7 @@ const Accounts = {
   ADD_UPDATE_FLAG: 'ADD_UPDATE_FLAG',
   REMOVE_UPDATE_FLAG: 'REMOVE_UPDATE_FLAG',
   SET_UPDATE_FLAG: 'SET_UPDATE_FLAG',
+  UNSET_UPDATE_FLAG: 'UNSET_UPDATE_FLAG',
 };
 
 Accounts.addAccount = account => ({
@@ -38,6 +39,11 @@ Accounts.changePassword = (index, secretSeed) => ({
 
 Accounts.setUpdateFlag = key => ({
   type: Accounts.SET_UPDATE_FLAG,
+  key,
+});
+
+Accounts.unsetUpdateFlag = key => ({
+  type: Accounts.UNSET_UPDATE_FLAG,
   key,
 });
 

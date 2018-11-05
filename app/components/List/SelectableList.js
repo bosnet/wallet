@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 
 import { FlatList, View } from 'react-native';
 import styles from './styles';
-import { types } from '../../resources';
+import { types, colors } from '../../resources';
 import { SelectableAccountItem, SelectableAddressItem } from './Selectables';
 import SelectableItem from './SelectableItem';
+import { AlertPanel } from '../Panel';
+
+import icEmpty from '../../resources/images/empty.png';
+
 
 class SelectableList extends React.Component {
   constructor(props) {
@@ -30,21 +34,68 @@ class SelectableList extends React.Component {
   }
 
   setSelected(key) {
-    const { items } = this.state;
+    const { items, selected } = this.state;
+    let isOn = false;
     items.forEach((item) => {
-      if (item.id === key) item.setSelected(true);
-      else item.setSelected(false);
+      if (item.id === key) {
+        item.setSelected(true);
+        isOn = true;
+        if (key === selected) {
+          item.setSelected(false);
+          isOn = false;
+        }
+      } else {
+        item.setSelected(false);
+      }
     });
 
-    this.setState({
-      selected: key,
-    });
+    if (isOn) {
+      this.setState({
+        selected: key,
+      });
+    } else {
+      this.setState({
+        selected: null,
+      });
+    }
   }
 
   addItem(item) {
     const { items } = this.state;
 
     items.push(item);
+  }
+
+  renderNoData() {
+    const { noDataText } = this.props;
+
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 100,
+        }}
+      >
+        <AlertPanel
+          icon={icEmpty}
+          color={colors.alertTextLightGrey}
+          text={noDataText}
+        />
+      </View>
+    );
+  }
+
+  renderList() {
+    const { listData } = this.props;
+
+    return (
+      <FlatList
+        data={listData.data}
+        renderItem={this.renderSelectableItem()}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    );
   }
 
   renderSelectableItem() {
@@ -78,7 +129,7 @@ class SelectableList extends React.Component {
           );
           break;
         default:
-          result = (
+          return (
             <SelectableAddressItem
               text={item.key}
               textColor={item.textColor}
@@ -88,7 +139,7 @@ class SelectableList extends React.Component {
           );
       }
       return result;
-    }
+    };
   }
 
 
@@ -97,11 +148,11 @@ class SelectableList extends React.Component {
 
     return (
       <View style={[styles.itemList, { marginLeft: 0 }]}>
-        <FlatList
-          data={listData.data}
-          renderItem={this.renderSelectableItem()}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        {
+          (listData.data.length > 0)
+            ? this.renderList()
+            : this.renderNoData()
+        }
       </View>
     );
   }

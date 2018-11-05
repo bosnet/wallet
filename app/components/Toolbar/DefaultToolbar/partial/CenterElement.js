@@ -18,7 +18,10 @@ const ThemeStyle = {
 
 const CenterElement = ({ theme, data }) => (
   <View style={[styles.toolbarElement, styles.centerElement]}>
-    <Text style={[styles.centerTitle, ThemeStyle[theme].text]}>
+    <Text
+      style={[styles.centerTitle, ThemeStyle[theme].text]}
+      numberOfLines={1}
+    >
       {(data && data.title) ? data.title : null}
     </Text>
   </View>

@@ -4,6 +4,8 @@ const AddressBook = {
   DELETE_ADDRESS: 'DELETE_ADDRESS',
   MODIFY_ADDRESS: 'MODIFY_ADDRESS',
   UNSET_FLAG: 'UNSET_FLAG',
+  ADD_RECENT: 'ADD_RECENT',
+  SET_RECENT: 'SET_RECENT',
 };
 
 AddressBook.setAddress = list => ({
@@ -25,11 +27,21 @@ AddressBook.deleteAddress = address => ({
 AddressBook.modifyAddress = (name, address) => ({
   type: AddressBook.MODIFY_ADDRESS,
   name,
-  address
+  address,
 });
 
 AddressBook.unsetFlag = params => ({
   type: AddressBook.UNSET_FLAG,
 });
+
+AddressBook.addRecent = address => ({
+  type: AddressBook.ADD_RECENT,
+  address,
+});
+
+AddressBook.setRecent = list => ({
+  type: AddressBook.SET_RECENT,
+  list,
+})
 
 export default AddressBook;

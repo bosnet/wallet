@@ -19,6 +19,7 @@ import iconSend from '../../../resources/images/ic_send.png';
 import iconCopy from '../../../resources/images/icon_copy.png';
 import iconModify from '../../../resources/images/ic_modify.png';
 import iconDel from '../../../resources/images/ic_del.png';
+import strings from '../../../resources/strings';
 
 class AddressItem extends React.Component {
   constructor(props) {
@@ -53,8 +54,9 @@ class AddressItem extends React.Component {
   }
 
   render() {
-    const { address, resetAllItem, id, doAction, addressBook } = this.props;
+    const { address, resetAllItem, id, doAction, addressBook, settings } = this.props;
     const { page } = this.state;
+    const Strings = strings[settings.language].ComponentText.AddressItem;
 
     return (
       <ViewPagerAndroid
@@ -86,26 +88,29 @@ class AddressItem extends React.Component {
           <ButtonGroup>
             <IconButton
               icon={iconSend}
-              label="보내기"
+              label={Strings.LABEL_SEND}
               callback={() => {
                 doAction(
                   NavAction.pushScreen(
                     NavAction.Screens.SELECT_WITHDRAW_ACCOUNT,
+                    {
+                      address: address.address,
+                    },
                   ),
                 );
               }}
             />
             <IconButton
               icon={iconCopy}
-              label="복사"
+              label={Strings.LABEL_COPY}
               callback={() => {
-                ToastAndroid.show('클립보드에 복사되었습니다', ToastAndroid.SHORT);
+                ToastAndroid.show(Strings.TOAST_COPY_ADDRESS, ToastAndroid.SHORT);
                 Clipboard.setString(address.address);
               }}
             />
             <IconButton
               icon={iconModify}
-              label="수정"
+              label={Strings.LABEL_MODIFY}
               callback={() => {
                 doAction(
                   NavAction.pushScreen(
@@ -119,17 +124,17 @@ class AddressItem extends React.Component {
             />
             <IconButton
               icon={iconDel}
-              label="삭제"
+              label={Strings.LABEL_DELETE}
               callback={() => {
                 Alert.alert(
-                  '주소삭제',
-                  '주소를 정말 삭제하시겠습니까?',
+                  Strings.ALERT_DELETE_TITLE,
+                  Strings.ALERT_DELETE_MESSAGE,
                   [
                     {
-                      text: '취소', onPress: () => {}
+                      text: Strings.ALERT_BUTTON_CANCEL, onPress: () => {}
                     },
                     {
-                      text: '삭제', onPress: () => {
+                      text: Strings.ALERT_BUTTON_REMOVE, onPress: () => {
                         doAction(AddressAction.deleteAddress(address.address));
 
                         AppStorage.saveAddressBookAsync(addressBook);
@@ -137,7 +142,7 @@ class AddressItem extends React.Component {
                     },
                   ],
                   { cancelable: false },
-                )
+                );
               }}
             />
           </ButtonGroup>
@@ -161,6 +166,7 @@ AddressItem.defaultProps = {
 
 const mapStateToProps = state => ({
   addressBook: state.addressBook.list,
+  settings: state.settings,
 });
 
 const mapDispatchToProps = dispatch => ({

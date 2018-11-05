@@ -7,15 +7,16 @@ import PropTypes from 'prop-types';
 
 import styles from '../styles';
 import arrow from '../../../resources/images/arrow.png';
+import { colors } from '../../../resources';
 
 const OptionTextItem = ({
-  text, value, action, onPress,
+  text, textColor, value, action, onPress,
 }) => (
   <TouchableOpacity
     style={styles.listItem}
     onPress={action ? onPress : null}
   >
-    <Text style={styles.itemText}>
+    <Text style={[styles.itemText, { color: textColor }]}>
       {text}
     </Text>
     <View
@@ -31,12 +32,14 @@ const OptionTextItem = ({
 
 OptionTextItem.propTypes = {
   text: PropTypes.string.isRequired,
+  textColor: PropTypes.string,
   value: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   action: PropTypes.shape({ type: {} }),
 };
 
 OptionTextItem.defaultProps = {
+  textColor: colors.itemTextBlack,
   onPress: null,
   action: null,
 };

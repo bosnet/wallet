@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { colors, types } from '../../resources';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -12,6 +13,7 @@ import { TextArea } from '../../components/Text';
 import { BottomButton, ButtonGroup, IconButton } from '../../components/Button';
 import { Navigation as NavAction, AddressBook as AddressAction } from '../../actions';
 import { ItemList } from '../../components/List';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class AddressBook extends React.Component {
   constructor(props) {
@@ -73,6 +75,8 @@ class AddressBook extends React.Component {
 
   renderAddressList() {
     const { addressBook } = this.props;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.AddressBook;
 
     return (
       <ItemList
@@ -81,8 +85,7 @@ class AddressBook extends React.Component {
           data: this.buildAddressList(),
         }}
         noDataText={
-          '아직 등록된\n'
-          + '주소가 없습니다'
+          Strings.NOTI_NO_ADDRESS
         }
       />
     );
@@ -91,6 +94,8 @@ class AddressBook extends React.Component {
   render() {
     const { addressBook, updateFlag, doAction } = this.props;
     const { addressCount } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.AddressBook;
 
     if (updateFlag) {
       doAction(AddressAction.unsetFlag());
@@ -106,10 +111,10 @@ class AddressBook extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '주소록',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '닫기',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -129,9 +134,7 @@ class AddressBook extends React.Component {
               />
               <NotiPanel
                 texts={[
-                  '* BOS Wallet을 삭제하면 주소록에 저장된 정보는 모두 사라지\n'
-                  + '   며 복구할 수 없습니다',
-                  '* 중요한 주소는 따로 안전한 곳에 보관해 주시기 바랍니다!',
+                  Strings.NOTI,
                 ]}
               />
               {this.renderAddressList()}
@@ -142,7 +145,7 @@ class AddressBook extends React.Component {
         <BottomButton
           actions={[
             {
-              text: '주소 추가',
+              text: Strings.BUTTON_TEXT_ADD,
               action: NavAction.pushScreen(
                 NavAction.Screens.MODIFY_ADDRESS,
                 {
@@ -152,6 +155,7 @@ class AddressBook extends React.Component {
             },
           ]}
         />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -164,6 +168,7 @@ AddressBook.navigationOptions = {
 const mapStateToProps = state => ({
   addressBook: state.addressBook.list,
   updateFlag: state.addressBook.updateFlag,
+  settings: state.settings,
 });
 
 const mapDispatchToProps = dispatch => ({

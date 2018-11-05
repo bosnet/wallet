@@ -40,11 +40,14 @@ const Navigation = {
     SELECT_LANGUAGE: 'SelectLanguage',
     CHANGE_ACCOUNT_NAME: 'ChangeAccountName',
     BEFORE_TRANSACTION: 'BeforeTransaction',
+    INAPP_BROWSER: 'InAppBrowser',
+    SERVICE_AGREEMENT: 'ServiceAgreement',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
   NAV_RESET: 'NAV_RESET',
   NAV_BACK: 'NAV_BACK',
+  NAV_RESET_TO_LIST: 'NAV_RESET_TO_LIST',
 };
 
 Navigation.pushScreen = (screenName, params) => ({
@@ -64,6 +67,13 @@ Navigation.resetScreen = (screenName, params) => ({
   routeName: screenName,
   key: screenName,
   params,
+});
+
+Navigation.resetToList = account => ({
+  type: Navigation.NAV_RESET_TO_LIST,
+  params: {
+    account,
+  },
 });
 
 Navigation.backScreen = screenName => ({

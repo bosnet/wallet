@@ -9,6 +9,7 @@ import { colors, types } from '../../../resources';
 import styles from '../styles';
 import { TextArea } from '../../Text';
 import { TRANSACTION_FEE, MINIMUM_BALANCE } from '../../../config/transactionConfig'
+import strings from '../../../resources/strings';
 
 class SelectableAccountItem extends React.Component {
   constructor(props) {
@@ -43,8 +44,10 @@ class SelectableAccountItem extends React.Component {
 
 
   render() {
-    const { id, address, name, balance, setSelected } = this.props;
+    const { id, address, name, balance, setSelected, settings } = this.props;
     const { selected } = this.state;
+
+    const Strings = strings[settings.language].ComponentText;
 
     return (
       <TouchableOpacity
@@ -62,7 +65,7 @@ class SelectableAccountItem extends React.Component {
             underline={false}
           />
           <TextArea
-            label="출금 가능 금액"
+            label={Strings.WITHDRAWAL_ITEM_LABEL}
             text={(balance > 0) ? balance - TRANSACTION_FEE - MINIMUM_BALANCE : 0}
             type={types.TextArea.BALACNE}
             underline={false}
@@ -82,9 +85,12 @@ SelectableAccountItem.defaultProps = {
   action: null,
 };
 
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
 
 const mapDispatchToProps = dispatch => ({
   doAction: action => dispatch(action),
 });
 
-export default connect(null, mapDispatchToProps)(SelectableAccountItem);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectableAccountItem);

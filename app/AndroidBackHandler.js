@@ -28,13 +28,17 @@ class AndroidBackHandler extends React.Component {
   onBackPress() {
     let result = true;
     const { lastPress } = this.state;
+    const { doAction, action } = this.props;
 
     const { navigation, goBack } = this.props;
+    console.log("BACK");
+
     if (navigation.index > 0) {
       this.setState({
         lastPress: 0,
       });
-      goBack();
+      if (action) doAction(action);
+      else goBack();
     } else {
       const delta = new Date().getTime() - lastPress;
 
@@ -50,13 +54,12 @@ class AndroidBackHandler extends React.Component {
   }
 
   render() {
-    const { children } = this.props;
-    return children;
+    // const { children } = this.props;
+    return null;
   }
 }
 
 AndroidBackHandler.propTypes = {
-  children: PropTypes.element.isRequired,
   goBack: PropTypes.func.isRequired,
   navigation: PropTypes.shape({ index: PropTypes.number }).isRequired,
 
@@ -66,6 +69,7 @@ const mapStateToProps = state => ({ navigation: state.navigation });
 
 const mapDispatchToProps = dispatch => ({
   goBack: n => dispatch(Navigation.popScreen(n)),
+  doAction: action => dispatch(action),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AndroidBackHandler);

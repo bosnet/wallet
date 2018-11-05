@@ -6,8 +6,10 @@ import {
   ToastAndroid,
   Share,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -16,6 +18,7 @@ import { TextArea, LabelText } from '../../components/Text';
 import { colors } from '../../resources';
 import { QRPanel } from '../../components/Panel';
 import { Navigation as NavAction } from '../../actions';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class ReceiveBalance extends React.Component {
   constructor(props) {
@@ -30,7 +33,9 @@ class ReceiveBalance extends React.Component {
 
   render() {
     const { account } = this.state;
-
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveBalance;
+    
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.PURPLE} />
@@ -38,10 +43,10 @@ class ReceiveBalance extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '받기',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '닫기',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -50,28 +55,23 @@ class ReceiveBalance extends React.Component {
           <View style={styles.section}>
             <TextArea
               label={(
-                <Text>
-                  <Text style={{ fontWeight: 'bold' }}>어카운트이름기호</Text>
-                  <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
-                  <Text style={{ fontWeight: 'bold' }}>공개 주소</Text>
-                </Text>
+                account.name
               )}
               lableColor={colors.labelTextBlack}
               text={(account && account.address) ? account.address : ''}
               underline={false}
             />
           </View>
-          <View style={styles.seperator} />
-          <View style={styles.section}>
+          <View style={[styles.seperator]} />
+          <View style={[styles.section]}>
             <LabelText
               text={(
                 <Text>
-                  <Text style={{ fontWeight: 'bold' }}>어카운트이름기호</Text>
-                  <Text style={{ fontFamily: 'ZapfDingbatsITC' }}> ✈ </Text>
-                  <Text style={{ fontWeight: 'bold' }}>QR CODE</Text>
+                  {`${account.name} QR CODE`}
                 </Text>
               )}
             />
+            <View style={{ marginBottom: 20 }} />
             <QRPanel
               value={(account && account.address) ? account.address : ''}
             />
@@ -80,22 +80,23 @@ class ReceiveBalance extends React.Component {
         <BottomButton
           actions={[
             {
-              text: '공유',
+              text: Strings.BUTTON_TEXT_SHARE,
               callback: () => {
                 if (account && account.address) Share.share({ message: account.address });
               },
             },
             {
-              text: '복사',
+              text: Strings.BUTTON_TEXT_COPY,
               callback: () => {
                 if (account && account.address) {
-                  ToastAndroid.show('클립보드에 복사되었습니다', ToastAndroid.SHORT);
+                  ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
                   Clipboard.setString(account.address);
                 }
               },
             },
           ]}
         />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -106,4 +107,9 @@ ReceiveBalance.navigationOptions = {
   header: null,
 };
 
-export default ReceiveBalance;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+
+export default connect(mapStateToProps)(ReceiveBalance);

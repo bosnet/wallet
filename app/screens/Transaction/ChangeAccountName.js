@@ -14,6 +14,7 @@ import AppStorage from '../../libs/AppStorage';
 
 import { colors } from '../../resources';
 import strings from '../../resources/strings';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class ChangeAccountName extends React.Component {
   constructor(props) {
@@ -56,18 +57,30 @@ class ChangeAccountName extends React.Component {
   }
 
   callbackBottomButton() {
+    const { account, helperColor, helperText, buttonActive } = this.state;
+
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.ChangeAccountName;
+
+
     const { doAction, accounts } = this.props;
-    const { account } = this.state;
     const text = this.input.getWrappedInstance().getText();
+
+    if (accounts.map(e => e.name).indexOf(text) >= 0) {
+
+      this.setState({
+        helperText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+        helperColor: colors.alertTextRed,
+      });
+
+      return;
+    }
 
     doAction(AccountsAction.changeName(account.index, text));
 
     AppStorage.saveAccountAsync(accounts)
       .then(() => {
         doAction(NavAction.popScreen());
-      })
-      .catch(() => {
-        ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
       });
   }
 
@@ -86,7 +99,7 @@ class ChangeAccountName extends React.Component {
               title: Strings.TITLE,
             },
             right: {
-              actionText: '취소',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -125,7 +138,7 @@ class ChangeAccountName extends React.Component {
             // inactive={!buttonActive}
           />
         </View>
-
+        <AndroidBackHandler />
       </View>
     );
   }

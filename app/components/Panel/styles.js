@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   qrPanel: {
     width: 163,
     height: 163,
-    margin: 30,
+    margin: 15,
   },
 
   withdrawPanel: {
@@ -148,11 +148,11 @@ const styles = StyleSheet.create({
     fontFamily: 'SpoqaHanSans-Bold',
     fontSize: 13,
     color: colors.panelTitleGray,
-    height: 19,
+    // height: 19,
     marginBottom: 9,
   },
   balanceText: {
-    height: 38,
+    // height: 38,
     fontSize: 26,
     fontFamily: 'SpoqaHanSans-Regular',
     marginHorizontal: 3,
@@ -183,7 +183,8 @@ const styles = StyleSheet.create({
   },
   loadingTitle: {
     marginLeft: 30,
-    height: 28,
+    maxWidth: 220,
+    // height: 28,
     fontFamily: 'SpoqaHanSans-Bold',
     fontSize: 16,
     lineHeight: 28,

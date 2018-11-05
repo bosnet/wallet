@@ -3,7 +3,7 @@ import { View, Text, ScrollView, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
-
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -13,6 +13,7 @@ import { TextArea, TextAreaOptions } from '../../components/Text';
 import { Navigation as NavAction } from '../../actions';
 import { TRANSACTION_FEE } from '../../config/transactionConfig'
 import { retrieveAccount, makeTransaction } from '../../libs/Transactions';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class BeforeTransaction extends React.Component {
   constructor(props) {
@@ -53,27 +54,35 @@ class BeforeTransaction extends React.Component {
     const { target, amount, fee } = this.state;
     const { doAction } = this.props;
 
-    retrieveAccount(account.address)
+
+    new retrieveAccount(account.address)
       .then((accountData) => {
         if (accountData.status === 200) {
           const lastSequenceId = accountData.sequence_id;
+          account.balance = accountData.balance;
 
-          ToastAndroid.show(JSON.stringify(lastSequenceId), ToastAndroid.SHORT);
+          console.log(JSON.stringify(account));
+          console.log(JSON.stringify(accountData));
 
-          retrieveAccount(target)
+          new retrieveAccount(target)
             .then((result) => {
               if (result.status === 200) {
       
                 makeTransaction(account, password, target, amount, 'payment', lastSequenceId)
                   .then((res) => {
-                    if (res.status === 500) {
+                    console.log(res);
+
+                    if (res.status !== 200) {
                       doAction(
                         NavAction.pushScreen(
                           NavAction.Screens.CREATE_TRANSACTION,
                           {
                             data: {
-                              status: result.status,
-                              title: result.title,
+                              status: res.status,
+                              title: res.title,
+                              detail: res.detail,
+                              amount,
+                              account,
                             },
                           },
                         ),
@@ -91,6 +100,7 @@ class BeforeTransaction extends React.Component {
                             fee: res.fee,
                             amount: res.amount,
                             target: res.target,
+                            account,
                           },
                         },
                       ),
@@ -101,14 +111,19 @@ class BeforeTransaction extends React.Component {
               if (result.status === 404) {
                 makeTransaction(account, password, target, amount, 'create', lastSequenceId)
                   .then((res) => {
-                    if (res.status === 500) {
+                    console.log(res);
+
+                    if (res.status !== 200) {
                       doAction(
                         NavAction.pushScreen(
                           NavAction.Screens.CREATE_TRANSACTION,
                           {
                             data: {
-                              status: result.status,
-                              title: result.title,
+                              status: res.status,
+                              title: res.title,
+                              detail: res.detail,
+                              amount,
+                              account,
                             },
                           },
                         ),
@@ -126,6 +141,7 @@ class BeforeTransaction extends React.Component {
                             fee: res.fee,
                             amount: res.amount,
                             target: res.target,
+                            account,
                           },
                         },
                       ),
@@ -141,8 +157,10 @@ class BeforeTransaction extends React.Component {
                       data: {
                         status: result.status,
                         title: result.title,
+                        amount,
+                        account,
                       },
-                      option: 'transaction',
+                      // option: 'transaction',
                     },
                   ),
                 );
@@ -154,7 +172,9 @@ class BeforeTransaction extends React.Component {
 
   render() {
     const { target, amount, fee } = this.state;
-
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.BeforeTransaction;
+    
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.PURPLE} />
@@ -162,7 +182,7 @@ class BeforeTransaction extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '송금 내역 확인',
+              title: Strings.TITLE,
             },
           }}
         />
@@ -171,28 +191,28 @@ class BeforeTransaction extends React.Component {
           showsVerticalScrollIndicator={false}
         >
           <Text style={[styles.layoutHead, styles.headText]}>
-            아래의 송금내역이 맞는지 확인해 주세요
+            {Strings.HEAD_TEXT}
           </Text>
           <TextArea
-            label="받는 계좌 공개 주소"
+            label={Strings.LABEL_RECEIVER}
             text={target}
             underline={false}
           />
           <TextArea
-            label="보낸 금액"
+            label={Strings.LABEL_AMOUNT}
             text={amount}
             type={types.TextArea.BALACNE}
             underline={false}
           />
           <TextArea
-            label="수수료"
+            label={Strings.LABEL_FEE}
             text={fee}
             type={types.TextArea.BALACNE}
             underline={false}
           />
           <TextArea
-            label="총액"
-            text={parseFloat(amount) + parseFloat(fee)}
+            label={Strings.LABEL_TOTAL}
+            text={amount + fee}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -201,15 +221,16 @@ class BeforeTransaction extends React.Component {
         <BottomButton
           actions={[
             {
-              text: '예',
+              text: Strings.BUTTON_TEXT_YES,
               callback: this.doAuth,
             },
             {
-              text: '아니오',
+              text: Strings.BUTTON_TEXT_NO,
               action: NavAction.popScreen(),
             },
           ]}
         />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -219,8 +240,13 @@ BeforeTransaction.navigationOptions = {
   header: null,
 };
 
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+
 const mapDispatchToProps = dispatch => ({
   doAction: action => dispatch(action),
 });
 
-export default connect(null, mapDispatchToProps)(BeforeTransaction);
+export default connect(mapStateToProps, mapDispatchToProps)(BeforeTransaction);

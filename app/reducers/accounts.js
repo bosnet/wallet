@@ -1,5 +1,5 @@
 
-import { Accounts } from '../actions';
+import { Accounts, Navigation } from '../actions';
 import AppStorage from '../libs/AppStorage';
 
 const initialState = {
@@ -72,7 +72,7 @@ function accountsAction(state = initialState, action) {
         updateFlag: true,
       };
     case Accounts.ADD_UPDATE_FLAG:
-      state.updateFlags[action.key] = false;
+      state.updateFlags[action.key] = true;
       return {
         ...state,
       };
@@ -83,6 +83,14 @@ function accountsAction(state = initialState, action) {
         ...state,
       };
     case Accounts.SET_UPDATE_FLAG:
+
+      console.log('SET_UPDATE_FLAG');
+      state.updateFlags = setUpdateFlags(state.updateFlags);
+      return {
+        ...state,
+        updateFlag: true,
+      };
+    case Accounts.UNSET_UPDATE_FLAG:
       if (state.updateFlags[action.key]) state.updateFlags[action.key] = false;
       return {
         ...state,

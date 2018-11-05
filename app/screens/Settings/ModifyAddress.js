@@ -3,6 +3,7 @@ import { View, ToastAndroid, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -10,10 +11,11 @@ import { BottomButton } from '../../components/Button';
 import { InputText, InputTextOptions } from '../../components/Input';
 import { NotiPanel } from '../../components/Panel';
 import { TextArea, TextAreaOptions } from '../../components/Text';
-import { AddressBook } from '../../actions';
-import { Navigation as NavAction } from '../../actions';
+import { AddressBook, Navigation as NavAction } from '../../actions';
 
 import AppStorage from '../../libs/AppStorage';
+import { colors } from '../../resources';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 
 class ModifyAddress extends React.Component {
@@ -28,10 +30,19 @@ class ModifyAddress extends React.Component {
       modeText = '추가';
     }
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.ModifyAddress;
+
+
     this.state = {
       mode,
       modeText,
-      address: navigation.getParam('address', 'null'),
+      address: navigation.getParam('address', null),
+
+      nameNotiText: Strings.HELPER_NAME,
+      nameNotiColor: colors.alertTextLightGrey,
+      addressNotiText: Strings.HELPER_ADDRESS,
+      addressNotiColor: colors.alertTextLightGrey,
     };
 
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
@@ -40,8 +51,15 @@ class ModifyAddress extends React.Component {
 
   componentDidMount() {
     const { mode, address } = this.state;
+
+    console.log(address);
+
     if (mode === 'Modify') {
       this.inputName.getWrappedInstance().setText(address.name);
+      this.inputAddress.getWrappedInstance().setText(address.address);
+    }
+
+    if (mode === 'Add' && address) {
       this.inputAddress.getWrappedInstance().setText(address.address);
     }
   }
@@ -53,11 +71,80 @@ class ModifyAddress extends React.Component {
   callbackBottomButton() {
     const { mode } = this.state;
     const { doAction, addressBook } = this.props;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.ModifyAddress;
 
     const name = this.inputName.getWrappedInstance().getText();
     const address = this.inputAddress.getWrappedInstance().getText();
 
+    let errorFlag = false;
+
+    if (name.length <= 0) {
+      this.setState({
+        nameNotiText: Strings.HELPER_ERROR_NO_NAME,
+        nameNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (name.length > 10) {
+      this.setState({
+        nameNotiText: Strings.HELPER_ERROR_NAME_NOT_VALID,
+        nameNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (addressBook.map(e => e.name).indexOf(name) >= 0) {
+      this.setState({
+        nameNotiText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+        nameNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (address.length <= 0) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ERROR_NO_ADDRESS,
+        addressNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (address.length > 0 && !address.match(/^G.+/)) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
+        addressNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (errorFlag === true) {
+      return;
+    }
+
+    this.setState({
+      nameNotiText: Strings.HELPER_NAME,
+      nameNotiColor: colors.transparent,
+      addressNotiText: Strings.HELPER_ADDRESS,
+      addressNotiColor: colors.transparent,
+    });
+
     if (mode === 'Add') {
+      if (addressBook.map(e => e.address).indexOf(address) >= 0) {
+        this.setState({
+          addressNotiText: Strings.HELPER_ERROR_DUPLICATE_ADDRESS,
+          addressNotiColor: colors.alertTextRed,
+        });
+
+        return;
+      }
+
       doAction(AddressBook.addAddress(
         name,
         address,
@@ -84,7 +171,17 @@ class ModifyAddress extends React.Component {
 
 
   render() {
-    const { modeText, mode } = this.state;
+    const { 
+      modeText, mode,
+      addressNotiText, addressNotiColor,
+      nameNotiText, nameNotiColor,
+    } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.ModifyAddress;
+
+    let title;
+    if (mode === 'Add') title = Strings.TITLE_ADD;
+    if (mode === 'Modify') title = Strings.TITLE_MODIFY;
 
     return (
       <View style={styles.container}>
@@ -93,10 +190,10 @@ class ModifyAddress extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: `주소 ${modeText}`,
+              title,
             },
             right: {
-              actionText: '닫기',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -105,24 +202,25 @@ class ModifyAddress extends React.Component {
           <View style={[styles.layoutHead]} />
           <InputText
             ref={(c) => { this.inputName = c; }}
-            label="이름"
-            placeholder="최소 1자 이상 최대 10자 이하 입력"
+            label={Strings.LABEL_NAME}
+            placeholder={Strings.PLACEHOLDER_NAME}
           />
           <NotiPanel
-            texts={['이름은 최소 1자 이상 최대 10자 이하 입력하세요']}
+            texts={[nameNotiText]}
+            color={nameNotiColor}
           />
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
               if (mode === 'Modify') {
-                ToastAndroid.show('공개주소는 수정할 수 없습니다', ToastAndroid.SHORT);
+                ToastAndroid.show(Strings.TOAST_MODIFY_ADDRESS, ToastAndroid.SHORT);
               }
             }}
           >
             <InputText
               ref={(c) => { this.inputAddress = c; }}
-              label="공개 주소"
-              placeholder="G로 시작하는 공개주소 입력"
+              label={Strings.LABEL_ADDRESS}
+              placeholder={Strings.PLACEHOLDER_ADDRESS}
               editable={(mode !== 'Modify')}
               option={
                 (mode !== 'Modify')
@@ -140,28 +238,27 @@ class ModifyAddress extends React.Component {
             />
           </TouchableOpacity>
           <NotiPanel
-            texts={[
-              'G로 시작하는 공개 주소 56자를 입력하세요',
-            ]}
+            texts={[addressNotiText]}
+            color={addressNotiColor}
           />
           <View style={styles.filler} />
           <View style={styles.footer}>
             <NotiPanel
               texts={[
-                '* BOS Wallet을 삭제하면 주소록에 저장된 정보는 모두 사라지\n며 복구할 수 없 습니다',
-                '* 중요한 주소는 따로 안전한 곳에 보관해 주시기 바랍니다',
+                Strings.NOTI,
               ]}
             />
             <BottomButton
               actions={[
                 {
-                  text: '확인',
+                  text: Strings.BUTTON_TEXT_OK,
                   callback: this.callbackBottomButton,
                 },
               ]}
             />
           </View>
         </View>
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -173,6 +270,7 @@ ModifyAddress.navigationOptions = {
 
 const mapStateToProps = state => ({
   addressBook: state.addressBook.list,
+  settings: state.settings,
 });
 
 const mapDispatchToProps = dispatch => ({

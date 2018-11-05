@@ -6,6 +6,7 @@ import modal from './modal';
 import accounts from './accounts';
 import settings from './settings';
 import addressBook from './addressbook';
+import recentAddress from './recentAddress';
 
 const AppReducer = combineReducers({
   navigation,
@@ -13,6 +14,7 @@ const AppReducer = combineReducers({
   accounts,
   settings,
   addressBook,
+  recentAddress,
 });
 
 export default AppReducer;

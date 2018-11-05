@@ -3,19 +3,27 @@ import {
   View, Text, Image, TouchableOpacity, Linking,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 import arrow from '../../../resources/images/arrow.png';
 import icExlink from '../../../resources/images/external_link.png';
+import { Navigation as NavAction } from '../../../actions';
+import { colors } from '../../../resources';
 
-const ExLinkItem = ({ text, value }) => (
+const ExLinkItem = ({ text, textColor, value, doAction }) => (
   <TouchableOpacity
     style={styles.listItem}
     onPress={() => {
-      Linking.openURL(value);
+      doAction(NavAction.pushScreen(
+        NavAction.Screens.INAPP_BROWSER,
+        {
+          URI: value,
+        },
+      ));
     }}
   >
-    <Text style={styles.itemText}>
+    <Text style={[styles.itemText, { color: textColor }]}>
       {text}
     </Text>
     <View
@@ -30,10 +38,16 @@ const ExLinkItem = ({ text, value }) => (
 ExLinkItem.propTypes = {
   text: PropTypes.string.isRequired,
   value: PropTypes.string,
+  textColor: PropTypes.string,
 };
 
 ExLinkItem.defaultProps = {
+  textColor: colors.itemTextBlack,
   value: '',
 };
 
-export default ExLinkItem;
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+export default connect(null, mapDispatchToProps)(ExLinkItem);

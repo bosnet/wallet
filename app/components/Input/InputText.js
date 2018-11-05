@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View, Text, Image, TextInput, TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -103,7 +104,7 @@ class InputText extends React.Component {
     } = this.props;
 
     return (
-      <View style={styles.input}>
+      <KeyboardAvoidingView style={styles.input}>
         <View style={styles.inputHead}>
           <Text style={[styles.inputTitle, { color: labelColor }]}>{label}</Text>
           {option ? this.createOption() : null}
@@ -126,7 +127,7 @@ class InputText extends React.Component {
           {this.drawIcon()}
         </View>
 
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

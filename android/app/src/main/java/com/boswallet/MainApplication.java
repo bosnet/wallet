@@ -2,12 +2,13 @@ package com.boswallet;
 
 import android.app.Application;
 
+import com.boswallet.NativeFunctions.NativeFunctionsPackage;
 import com.facebook.react.ReactApplication;
-import io.invertase.firebase.RNFirebasePackage;
-
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import io.invertase.firebase.RNFirebasePackage;
 import org.reactnative.camera.RNCameraPackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -28,12 +29,14 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNFirebasePackage(),
-            new RNCameraPackage(),
-            new RandomBytesPackage(),
-            new RNFirebaseCrashlyticsPackage(),
-            new SplashScreenReactPackage()
+              new MainReactPackage(),
+              new SplashScreenReactPackage(),
+              new RNCameraPackage(),
+              new RNFirebasePackage(),
+              new RandomBytesPackage(),
+              new RNFirebaseCrashlyticsPackage(),
+              new NativeFunctionsPackage()
+//              new RNFirebaseAnalyticsPackage()
       );
     }
 

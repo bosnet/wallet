@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ToastAndroid, Keyboard } from 'react-native';
+import RNKeyboard from 'react-native-keyboard';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -11,11 +13,9 @@ import { WithdrawablePanel, NotiPanel } from '../../components/Panel';
 import { Navigation as NavAction } from '../../actions';
 import { InputText, InputBalance } from '../../components/Input';
 import { colors } from '../../resources';
-import { Transactions } from '../../resources/strings/ko';
 
 import { TRANSACTION_FEE, MINIMUM_BALANCE } from '../../config/transactionConfig';
-
-const Strings = Transactions.SendBalance;
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 const checkDotRange = (balance) => {
   if (balance.toString().indexOf('.') > -1) { // Has Dot
@@ -26,7 +26,7 @@ const checkDotRange = (balance) => {
 };
 
 const checkValidBalance = (balance) => {
-  if (balance.toString().match(/./g) > 1) { // Has Many(2+) Dot
+  if (balance.toString().match(/[.]/g) > 1) { // Has Many(2+) Dot
     return false;
   }
 
@@ -50,6 +50,9 @@ class SendBalance extends React.Component {
     const { navigation } = this.props;
     const account = navigation.getParam('account', null);
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.SendBalance;
+
     this.state = {
       account,
       maxSendable: account ? getMaxSendable(account.balance) : '',
@@ -60,7 +63,6 @@ class SendBalance extends React.Component {
       addressNotiText: Strings.HELPER_ADDRESS_DEFAULT,
     };
 
-    this.onChangeBalance = this.onChangeBalance.bind(this);
     this.onEndEditBalance = this.onEndEditBalance.bind(this);
     this.onFocusAddress = this.onFocusAddress.bind(this);
     this.onEndEditAddress = this.onEndEditAddress.bind(this);
@@ -69,9 +71,12 @@ class SendBalance extends React.Component {
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
   }
 
-  onChangeBalance(text) {
-    if (!checkDotRange(text)) {
-      this.inputBalance.setText(text.slice(0, -1));
+  componentDidMount() {
+    const { navigation } = this.props;
+    const address = navigation.getParam('address', null);
+
+    if (address) {
+      this.inputAddress.getWrappedInstance().setText(address);
     }
   }
 
@@ -94,6 +99,10 @@ class SendBalance extends React.Component {
   onEndEditBalance() {
     const text = this.inputBalance.getText();
     const { maxSendable } = this.state;
+
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.SendBalance;
+
 
     if (text.length === 0) {
       this.setState({
@@ -147,9 +156,22 @@ class SendBalance extends React.Component {
   bottomButtonCallback() {
     const { pushScreen } = this.props;
     const { account } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.SendBalance;
 
     const target = this.inputAddress.getWrappedInstance().getText();
     const amount = this.inputBalance.getText();
+
+    if (target.length === 0) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ADDRESS_ERROR_NO_INPUT,
+        addressNotiColor: colors.alertTextRed,
+      });
+
+      ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
+
+      return;
+    }
 
     pushScreen(
       NavAction.Screens.BEFORE_TRANSACTION,
@@ -170,6 +192,9 @@ class SendBalance extends React.Component {
       addressNotiColor,
     } = this.state;
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.SendBalance;
+
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.PURPLE} />
@@ -177,10 +202,10 @@ class SendBalance extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '보내기',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '닫기',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -199,11 +224,10 @@ class SendBalance extends React.Component {
           <InputBalance
             ref={(c) => { this.inputBalance = c; }}
             label={Strings.BALANCE_INPUT_LABEL}
-            subLabel={`수수료 ${TRANSACTION_FEE} BOS`}
+            subLabel={`${Strings.LABEL_FEE} ${TRANSACTION_FEE} BOS`}
             placeholder={Strings.BALANCE_INPUT_PLACEHOLDER}
             keyboardType="numeric"
             textColor={colors.textAreaContentsNavy}
-            onChangeText={this.onChangeBalance}
             onEndEditing={this.onEndEditBalance}
           />
           <NotiPanel
@@ -232,12 +256,13 @@ class SendBalance extends React.Component {
           <BottomButton
             actions={[
               {
-                text: '확인',
+                text: Strings.BUTTON_TEXT_OK,
                 callback: this.bottomButtonCallback,
               },
             ]}
           />
         </View>
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -247,8 +272,12 @@ SendBalance.navigationOptions = {
   header: null,
 };
 
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
 const mapDispatchToProps = dispatch => ({
   pushScreen: (screen, params) => dispatch(NavAction.pushScreen(screen, params)),
 });
 
-export default connect(null, mapDispatchToProps)(SendBalance);
+export default connect(mapStateToProps, mapDispatchToProps)(SendBalance);

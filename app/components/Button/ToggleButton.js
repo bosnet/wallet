@@ -7,19 +7,37 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 
 import toogleOn from '../../resources/images/switch_on.png';
+import toogleOff from '../../resources/images/switch_off.png';
 
-const ToggleButton = ({ value }) => (
-  <TouchableOpacity>
-    <Image style={styles.toggleButton} source={toogleOn} />
-  </TouchableOpacity>
-);
+class ToggleButton extends React.Component {
+  constructor(props) {
+    super(props);
 
-ToggleButton.propTypes = {
-  value: PropTypes.bool,
-};
+    const { value } = this.props;
+    this.state = {
+      value,
+    };
+    this.onPress = this.onPress.bind(this);
+  }
 
-ToggleButton.defaultProps = {
-  value: false,
-};
+  onPress() {
+    this.setState(prevState => ({
+      value: !prevState.value,
+    }));
+  }
+
+  render() {
+    const { value } = this.state;
+
+    return (
+      <TouchableOpacity
+        style={{ marginTop: -11 }}
+        onPress={this.onPress}
+      >
+        <Image style={styles.toggleButton} source={value ? toogleOn : toogleOff} />
+      </TouchableOpacity>
+    );
+  }
+}
 
 export default ToggleButton;

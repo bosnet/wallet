@@ -12,8 +12,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 54,
+    minHeight: 54,
     paddingLeft: 8,
+    marginRight: 24,
     borderBottomWidth: 0.5,
     borderBottomColor: colors.listSeperatorGray,
 
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 9,
   },
   addressItem: {
+    marginLeft: -5,
     minHeight: 120,
   },
   accountName: {

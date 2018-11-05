@@ -1,13 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { types, colors } from '../../resources';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { ItemList } from '../../components/List';
 import { Navigation as NavAction } from '../../actions';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class ManageScreen extends React.Component {
   constructor(props) {
@@ -22,7 +25,9 @@ class ManageScreen extends React.Component {
 
   render() {
     const { account } = this.state;
-
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.Management;
+    
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.WHITE} />
@@ -31,7 +36,7 @@ class ManageScreen extends React.Component {
           data={{
             left: {
               hasArrow: true,
-              title: '관리',
+              title: Strings.TITLE,
             },
           }}
         />
@@ -41,7 +46,7 @@ class ManageScreen extends React.Component {
             listData={{
               data: [
                 {
-                  key: '이름 변경',
+                  key: Strings.LABEL_CHANGE_NAME,
                   action: NavAction.pushScreen(
                     NavAction.Screens.CHANGE_ACCOUNT_NAME,
                     {
@@ -50,7 +55,7 @@ class ManageScreen extends React.Component {
                   ),
                 },
                 {
-                  key: '비밀번호 변경',
+                  key: Strings.LABEL_CHANGE_PASSWORD,
                   action: NavAction.pushScreen(
                     NavAction.Screens.AUTH_PASSWORD,
                     {
@@ -59,29 +64,29 @@ class ManageScreen extends React.Component {
                   ),
                 },
                 {
-                  key: '보안키 확인',
+                  key: Strings.LABEL_SHOW_SS,
                   action: NavAction.pushScreen(
                     NavAction.Screens.WARNING_KEY_LEAKAGE,
                     {
                       account,
-                      keyType: '보안키',
+                      keyType: 'SS',
                       next: NavAction.Screens.AUTH_PASSWORD,
                     },
                   ),
                 },
                 {
-                  key: '복구키 확인',
+                  key: Strings.LABEL_SHOW_RK,
                   action: NavAction.pushScreen(
                     NavAction.Screens.WARNING_KEY_LEAKAGE,
                     {
                       account,
-                      keyType: '복구키',
+                      keyType: 'RK',
                       next: NavAction.Screens.ACCOUNT_CREATED,
                     },
                   ),
                 },
                 {
-                  key: '계좌 삭제',
+                  key: Strings.LABEL_REMOVE_ACCOUNT,
                   textColor: colors.itemTextRed,
                   action: NavAction.pushScreen(
                     NavAction.Screens.CONFIRM_BACKUP,
@@ -94,7 +99,7 @@ class ManageScreen extends React.Component {
             }}
           />
         </View>
-
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -104,4 +109,13 @@ ManageScreen.navigationOptions = {
   header: null,
 };
 
-export default ManageScreen;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageScreen);

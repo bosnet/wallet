@@ -22,7 +22,12 @@ const createActionArea = (theme, data, onPress) => (
     style={styles.actionArea}
     onPress={onPress}
   >
-    <Text style={[styles.actionText, ThemeStyle[theme].text]}>{data.actionText}</Text>
+    <Text
+      style={[styles.actionText, ThemeStyle[theme].text]}
+      numberOfLines={1}
+    >
+      {data.actionText}
+    </Text>
   </TouchableOpacity>
 );
 

@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { View, Dimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
 import { colors } from '../../resources';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { InputAccounts, MyAccounts, AddressBook } from './ReceiveAccountTabs';
 import { Navigation as NavAction } from '../../actions';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 const FirstRoute = () => (
   <View style={[styles.container, { backgroundColor: '#ffffff' }]} />
@@ -17,18 +20,21 @@ const SecondRoute = () => (
   <View style={[styles.container, { backgroundColor: '#ffffff' }]} />
 );
 
-export default class TabViewExample extends React.Component {
+class TabViewExample extends React.Component {
   constructor(props) {
     super(props);
 
     const { navigation } = this.props;
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount;
+
     this.state = {
       index: 0,
       routes: [
-        { key: 'myAccount', title: '나의 Account' },
-        { key: 'addressBook', title: '주소록' },
-        { key: 'inputAddress', title: '직접입력' },
+        { key: 'myAccount', title: Strings.TAB1_TITLE },
+        { key: 'addressBook', title: Strings.TAB2_TITLE },
+        { key: 'inputAddress', title: Strings.TAB3_TITLE },
       ],
       callback: navigation.getParam('callback', null),
     };
@@ -36,6 +42,8 @@ export default class TabViewExample extends React.Component {
 
   render() {
     const { callback } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount;
 
     return (
       <View style={styles.container}>
@@ -44,10 +52,10 @@ export default class TabViewExample extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '받는 계좌',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '취소',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -106,6 +114,7 @@ export default class TabViewExample extends React.Component {
           onIndexChange={index => this.setState({ index })}
 
         />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -114,3 +123,12 @@ export default class TabViewExample extends React.Component {
 TabViewExample.navigationOptions = {
   header: null,
 };
+
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabViewExample);

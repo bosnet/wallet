@@ -40,7 +40,10 @@ const createLeftMargin = () => (
 const LeftElement = ({ theme, data, goBack }) => (
   <View style={[styles.toolbarElement, styles.leftElement]}>
     { (data && data.hasArrow) ? createBackArea(goBack) : createLeftMargin()}
-    <Text style={[styles.leftTitle, ThemeStyle[theme].text]}>
+    <Text
+      style={[styles.leftTitle, ThemeStyle[theme].text]}
+      numberOfLines={1}
+    >
       {(data && data.title) ? data.title : null}
     </Text>
   </View>

@@ -1,12 +1,14 @@
 import React from 'react';
 import {
-  ScrollView, View,
-  ToastAndroid,
+  ScrollView, View, Alert,
+  ToastAndroid, BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
+
 import { colors, types } from '../../resources';
 import { Modal as ModalAction, Accounts as AccountsAction, Navigation as NavAction } from '../../actions';
 import { retrieveAccount } from '../../libs/Transactions';
@@ -17,6 +19,7 @@ import { LoadingPanel } from '../../components/Panel';
 import { ItemList } from '../../components/List';
 import { BalanceArea } from '../../components/Text';
 import { HomeIntro } from '../../components/Modal';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -39,29 +42,46 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { updateFlags, doAction } = this.props;
+    const { updateFlags, doAction, settings } = this.props;
+    const Strings = strings[settings.language].OnBoarding.SplashScreen;
 
+    console.log('doAction');
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.HOME));
     this.loadAccounts();
-
-    SplashScreen.hide();
   }
 
   componentWillUnmount() {
     const { updateFlags, doAction } = this.props;
-    const { timer } = this.state;
+    const { timer, list, totalBalance } = this.state;
     if (timer) this.clearInterval(timer);
     doAction(AccountsAction.removeUpdateFlag(NavAction.Screens.HOME));
   }
 
   loadAccounts() {
-    const { showModal, accounts, doAction } = this.props;
-    doAction(AccountsAction.setUpdateFlag(NavAction.Screens.HOME));
+    const { showModal, accounts, doAction, navigation, settings } = this.props;
+    const { isLoading, list, totalBalance } = this.state;
+    const Strings = strings[settings.language].OnBoarding.SplashScreen;
+
+    // if (!navigation.isFocused()) return null;
+    let errorFlag = false;
+
+    this.setState({
+      isLoading: true,
+    });
+
+    doAction(AccountsAction.unsetUpdateFlag(NavAction.Screens.HOME));
     // 튜토리얼 표시
     if (!accounts || accounts.length === 0) showModal();
 
+    const lastList = list;
+    const lastTotalBalance = totalBalance;
+
+    this.setState({
+      list: accounts,
+    });
+
     // 계정 정보 로드
-    Promise.all(
+    return Promise.all(
       accounts.map((account, index) => (
         retrieveAccount(account.address)
           .then(data => ({
@@ -70,19 +90,61 @@ class HomeScreen extends React.Component {
             balance: data.balance,
           }))
       )),
-    ).then((results) => {
-      let total = 0;
+    )
+      .catch((e) => {
+        console.log(e);
+        errorFlag = true;
+        Alert.alert(
+          Strings.ALERT_GENERAL_TITLE,
+          Strings.ALERT_NETWORK_MESSGAE,
+          [
+            {
+              text: Strings.ALERT_BUTTON_RETRY,
+              onPress: () => {
+                this.loadAccounts();
+              },
+            },
+            {
+              text: Strings.ALERT_BUTTON_QUIT,
+              onPress: () => {
+                BackHandler.exitApp();
+              },
+            },
+          ],
+        );
+      })
+      .then((results) => {
+        let total = 0;
 
-      results.forEach((account) => {
-        total += Number(account.balance);
-      });
+        console.log(JSON.stringify(results));
 
-      this.setState({
-        isLoaded: true,
-        list: results,
-        totalBalance: total,
+        results.forEach((account) => {
+          if (account.balance) total += account.balance;
+        });
+
+        // total = total.toFixed(7);
+
+        this.setState({
+          list: results,
+          totalBalance: total.toFixed(7),
+          isLoading: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          list: lastList,
+          totalBalance: lastTotalBalance,
+        });
+      })
+      .then((results) => {
+        if (!errorFlag) {
+          SplashScreen.hide();
+  
+          this.setState({
+            isLoaded: true,
+          });
+        }
       });
-    });
   }
 
   buildAccountList() {
@@ -100,6 +162,9 @@ class HomeScreen extends React.Component {
   }
 
   renderAccountList(isLoaded, updateFlag) {
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Home;
+
     if (isLoaded) {
       return (
         <ScrollView
@@ -112,8 +177,7 @@ class HomeScreen extends React.Component {
               data: this.buildAccountList(),
             }}
             noDataText={
-              '아직 등록된\n'
-              + 'Account가 없습니다'
+              Strings.WALLET_EMPTY
             }
           />
         </ScrollView>
@@ -121,26 +185,29 @@ class HomeScreen extends React.Component {
     }
     return null;
   }
-  
+
   renderLoadingPanel() {
     const { counter, isLoading } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Home;
 
     if (isLoading) {
       return (
         <LoadingPanel
-          text="네트워크 동기화 중"
-          subText={`${counter}초`}
+          ref={(c) => { this.LoadingPanel = c; }}
+          text={Strings.WALLET_SYNC}
         />
       );
     }
+
     return null;
   }
 
   render() {
-    const { isLoaded, counter, totalBalance, list } = this.state;
+    const { isLoaded, isLoading, totalBalance, list } = this.state;
     const { updateFlag, updateFlags } = this.props;
 
-    if (updateFlags[NavAction.Screens.HOME]) { // Need Update
+    if (!isLoading && updateFlags[NavAction.Screens.HOME]) { // Need Update
       this.loadAccounts();
     }
 
@@ -159,6 +226,7 @@ class HomeScreen extends React.Component {
           {this.renderAccountList(isLoaded, updateFlag)}
         </View>
         <HomeIntro />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -170,6 +238,7 @@ HomeScreen.navigationOptions = {
 
 const mapStateToProps = state => ({
   accounts: state.accounts.list,
+  settings: state.settings,
   updateFlag: state.accounts.updateFlag,
   updateFlags: state.accounts.updateFlags,
 });

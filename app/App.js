@@ -4,7 +4,6 @@ import { createStore, applyMiddleware } from 'redux';
 import {
   AsyncStorage, View
 } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
 
 import AppStorage from './libs/AppStorage';
 
@@ -26,15 +25,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+
     // AsyncStorage.clear();
     Promise.all([
       AppStorage.loadAccountsAsync(),
       AppStorage.loadSettingsAsync(),
       AppStorage.loadAddressBookAsync(),
+      AppStorage.loadRecentAddressAsync(),
+
     ]).then((values) => {
       const accounts = values[0];
       const settings = values[1];
       const addressBook = values[2];
+      const recents = values[3];
+
+      console.log(accounts);
 
       if (accounts && accounts.length > 0) {
         store.dispatch(Accounts.loadAccounts(accounts));
@@ -48,12 +53,11 @@ class App extends React.Component {
 
       if (addressBook) store.dispatch(AddressBook.setAddress(addressBook));
 
-     
+      if (recents) store.dispatch(AddressBook.setRecent(recents));
+
       this.setState({
         isLoaded: true,
       });
-
-      SplashScreen.hide();
     });
   }
 
@@ -70,9 +74,7 @@ class App extends React.Component {
 
     return (
       <Provider store={store}>
-        <AndroidBackHandler>
-          <AppNavigator />
-        </AndroidBackHandler>
+        <AppNavigator />
       </Provider>
     );
   }

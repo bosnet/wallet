@@ -1,19 +1,137 @@
 const Transactions = {
-  SendBalance: {
-    WITHDRAWABLE_LABEL: '출금 가능 금액',
-    BALANCE_INPUT_LABEL: '보낼 금액',
-    BALANCE_INPUT_PLACEHOLDER: '0.0000000',
-    HELPER_BALANCE_DEFAULT: '보낼 금액을 입력하세요\n소수점 이하 7자리까지 입력 가능합니다',
-    HELPER_BALANCE_ERROR_NO_INPUT: '보낼 금액을 입력하세요',
-    HELPER_BALANCE_ERROR_NOT_VALID: '유효하지 않은 금액입니다.',
-    HELPER_BALANCE_ERROR_RANGE: '출금 가능 금액보다 적은 금액을 입력해 주세요',
-    HELPER_BALANCE_ERROR_DOT_RANGE: '소수점 이하 7자리까지 입력가능합니다',
+  TransactionList: {
+    ACTION_SETTING: 'Setting',
+    BUTTON_SEND: 'Send',
+    BUTTON_RECEIVE: 'Receive',
 
-    ADDRESS_INPUT_LABEL: '받는 계좌 공개주소',
-    ADDRESS_INPUT_PLACEHOLDER: 'G로 시작하는 공개주소를 입력하세요',
-    HELPER_ADDRESS_DEFAULT: '공개주소를 입력하세요',
-    HELPER_ADDRESS_ERROR_NO_INPUT: '공개주소를 입력하세요',
-    HELPER_ADDRESS_ERROR_NOT_VALID: '이 공개 주소로는 입금이 불가능 합니다',
+    LABEL_CREATED: 'Create account',
+
+    INVALID_ACCOUNT_NOTI: 'You need a minimum balance of 0.1 BOS to make your account valid.\nPlease deposit minimum balance of 0.1 BOS to activate your account.',
+    INVALID_ACCOUNT_BUTTON: 'Receive 0.1 BOS',
+  },
+  SendBalance: {
+    TITLE: 'Send',
+    BACK_BUTTON: 'Close',
+
+    WITHDRAWABLE_LABEL: 'Withdrawal available',
+    BALANCE_INPUT_LABEL: 'Amount',
+    BALANCE_INPUT_PLACEHOLDER: '0.0000000',
+    HELPER_BALANCE_DEFAULT: 'Please enter transferred amount',
+    HELPER_BALANCE_ERROR_NO_INPUT: 'Please enter transferred amount',
+    HELPER_BALANCE_ERROR_NOT_VALID: 'Amount is invalid.', // 토의 필요
+    HELPER_BALANCE_ERROR_RANGE: 'Please enter transferred amount less than withdrawal available',
+    HELPER_BALANCE_ERROR_DOT_RANGE: 'You can enter up to 7 decimal place',
+
+    ADDRESS_INPUT_LABEL: 'Enter public address',
+    ADDRESS_INPUT_PLACEHOLDER: 'Enter Public Address start with letter "G"',
+    HELPER_ADDRESS_DEFAULT: 'Enter public address',
+    HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter public address',
+    HELPER_ADDRESS_ERROR_NOT_VALID: 'This Public Address is invalid',
+
+    LABEL_FEE: 'Transaction fee',
+
+    BUTTON_TEXT_OK: 'Ok',
+  },
+  SelectWithdraw: {
+    TITLE: 'Select withdrawal account',
+    NOTI_NO_ADDRESS: 'Accounts not register yet. ',
+    BACK_BUTTON: 'Cancel',
+    BUTTON_TEXT_OK: 'Select',
+  },
+  TransactionDetail: {
+    TITLE: 'Transaction details',
+    LABEL_SENDER: 'Withdrawal account',
+    LABEL_RECEIVED_AMOUNT: 'Received amount',
+
+    LABEL_RECEIVER: 'Receiving account',
+    LABEL_SEND_AMOUNT: 'Sent amount',
+
+    LABEL_FEE: 'Transaction fee',
+    LABEL_TOTAL: 'Total amount',
+
+    LABEL_DATE: 'Transaction time',
+    LABEL_TYPE: 'Transaction type',
+    TYPE_SEND: 'Withdrawal',
+    TYPE_RECV: 'Deposit',
+    LABEL_TRANSACTION_ID: 'Transaction ID',
+
+    BUTTON_TEXT_OK: 'Ok',
+    BUTTON_TEXT_EXPLORER: 'Explorer',
+  },
+  BeforeTransaction: {
+    TITLE: 'Transfer details confirm',
+    HEAD_TEXT: 'Please check transfer details below.',
+    LABEL_RECEIVER: 'Received account\'s public address',
+    LABEL_AMOUNT: 'Amount',
+    LABEL_FEE: 'Transaction fee',
+    LABEL_TOTAL: 'Total amount',
+
+    BUTTON_TEXT_YES: 'Yes',
+    BUTTON_TEXT_NO: 'No',
+  },
+  ReceiveBalance: {
+    TITLE: 'Receive',
+    BACK_BUTTON: 'Close',
+
+    BUTTON_TEXT_SHARE: 'Share',
+    BUTTON_TEXT_COPY: 'Copy',
+
+    TOAST_CLIPBOARD: 'Public Address has been copied',
+  },
+  ReceiveAccount: {
+    TITLE: 'Receiving account',
+    BACK_BUTTON: 'Cancel',
+
+    TAB1_TITLE: 'My accounts',
+    TAB2_TITLE: 'Contacts',
+    TAB3_TITLE: 'Direct input',
+
+    // TAB 1
+    MyAccounts: {
+      NOTI_NO_ADDRESS: 'My account is nonexistent',
+      BUTTON_TEXT_SELECT: 'Select',
+    },
+
+    // TAB 2
+    AddressBook: {
+      NOTI_NO_ADDRESS: 'Accounts not register yet.',
+      BUTTON_TEXT_SELECT: 'Select',
+    },
+
+    // TAB 3
+    InputAccounts: {
+      NO_RECENT_ADDRESS: 'Latest transfer record not exists',
+      BUTTON_TEXT_SELECT: 'Select',
+      INPUT_PLACEHOLDER: 'Please enter Public Address start with letter \'G\'',
+
+      HELPER_ADDRESS_DEFAULT: 'Please enter Public Address start with letter \'G\' and its length is 56 letters long.',
+      HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter public address',
+      HELPER_ADDRESS_ERROR_NOT_VALID: 'Incorrect Public Address',
+
+      LABEL_PUBLIC_ADDRESS: 'Public Address',
+      LABEL_RECENT_SENT: 'Latest transfer record',
+
+      TOAST_NO_ADDRESS: 'Please choose receiving account',
+    },
+  },
+
+  CreateTransaction: {
+    TITLE: 'Transaction completed',
+
+    HEAD_TEXT_TRANSACTION_OK: 'Transaction is created',
+    HEAD_TEXT_TRANSACTION_FAIL: 'You transaction request has been failed\nPlease try again',
+
+    BUTTON_TEXT_OK: 'Ok',
+    BUTTON_TEXT_ADD: 'Add contact',
+
+    LABEL_TID: 'Transaction ID',
+    LABEL_FAIL_PREFIX: 'Transaction failed -',
+
+    LABEL_ADDR: 'Received account\'s public address',
+    LABEL_AMOUNT: 'Amount',
+    LABEL_FAILED_AMOUNT: 'Transfer failure amount',
+    LABEL_FEE: 'Transaction fee',
+    LABEL_TOTAL: 'Total amount',
   },
 };
 

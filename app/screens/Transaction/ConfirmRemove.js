@@ -1,7 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -10,6 +12,7 @@ import { AlertPanel } from '../../components/Panel';
 import { Navigation as NavAction } from '../../actions';
 
 import icTrash from '../../resources/images/ic_trash.png';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class ConfirmRemove extends React.Component {
   constructor(props) {
@@ -24,6 +27,8 @@ class ConfirmRemove extends React.Component {
 
   render() {
     const { account } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.ConfirmRemove;
 
     return (
       <View style={styles.container}>
@@ -32,10 +37,10 @@ class ConfirmRemove extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '계좌 삭제 최종 확인',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '취소',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -43,13 +48,13 @@ class ConfirmRemove extends React.Component {
         <View style={styles.centerLayout}>
           <AlertPanel
             icon={icTrash}
-            text="정말 계좌를 삭제하시겠습니까?"
+            text={Strings.MESSAGE}
           />
         </View>
         <BottomButton
           actions={[
             {
-              text: '확인',
+              text: Strings.BUTTON_TEXT_OK,
               action: NavAction.pushScreen(
                 NavAction.Screens.AUTH_PASSWORD,
                 {
@@ -61,6 +66,7 @@ class ConfirmRemove extends React.Component {
             },
           ]}
         />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -70,4 +76,8 @@ ConfirmRemove.navigationOptions = {
   header: null,
 };
 
-export default ConfirmRemove;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+export default connect(mapStateToProps)(ConfirmRemove);

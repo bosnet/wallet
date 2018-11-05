@@ -13,7 +13,12 @@ const TextButton = ({ text, callback }) => (
       if (callback) callback();
     }}
   >
-    <Text style={styles.textButtonContent}>{text}</Text>
+    <Text
+      style={styles.textButtonContent}
+      numberOfLines={1}
+    >
+      {text}
+    </Text>
   </TouchableOpacity>
 );
 

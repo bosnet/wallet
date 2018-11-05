@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
 
 import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
@@ -17,12 +18,9 @@ import { BottomButton } from '../../components/Button';
 import { NotiPanel } from '../../components/Panel';
 import { InputPassword } from '../../components/Input';
 import { colors } from '../../resources';
-import { Accounts } from '../../resources/strings/ko';
 
 import { createAccountAsync, createRestoreKeyAsync, createRestoreKey, changeRestoreKey } from '../../libs/KeyGenerator';
 import AppStorage from '../../libs/AppStorage';
-
-const Strings = Accounts.SetPassword;
 
 const validate = (text) => {
   // const regex = /^([a-zA-Z0-9~!@#$%^&*()-_]){8,16}$/;
@@ -66,6 +64,9 @@ class SetPassword extends React.Component {
     const { navigation } = this.props;
     const mode = navigation.getParam('mode', MODE_CREATE);
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.SetPassword;
+
     this.state = {
       mode,
       input1: {
@@ -100,6 +101,8 @@ class SetPassword extends React.Component {
   onFocus(inputName) {
     const { state } = this;
     const input = { ...state[inputName] };
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.SetPassword;
 
     if (input) {
       return () => {
@@ -120,6 +123,8 @@ class SetPassword extends React.Component {
   onEndEditing(inputName) {
     const { state } = this;
     const input = { ...state[inputName] };
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.SetPassword;
 
     if (input) {
       return () => {
@@ -140,6 +145,9 @@ class SetPassword extends React.Component {
   }
 
   validatePasswords() {
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.SetPassword;
+
     const { state } = this;
     const { input1, input2 } = state;
 
@@ -191,12 +199,15 @@ class SetPassword extends React.Component {
   callbackBottomButton() {
     const { onAlertOk, addAccount, changePassword, navigation, accountList } = this.props;
     const { mode } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.SetPassword;
+
     if (!this.validatePasswords()) {
       Alert.alert(
         '',
-        '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
+        Strings.ALERT_PASSWORD_ERROR,
         [{
-          text: '확인',
+          text: Strings.BUTTON_TEXT,
         }],
       );
 
@@ -217,10 +228,10 @@ class SetPassword extends React.Component {
             AppStorage.saveAccountAsync(accountList)
               .then(() => {
                 Alert.alert(
-                  '비밀번호 설정 완료',
-                  '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                  Strings.ALERT_PASSWORD_SET_TITLE,
+                  Strings.ALERT_PASSWORD_SET_MESSAGE,
                   [{
-                    text: '확인',
+                    text: Strings.BUTTON_TEXT,
                     onPress: () => {
                       onAlertOk(
                         NavAction.pushScreen(
@@ -235,16 +246,13 @@ class SetPassword extends React.Component {
                   }],
                   { cancelable: false },
                 );
-              })
-              .catch(() => {
-                ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
               });
           });
       } else {
         createRestoreKeyAsync(getSecureKey(), this.input1.getWrappedInstance().getText())
           .then((account) => {
             if (accountList.findIndex(element => element.address === account.address) > -1) {
-              ToastAndroid.show('이미 등록된 키 입니다.', ToastAndroid.SHORT);
+              ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
               return;
             }
 
@@ -257,10 +265,10 @@ class SetPassword extends React.Component {
             AppStorage.saveAccountAsync(accountList)
               .then(() => {
                 Alert.alert(
-                  '비밀번호 설정 완료',
-                  '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                  Strings.ALERT_PASSWORD_SET_TITLE,
+                  Strings.ALERT_PASSWORD_SET_MESSAGE,
                   [{
-                    text: '확인',
+                    text: Strings.BUTTON_TEXT,
                     onPress: () => {
                       onAlertOk(
                         NavAction.pushScreen(
@@ -275,13 +283,10 @@ class SetPassword extends React.Component {
                   }],
                   { cancelable: false },
                 );
-              })
-              .catch(() => {
-                ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
               });
           })
           .catch((/* error */) => {
-            ToastAndroid.show('올바르지 않은 키입니다.', ToastAndroid.SHORT);
+            ToastAndroid.show(Strings.TOAST_ADDRESS_NOT_VALID, ToastAndroid.SHORT);
           });
       }
     }
@@ -299,10 +304,10 @@ class SetPassword extends React.Component {
               AppStorage.saveAccountAsync(accountList)
                 .then(() => {
                   Alert.alert(
-                    '비밀번호 설정 완료',
-                    '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                    Strings.ALERT_PASSWORD_SET_TITLE,
+                    Strings.ALERT_PASSWORD_SET_MESSAGE,
                     [{
-                      text: '확인',
+                      text: Strings.BUTTON_TEXT,
                       onPress: () => {
                         onAlertOk(
                           NavAction.pushScreen(
@@ -318,13 +323,10 @@ class SetPassword extends React.Component {
                     }],
                     { cancelable: false },
                   );
-                })
-                .catch(() => {
-                  ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
                 });
             })
             .catch((/* error */) => {
-              ToastAndroid.show('계정정보가 잘못되었습니다.', ToastAndroid.SHORT);
+              ToastAndroid.show(Strings.TOAST_SS_NOT_VALID, ToastAndroid.SHORT);
             });
         } else {
           createRestoreKey(getSecureKey(), this.input1.getWrappedInstance().getText())
@@ -334,10 +336,10 @@ class SetPassword extends React.Component {
               AppStorage.saveAccountAsync(accountList)
                 .then(() => {
                   Alert.alert(
-                    '비밀번호 설정 완료',
-                    '다음 화면에 보이는 복구키는\n월렛에서 계좌를 가져올 때 필요합니다\n복구키를 반드시 저장해 두세요',
+                    Strings.ALERT_PASSWORD_SET_TITLE,
+                    Strings.ALERT_PASSWORD_SET_MESSAGE,
                     [{
-                      text: '확인',
+                      text: Strings.BUTTON_TEXT,
                       onPress: () => {
                         onAlertOk(
                           NavAction.pushScreen(
@@ -353,13 +355,10 @@ class SetPassword extends React.Component {
                     }],
                     { cancelable: false },
                   );
-                })
-                .catch(() => {
-                  ToastAndroid.show('저장에 실패하였습니다. 다시 시도해 주세요.', ToastAndroid.SHORT);
                 });
             })
             .catch((/* error */) => {
-              ToastAndroid.show('계정정보가 잘못되었습니다.', ToastAndroid.SHORT);
+              ToastAndroid.show(Strings.TOAST_SS_NOT_VALID, ToastAndroid.SHORT);
             });
         }
       }
@@ -368,6 +367,8 @@ class SetPassword extends React.Component {
 
   render() {
     const { input1, input2, buttonActive } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.SetPassword;
 
     return (
       <View style={styles.container}>
@@ -426,7 +427,7 @@ class SetPassword extends React.Component {
           <BottomButton
             actions={[
               {
-                text: Strings.BOTTOM_BUTTON,
+                text: Strings.BUTTON_TEXT,
                 callback: this.callbackBottomButton,
               },
             ]}
@@ -444,6 +445,7 @@ SetPassword.navigationOptions = {
 
 const mapStateToProps = state => ({
   accountList: state.accounts.list,
+  settings: state.settings,
 });
 
 const mapDispatchToProps = dispatch => ({

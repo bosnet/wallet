@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   section: {
-    marginTop: 30,
+    marginTop: 15,
     alignSelf: 'stretch',
     alignItems: 'center',
   },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
 
   layoutHead: {
-    marginTop: 30,
+    marginTop: 20,
   },
   headText: {
     marginTop: 40,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     paddingTop: 45,
   },
   seperator: {
-    marginTop: 30,
+    marginTop: 5,
     height: 1,
     width: 351,
     marginLeft: 30,

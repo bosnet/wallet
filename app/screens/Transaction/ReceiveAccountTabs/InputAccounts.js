@@ -1,26 +1,32 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../../styles';
 import { colors, types } from '../../../resources';
+import strings from '../../../resources/strings';
 
 import { BottomButton, CheckBox } from '../../../components/Button';
 import { NotiPanel } from '../../../components/Panel';
 import { InputText, InputTextOptions } from '../../../components/Input';
 import { TextArea, LabelText } from '../../../components/Text';
 import { Navigation as NavAction } from '../../../actions';
-import { ItemList } from '../../../components/List';
+import { SelectableList } from '../../../components/List';
 
 class InputAccounts extends React.Component {
   constructor(props) {
     super(props);
 
     const { callback } = this.props;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount.InputAccounts;
 
     this.state = {
       list: [],
       callback,
+
+      addressNotiColor: colors.textAreaNotiTextGray,
+      addressNotiText: Strings.HELPER_ADDRESS_DEFAULT,
     };
 
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
@@ -37,14 +43,30 @@ class InputAccounts extends React.Component {
   }
 
   buildAccountList() {
-    const { list } = this.state;
+    const { recents, addressBook, accounts } = this.props;
     const listArray = [];
-    list.forEach((account, index) => {
+    recents.forEach((recent, index) => {
+
+      const adrIndex = addressBook.map(e => e.address).indexOf(recent.address);
+      let name = '';
+
+      if (adrIndex >= 0) {
+        name = addressBook[adrIndex].name;
+      } else {
+        const accIndex = accounts.map(e => e.address).indexOf(recent.address);
+
+        if (accIndex >= 0) {
+          name = accounts[accIndex].name;
+        } else {
+          name = '';
+        }
+      }
+
       listArray.push({
         listKey: `${index}`,
-        type: types.ListItem.TEXTAREA,
+        type: types.ListItem.ADDRESS,
+        address: recent.address,
         name,
-        key,
       });
     });
 
@@ -54,15 +76,47 @@ class InputAccounts extends React.Component {
   callbackBottomButton() {
     const { callback } = this.state;
     const { doAction } = this.props;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount.InputAccounts;
 
     const text = this.input.getWrappedInstance().getText();
 
-    callback(text);
+    const item = this.list.getSelected();
+
+    if (item) {
+      callback(item.address);
+    } else {
+      if (text.length === 0) {
+        ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
+
+        this.setState({
+          addressNotiText: Strings.HELPER_ADDRESS_ERROR_NO_INPUT,
+          addressNotiColor: colors.alertTextRed,
+        });
+
+        return;
+      }
+
+      if (!text.match(/^G.+/)) {
+        this.setState({
+          addressNotiText: Strings.HELPER_ADDRESS_ERROR_NOT_VALID,
+          addressNotiColor: colors.alertTextRed,
+        });
+        
+        return;
+      }
+
+      callback(text);
+    }
+
     doAction(NavAction.popScreen());
   }
 
   render() {
-    const { callback } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount.InputAccounts;
+
+    const { callback, addressNotiText, addressNotiColor } = this.state;
     const { doAction } = this.props;
 
     return (
@@ -73,9 +127,9 @@ class InputAccounts extends React.Component {
         >
           <InputText
             ref={(c) => { this.input = c; }}
-            label={(<Text style={styles.textBold}>공개주소</Text>)}
+            label={(<Text style={styles.textBold}>{Strings.LABEL_PUBLIC_ADDRESS}</Text>)}
             labelColor={colors.labelTextBlack}
-            placeholder="G로 시작하는 공개주소 56자를 입력하세요"
+            placeholder={Strings.INPUT_PLACEHOLDER}
             option={{
               type: InputTextOptions.QR_CODE,
               action: NavAction.pushScreen(
@@ -87,29 +141,32 @@ class InputAccounts extends React.Component {
             }}
             multiline
           />
+          <NotiPanel
+            texts={[
+              addressNotiText,
+            ]}
+            color={addressNotiColor}
+          />
           <LabelText
             text={(
               <Text>
-                <Text style={{ fontWeight: 'bold' }}>최근송금내역</Text>
+                <Text style={{ fontWeight: 'bold' }}>{Strings.LABEL_RECENT_SENT}</Text>
               </Text>
             )}
           />
-          <ItemList
-            listType={types.ListType.FLAT}
+          <SelectableList
+            ref={(c) => { this.list = c; }}
             listData={{
               data: this.buildAccountList(),
             }}
-            noDataText={
-              '아직 등록된\n'
-              + '주소가 없습니다'
-            }
+            noDataText={Strings.NO_RECENT_ADDRESS}
           />
           <View style={{ marginBottom: 10 }} />
         </ScrollView>
         <BottomButton
           actions={[
             {
-              text: '선택',
+              text: Strings.BUTTON_TEXT_SELECT,
               callback: this.callbackBottomButton,
             },
           ]}
@@ -123,8 +180,16 @@ InputAccounts.navigationOptions = {
   header: null,
 };
 
+const mapStateToProps = state => ({
+  accounts: state.accounts.list,
+  addressBook: state.addressBook.list,
+  settings: state.settings,
+  recents: state.recentAddress.list,
+});
+
+
 const mapDispatchToProps = dispatch => ({
   doAction: action => dispatch(action),
 });
 
-export default connect(null, mapDispatchToProps)(InputAccounts);
+export default connect(mapStateToProps, mapDispatchToProps)(InputAccounts);

@@ -1,7 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from '../styles';
+import strings from '../../resources/strings';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -10,6 +12,7 @@ import { AlertPanel, NotiPanel } from '../../components/Panel';
 import { Navigation as NavAction } from '../../actions';
 
 import icTrash from '../../resources/images/ic_success.png';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class ConfirmBackup extends React.Component {
   constructor(props) {
@@ -24,6 +27,8 @@ class ConfirmBackup extends React.Component {
 
   render() {
     const { account } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Accounts.ConfirmBackUp;
 
     return (
       <View style={styles.container}>
@@ -32,10 +37,10 @@ class ConfirmBackup extends React.Component {
           theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
-              title: '백업확인',
+              title: Strings.TITLE,
             },
             right: {
-              actionText: '취소',
+              actionText: Strings.BACK_BUTTON,
               action: NavAction.popScreen(),
             },
           }}
@@ -44,16 +49,13 @@ class ConfirmBackup extends React.Component {
           <AlertPanel
             icon={icTrash}
             text={
-              '보안키, 복구키, 비밀번호를\n'
-              + '모두 안전한 곳에 보관하셨나요?'
+              Strings.MESSAGE
             }
           />
           <View style={styles.fixBottom}>
             <NotiPanel
               texts={[
-                '* 보안키, 복구키, 비밀번호를 안전한 곳에 보관하지 않은 상태에'
-                + '\n   서 계좌를 삭제할 경우 계좌 내 모든 보스코인을 통제할 수 없게'
-                + '\n   됩니다!',
+                Strings.NOTI,
               ]}
             />
           </View>
@@ -61,7 +63,7 @@ class ConfirmBackup extends React.Component {
         <BottomButton
           actions={[
             {
-              text: '확인',
+              text: Strings.BUTTON_TEXT_OK,
               action: NavAction.pushScreen(
                 NavAction.Screens.CONFIRM_REMOVE,
                 {
@@ -71,6 +73,7 @@ class ConfirmBackup extends React.Component {
             },
           ]}
         />
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -80,4 +83,8 @@ ConfirmBackup.navigationOptions = {
   header: null,
 };
 
-export default ConfirmBackup;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+export default connect(mapStateToProps)(ConfirmBackup);

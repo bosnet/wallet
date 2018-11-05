@@ -12,27 +12,6 @@ import { colors } from '../../resources';
 import { ComponentText } from '../../resources/strings/ko';
 import { NotiPanel } from '../Panel';
 
-// const InputPassword = ({ label, placeholder }) => (
-//   <View style={styles.input}>
-//     <Text style={styles.inputTitle}>{label}</Text>
-//     <View style={styles.inputArea}>
-//       <TextInput
-//         underlineColorAndroid="transparent"
-//         autoCapitalize="none"
-//         autoCorrect={false}
-//         placeholder={placeholder}
-//         placeholderTextColor={colors.inputPlaceholderGray}
-//         secureTextEntry
-//         style={styles.inputText}
-//       />
-//       <TouchableOpacity style={styles.inputSupport}>
-//         <Image style={styles.supportButton} source={icEye} />
-//       </TouchableOpacity>
-//     </View>
-
-//   </View>
-// );
-
 const NotiType = {
   ERROR: 'noti/error',
   NORMAL: 'noti/normal',

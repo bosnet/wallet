@@ -9,6 +9,8 @@ import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBa
 import { Navigation as NavAction } from '../../actions';
 
 import imgFace from '../../resources/images/img_face.png';
+import strings from '../../resources/strings';
+import AndroidBackHandler from '../../AndroidBackHandler';
 
 class QRScan extends React.Component {
   constructor(props) {
@@ -25,6 +27,8 @@ class QRScan extends React.Component {
   render() {
     const { goBack } = this.props;
     const { callback, isScanned } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.QRScan;
 
     return (
       <View style={styles.container}>
@@ -37,7 +41,7 @@ class QRScan extends React.Component {
               this.setState({
                 isScanned: true,
               });
-              ToastAndroid.show(JSON.stringify(result), ToastAndroid.SHORT);
+              // ToastAndroid.show(JSON.stringify(result), ToastAndroid.SHORT);
               if (callback) callback(result.data);
               goBack();
             }
@@ -54,7 +58,7 @@ class QRScan extends React.Component {
                 style={{ flex: 1 }}
               >
                 <Text style={[styles.layoutHead, styles.headText]}>
-                  바코드를 사각형 안에 비춰주세요
+                  {Strings.HEAD_TEXT}
                 </Text>
                 <View style={styles.centerLayout}>
                   <Image
@@ -67,6 +71,7 @@ class QRScan extends React.Component {
             );
           }}
         </RNCamera>
+        <AndroidBackHandler />
       </View>
     );
   }
@@ -76,8 +81,12 @@ QRScan.navigationOptions = {
   header: null,
 };
 
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
 const mapDispatchToProps = dispatch => ({
   goBack: () => dispatch(NavAction.popScreen()),
 });
 
-export default connect(null, mapDispatchToProps)(QRScan);
+export default connect(mapStateToProps, mapDispatchToProps)(QRScan);

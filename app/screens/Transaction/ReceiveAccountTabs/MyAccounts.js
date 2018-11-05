@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import styles from '../../styles';
 import { colors, types } from '../../../resources';
+import strings from '../../../resources/strings';
 
 import { BottomButton, CheckBox } from '../../../components/Button';
 import { NotiPanel } from '../../../components/Panel';
@@ -48,13 +49,15 @@ class MyAccounts extends React.Component {
 
     const item = this.list.getSelected();
 
-    callback(item.address);
-    doAction(NavAction.popScreen());
+    if (item) {
+      callback(item.address);
+      doAction(NavAction.popScreen());
+    }
   }
 
   render() {
-    const { callback } = this.state;
-    const { doAction } = this.props;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount.MyAccounts;
 
     return (
       <View style={styles.container}>
@@ -67,14 +70,14 @@ class MyAccounts extends React.Component {
             listData={{
               data: this.buildAccountList(),
             }}
-            noDataText="나의 계좌가 없습니다"
+            noDataText={Strings.NOTI_NO_ADDRESS}
           />
           <View style={{ marginBottom: 10 }} />
         </ScrollView>
         <BottomButton
           actions={[
             {
-              text: '선택',
+              text: Strings.BUTTON_TEXT_SELECT,
               callback: this.callbackBottomButton,
             },
           ]}

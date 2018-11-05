@@ -1,11 +1,31 @@
 const ComponentText = {
   InputPassword: {
-    PLACEHOLDER: '영문(대/소문자), 숫자, 특수문자 포함 8자 이상 입력',
-    HELP: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
-    NOTI_DEFAULT: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
-    ERROR_NODATA: '비밀번호를 입력하세요',
-    ERROR_RANGE: '잘못된 비밀번호 입니다. 다시 확인해주세요',
-    ERROR_MATCH: '비밀번호가 일치하지 않습니다.',
+    PLACEHOLDER: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
+    HELP: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
+    NOTI_DEFAULT: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
+    ERROR_NODATA: 'Enter your password',
+    ERROR_RANGE: 'Wrong password please check again',
+    ERROR_MATCH: 'Please enter password again.',
+  },
+
+  ADDRESS_PANEL_TITLE: 'Saved Public Address',
+
+  HOMEINTRO_MODAL_BUTTON: 'Let\'s start',
+
+  WITHDRAWAL_ITEM_LABEL: 'Withdrawal available',
+
+  AddressItem: {
+    LABEL_SEND: 'Send',
+    LABEL_COPY: 'Copy',
+    LABEL_MODIFY: 'Edit',
+    LABEL_DELETE: 'Delete',
+
+    TOAST_COPY_ADDRESS: 'Public Address has been copied',
+
+    ALERT_DELETE_TITLE: 'Delete contact',
+    ALERT_DELETE_MESSAGE: 'Are you sure you want to delete this contact?',
+    ALERT_BUTTON_CANCEL: 'Cancel',
+    ALERT_BUTTON_REMOVE: 'Delete',
   },
 };
 export default ComponentText;

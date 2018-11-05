@@ -1,10 +1,9 @@
-// import { Keypair } from '@pigzbe/react-native-stellar-sdk';
 import CryptoJS from 'crypto-js';
 import sebakjs from 'sebakjs-util';
 import {
   ToastAndroid,
 } from 'react-native';
-
+import Base from 'stellar-base';
 import AppStorage from './AppStorage';
 
 const { AES } = CryptoJS;
@@ -33,6 +32,15 @@ const validateSecretKey = (account, secretKey) => {
     return publicKey === account.address;
   } catch (e) {
     return false;
+  }
+};
+
+const checkSecretKey = (secretKey) => {
+  try {
+    const publicKey = sebakjs.getPublicAddress(secretKey);
+    return publicKey;
+  } catch (e) {
+    return null;
   }
 };
 
@@ -163,4 +171,5 @@ export {
   createRestoreKey,
   changeRestoreKey,
   getSecureKey,
+  checkSecretKey,
 };

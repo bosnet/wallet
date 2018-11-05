@@ -1,18 +1,18 @@
 import Walkthrough from './screens/OnBoarding';
 import {
   HomeScreen,
-  HomeScreen1,
   IndexPage,
 } from './screens/Home';
 
 import {
   WarningScreen,
   SettingsScreen,
-  SortAccounts,
   AddressBook,
   ModifyAddress,
   MembershipScreen,
   SelectLanguage,
+  InAppBrowser,
+  ServiceAgreement,
 } from './screens/Settings';
 
 import {
@@ -46,9 +46,6 @@ import {
   SendBalance,
   ReceiveAccount,
   TransactionList,
-  TransactionList1,
-  TransactionList2,
-  TransactionList3,
   ChangeAccountName,
   BeforeTransaction,
 } from './screens/Transaction';
@@ -60,7 +57,6 @@ const router = {
   Home: { screen: HomeScreen },
   Walkthrough: { screen: Walkthrough },
   Settings: { screen: SettingsScreen },
-  SortAccounts: { screen: SortAccounts },
   SetPassword: { screen: SetPassword },
   Membership: { screen: MembershipScreen },
   Warning: { screen: WarningScreen },
@@ -86,16 +82,14 @@ const router = {
   JoinMembership: { screen: JoinMembership },
   ReceiveAccount: { screen: ReceiveAccount },
   TransactionList: { screen: TransactionList },
-  TransactionList1: { screen: TransactionList1 },
-  TransactionList2: { screen: TransactionList2 },
-  TransactionList3: { screen: TransactionList3 },
-  HomeScreen1: { screen: HomeScreen1 },
   IntroMembership: { screen: IntroMembership },
   Agreement: { screen: Agreement },
   AccountCreated: { screen: AccountCreated },
   SelectLanguage: { screen: SelectLanguage },
   ChangeAccountName: { screen: ChangeAccountName },
   BeforeTransaction: { screen: BeforeTransaction },
+  InAppBrowser: { screen: InAppBrowser },
+  ServiceAgreement: { screen: ServiceAgreement },
 };
 
 export default router;

@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   textButton: {
     alignSelf: 'flex-start',
     marginLeft: 32,
+    marginBottom: 50,
   },
   textButtonContent: {
     fontSize: 14,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
   checkBox: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    width: 315,
+    marginHorizontal: 40,
     marginBottom: 20,
   },
   checkArea: {
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     fontFamily: 'SpoqaHanSans-Regular',
     fontSize: 16,
     lineHeight: 26,
+    marginRight: 16,
     color: colors.buttonTextGray,
   },
 

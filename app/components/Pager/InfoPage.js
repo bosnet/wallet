@@ -11,7 +11,12 @@ const InfoPage = ({
   contentText,
 }) => (
   <View style={styles.infoPage}>
-    <Text style={styles.infoHeadText}>{headText}</Text>
+    <Text
+      style={styles.infoHeadText}
+      numberOfLines={2}
+    >
+      {headText}
+    </Text>
     <Image
       style={[styles.infoImage, { width: size.width, height: size.height }]}
       source={image}

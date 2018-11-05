@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
     marginLeft: 25,
   },
   actionGroup: {
-    width: 108,
+    width: 120,
     height: 32,
     padding: 1,
+    paddingRight: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   },
   centerElement: {
     alignItems: 'center',
-    flex: 1.5,
+    flex: 2,
   },
   leftElement: {
     flexDirection: 'row',
@@ -79,7 +80,8 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   backArea: {
-    marginLeft: 5,
+    paddingLeft: 22,
+    paddingRight: 22,
     paddingVertical: 11,
     paddingHorizontal: 8,
   },
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   actionArea: {
-    paddingHorizontal: 14,
+    paddingHorizontal: 16,
     paddingBottom: 13,
     paddingTop: 10,
   },
