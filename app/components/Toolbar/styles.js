@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
   },
   // HomeToolbar 구성요소
   logoImage: {
-    width: 102,
-    height: 17,
+    width: 141,
+    height: 18,
     marginLeft: 25,
   },
   actionGroup: {

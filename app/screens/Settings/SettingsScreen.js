@@ -10,6 +10,7 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 
 import { ItemList } from '../../components/List';
 import { Navigation as NavAction } from '../../actions';
+import { VERSION } from '../../config/appConfig';
 import strings from '../../resources/strings';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
@@ -76,11 +77,11 @@ class SettingsScreen extends React.Component {
                       action: NavAction.pushScreen(NavAction.Screens.WARNING),
                     },
                     {
-                      text: '서비스개선 참여',
+                      text: Strings.SERVICE,
                       action: NavAction.pushScreen(NavAction.Screens.SERVICE_AGREEMENT),
                     },
                     {
-                      text: '개인정보처리취급방침',
+                      text: Strings.PRIVACY_POLICY,
                       type: types.ListItem.EX_LINK,
                       value: 'https://boscoin.io/privacy/',
                     },
@@ -92,7 +93,7 @@ class SettingsScreen extends React.Component {
                     {
                       text: Strings.VERSION,
                       type: types.ListItem.OPTION_TEXT,
-                      value: 'v 0.1',
+                      value: VERSION,
                     },
                   ],
                 },

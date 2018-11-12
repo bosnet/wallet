@@ -89,12 +89,16 @@ class SetPassword extends React.Component {
     this.validatePasswords = this.validatePasswords.bind(this);
   }
 
-  onChangeText() {
+  onChangeText(text) {
     const password1 = this.input1.getWrappedInstance().getText();
     const password2 = this.input2.getWrappedInstance().getText();
 
+    console.log('a ' + password1.length);
+    console.log('b ' + password2.length);
+    console.log('c ' + text.length);
+
     this.setState({
-      buttonActive: (password1.length > 0 && password2.length > 0),
+      buttonActive: (password1.length > 0 && password2.length > 0 && text.length > 0),
     });
   }
 
@@ -184,13 +188,6 @@ class SetPassword extends React.Component {
       result = false;
     }
 
-    if (password1 !== password2 && result === true) {
-      input2.notiText = Strings.HELPER_ERROR_NOT_MATCH;
-      input2.notiColor = colors.alertTextRed;
-
-      result = false;
-    }
-
     this.setState({ input1, input2 });
 
     return result;
@@ -198,7 +195,11 @@ class SetPassword extends React.Component {
 
   callbackBottomButton() {
     const { onAlertOk, addAccount, changePassword, navigation, accountList } = this.props;
-    const { mode } = this.state;
+    const { mode, input2 } = this.state;
+
+    const password1 = this.input1.getWrappedInstance().getText();
+    const password2 = this.input2.getWrappedInstance().getText();
+
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.SetPassword;
 
@@ -210,6 +211,15 @@ class SetPassword extends React.Component {
           text: Strings.BUTTON_TEXT,
         }],
       );
+
+      return;
+    }
+
+    if (password1 !== password2) {
+      input2.notiText = Strings.HELPER_ERROR_NOT_MATCH;
+      input2.notiColor = colors.alertTextRed;
+
+      this.setState({ input2 });
 
       return;
     }
@@ -402,6 +412,7 @@ class SetPassword extends React.Component {
               input1.notiText,
             ]}
             color={input1.notiColor}
+            noStar
           />
           <InputPassword
             ref={(c) => { this.input2 = c; }}
@@ -416,6 +427,7 @@ class SetPassword extends React.Component {
               input2.notiText,
             ]}
             color={input2.notiColor}
+            noStar
           />
           <View style={styles.filler} />
           <NotiPanel
@@ -424,16 +436,17 @@ class SetPassword extends React.Component {
               Strings.WARNING2,
             ]}
           />
-          <BottomButton
-            actions={[
-              {
-                text: Strings.BUTTON_TEXT,
-                callback: this.callbackBottomButton,
-              },
-            ]}
-            inactive={!buttonActive}
-          />
         </ScrollView>
+        <View style={styles.filler} />
+        <BottomButton
+          actions={[
+            {
+              text: Strings.BUTTON_TEXT,
+              callback: this.callbackBottomButton,
+            },
+          ]}
+          inactive={!buttonActive}
+        />
       </View>
     );
   }

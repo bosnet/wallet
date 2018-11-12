@@ -10,10 +10,11 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BottomButton } from '../../components/Button';
 import { InputText, InputTextOptions } from '../../components/Input';
 import { NotiPanel } from '../../components/Panel';
-import { TextArea, TextAreaOptions } from '../../components/Text';
 import { AddressBook, Navigation as NavAction } from '../../actions';
 
 import AppStorage from '../../libs/AppStorage';
+import { checkPublicKey } from '../../libs/KeyGenerator';
+
 import { colors } from '../../resources';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
@@ -43,16 +44,19 @@ class ModifyAddress extends React.Component {
       nameNotiColor: colors.alertTextLightGrey,
       addressNotiText: Strings.HELPER_ADDRESS,
       addressNotiColor: colors.alertTextLightGrey,
+
+      buttonActive: false,
     };
 
+    this.beforeCallback = this.beforeCallback.bind(this);
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
   }
 
   componentDidMount() {
     const { mode, address } = this.state;
-
-    console.log(address);
 
     if (mode === 'Modify') {
       this.inputName.getWrappedInstance().setText(address.name);
@@ -68,14 +72,55 @@ class ModifyAddress extends React.Component {
     this.inputAddress.getWrappedInstance().setText(key.toString());
   }
 
+  onChangeName(name) {
+    const addressText = this.inputAddress.getWrappedInstance().getText();
+
+    this.setState({
+      buttonActive: (name.length > 0 && addressText.length > 0),
+    });
+  }
+
+  onChangeAddress(address) {
+    const name = this.inputName.getWrappedInstance().getText();
+
+    this.setState({
+      buttonActive: (name.length > 0 && address.length > 0),
+    });
+  }
+
+  beforeCallback() {
+    const name = this.inputName.getWrappedInstance().getText();
+    const addressText = this.inputAddress.getWrappedInstance().getText();
+
+    const { buttonActive } = this.state;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Settings.ModifyAddress;
+
+    if (buttonActive) return;
+
+    if (name.length <= 0) {
+      this.setState({
+        nameNotiText: Strings.HELPER_ERROR_NO_NAME,
+        nameNotiColor: colors.alertTextRed,
+      });
+    }
+
+    if (addressText.length <= 0) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ERROR_NO_ADDRESS,
+        addressNotiColor: colors.alertTextRed,
+      });
+    }
+  }
+
   callbackBottomButton() {
-    const { mode } = this.state;
+    const { mode, address } = this.state;
     const { doAction, addressBook } = this.props;
     const { settings } = this.props;
     const Strings = strings[settings.language].Settings.ModifyAddress;
 
     const name = this.inputName.getWrappedInstance().getText();
-    const address = this.inputAddress.getWrappedInstance().getText();
+    const addressText = this.inputAddress.getWrappedInstance().getText();
 
     let errorFlag = false;
 
@@ -97,16 +142,23 @@ class ModifyAddress extends React.Component {
       errorFlag = true;
     }
 
-    if (addressBook.map(e => e.name).indexOf(name) >= 0) {
+    if (name.match(/[^0-9a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\s!@#$%^&*()=_-]/)) {
       this.setState({
-        nameNotiText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+        nameNotiText: Strings.HELPER_ERROR_INVALID_NAME,
         nameNotiColor: colors.alertTextRed,
       });
 
       errorFlag = true;
     }
 
-    if (address.length <= 0) {
+    if (!errorFlag) {
+      this.setState({
+        nameNotiText: Strings.HELPER_NAME,
+        nameNotiColor: colors.transparent,
+      });
+    }
+
+    if (addressText.length <= 0) {
       this.setState({
         addressNotiText: Strings.HELPER_ERROR_NO_ADDRESS,
         addressNotiColor: colors.alertTextRed,
@@ -115,7 +167,16 @@ class ModifyAddress extends React.Component {
       errorFlag = true;
     }
 
-    if (address.length > 0 && !address.match(/^G.+/)) {
+    if (addressText.length > 0 && !addressText.match(/^G.+/)) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
+        addressNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (!checkPublicKey(addressText)) {
       this.setState({
         addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
         addressNotiColor: colors.alertTextRed,
@@ -136,7 +197,16 @@ class ModifyAddress extends React.Component {
     });
 
     if (mode === 'Add') {
-      if (addressBook.map(e => e.address).indexOf(address) >= 0) {
+      if (addressBook.map(e => e.name).indexOf(name) >= 0) {
+        this.setState({
+          nameNotiText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+          nameNotiColor: colors.alertTextRed,
+        });
+
+        return;
+      }
+
+      if (addressBook.map(e => e.address).indexOf(addressText) >= 0) {
         this.setState({
           addressNotiText: Strings.HELPER_ERROR_DUPLICATE_ADDRESS,
           addressNotiColor: colors.alertTextRed,
@@ -147,7 +217,7 @@ class ModifyAddress extends React.Component {
 
       doAction(AddressBook.addAddress(
         name,
-        address,
+        addressText,
       ));
 
       AppStorage.saveAddressBookAsync(addressBook)
@@ -157,9 +227,25 @@ class ModifyAddress extends React.Component {
     }
 
     if (mode === 'Modify') {
+
+      const curIndex = addressBook.map(e => e.name).indexOf(name);
+      if (curIndex >= 0) {
+        if (addressBook[curIndex].address !== address.address) {
+          this.setState({
+            nameNotiText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+            nameNotiColor: colors.alertTextRed,
+          });
+
+          return;
+        }
+
+        doAction(NavAction.popScreen());
+        return;
+      }
+
       doAction(AddressBook.modifyAddress(
         name,
-        address,
+        addressText,
       ));
 
       AppStorage.saveAddressBookAsync(addressBook)
@@ -175,6 +261,7 @@ class ModifyAddress extends React.Component {
       modeText, mode,
       addressNotiText, addressNotiColor,
       nameNotiText, nameNotiColor,
+      buttonActive,
     } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Settings.ModifyAddress;
@@ -204,13 +291,16 @@ class ModifyAddress extends React.Component {
             ref={(c) => { this.inputName = c; }}
             label={Strings.LABEL_NAME}
             placeholder={Strings.PLACEHOLDER_NAME}
+            onChangeText={this.onChangeName}
           />
           <NotiPanel
             texts={[nameNotiText]}
             color={nameNotiColor}
+            noStar
           />
           <TouchableOpacity
             activeOpacity={1}
+            style={{ alignSelf: 'stretch' }}
             onPress={() => {
               if (mode === 'Modify') {
                 ToastAndroid.show(Strings.TOAST_MODIFY_ADDRESS, ToastAndroid.SHORT);
@@ -222,6 +312,9 @@ class ModifyAddress extends React.Component {
               label={Strings.LABEL_ADDRESS}
               placeholder={Strings.PLACEHOLDER_ADDRESS}
               editable={(mode !== 'Modify')}
+              noClear={(mode === 'Modify')}
+              onChangeText={this.onChangeAddress}
+              multiline
               option={
                 (mode !== 'Modify')
                   ? {
@@ -240,22 +333,30 @@ class ModifyAddress extends React.Component {
           <NotiPanel
             texts={[addressNotiText]}
             color={addressNotiColor}
+            noStar
           />
           <View style={styles.filler} />
           <View style={styles.footer}>
             <NotiPanel
               texts={[
                 Strings.NOTI,
+                Strings.NOTI2,
               ]}
             />
-            <BottomButton
-              actions={[
-                {
-                  text: Strings.BUTTON_TEXT_OK,
-                  callback: this.callbackBottomButton,
-                },
-              ]}
-            />
+            <TouchableOpacity
+              activeOpacity={1.0}
+              onPress={this.beforeCallback}
+            >
+              <BottomButton
+                actions={[
+                  {
+                    text: Strings.BUTTON_TEXT_OK,
+                    callback: this.callbackBottomButton,
+                  },
+                ]}
+                inactive={!buttonActive}
+              />
+            </TouchableOpacity>
           </View>
         </View>
         <AndroidBackHandler />

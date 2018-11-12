@@ -74,53 +74,53 @@ class Agreement extends React.Component {
             },
           }}
         />
-        <View style={[styles.centerLayout, { paddingTop: 30 }]}>
-          <ScrollView
-            contentContainerStyle={[styles.alignCenter]}
-            showsVerticalScrollIndicator={false}
-          >
-            <CheckBox
-              ref={(c) => { this.agree1 = c; }}
-              label={Strings.PRECAUTION_1}
-              callback={this.activateButton}
-            />
-            <CheckBox
-              ref={(c) => { this.agree2 = c; }}
-              label={Strings.PRECAUTION_2}
-              callback={this.activateButton}
-            />
-            <CheckBox
-              ref={(c) => { this.agree3 = c; }}
-              label={Strings.PRECAUTION_3}
-              callback={this.activateButton}
-            />
-            <CheckBox
-              ref={(c) => { this.agree4 = c; }}
-              label={Strings.PRECAUTION_4}
-              callback={this.activateButton}
-            />
-          </ScrollView>
-          <View style={styles.filler} />
+      
+        <ScrollView
+          contentContainerStyle={[styles.alignCenter, { paddingTop: 30 }]}
+          showsVerticalScrollIndicator={false}
+        >
+          <CheckBox
+            ref={(c) => { this.agree1 = c; }}
+            label={Strings.PRECAUTION_1}
+            callback={this.activateButton}
+          />
+          <CheckBox
+            ref={(c) => { this.agree2 = c; }}
+            label={Strings.PRECAUTION_2}
+            callback={this.activateButton}
+          />
+          <CheckBox
+            ref={(c) => { this.agree3 = c; }}
+            label={Strings.PRECAUTION_3}
+            callback={this.activateButton}
+          />
+          <CheckBox
+            ref={(c) => { this.agree4 = c; }}
+            label={Strings.PRECAUTION_4}
+            callback={this.activateButton}
+          />
+        </ScrollView>
+        <View style={styles.filler} />
 
-          <TouchableWithoutFeedback // Touchable Opacity Style 반영 이슈때문에 inactive 시 동작 위해 사용
-            onPress={this.onPressBottom}
-          >
-            <View style={{ alignSelf: 'stretch' }}>
-              <BottomButton
-                ref={(c) => { this.buttonButton = c; }}
-                actions={[
-                  {
-                    text: Strings.BUTTON_TEXT,
-                    action: NavAction.pushScreen(NavAction.Screens.SET_PASSWORD),
-                  },
-                ]}
-                inactive={!isAllChecked}
-                callback={this.onPressBottom}
-              />
-            </View>
+        <TouchableWithoutFeedback // Touchable Opacity Style 반영 이슈때문에 inactive 시 동작 위해 사용
+          onPress={this.onPressBottom}
+        >
+          <View style={{ alignSelf: 'stretch' }}>
+            <BottomButton
+              ref={(c) => { this.buttonButton = c; }}
+              actions={[
+                {
+                  text: Strings.BUTTON_TEXT,
+                  action: NavAction.pushScreen(NavAction.Screens.SET_PASSWORD),
+                },
+              ]}
+              inactive={!isAllChecked}
+              callback={this.onPressBottom}
+            />
+          </View>
 
-          </TouchableWithoutFeedback>
-        </View>
+        </TouchableWithoutFeedback>
+        
         <AndroidBackHandler />
       </View>
     );

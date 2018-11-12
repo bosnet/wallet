@@ -27,15 +27,15 @@ class InputPassword extends React.Component {
       isIconVisible: false,
     };
 
-    this.onPressTouchable = this.onPressTouchable.bind(this);
+    // this.onPressTouchable = this.onPressTouchable.bind(this);
     this.setIconVisible = this.setIconVisible.bind(this);
     this.drawIcon = this.drawIcon.bind(this);
     this.getText = this.getText.bind(this);
   }
 
-  onPressTouchable() {
-    this.setState(prevState => ({ isSecure: !prevState.isSecure }));
-  }
+  // onPressTouchable() {
+  //   this.setState(prevState => ({ isSecure: !prevState.isSecure }));
+  // }
 
   setIconVisible(value) {
     this.setState({
@@ -57,7 +57,17 @@ class InputPassword extends React.Component {
           style={[
             styles.inputSupport,
           ]}
-          onPress={this.onPressTouchable}
+          // onPress={this.onPressTouchable}
+          onPressIn={() => {
+            this.setState({
+              isSecure: false,
+            });
+          }}
+          onPressOut={() => {
+            this.setState({
+              isSecure: true,
+            });
+          }}
         >
           <Image style={styles.supportButton} source={isSecure ? icEye : icEyeOff} />
         </TouchableOpacity>
@@ -75,30 +85,32 @@ class InputPassword extends React.Component {
     } = this.props;
     const { isSecure } = this.state;
     return (
-      <View style={{ alignItems: 'center' }}>
-        <View style={styles.input}>
-          <View style={styles.inputHead}>
-            <Text style={styles.inputTitle}>{label}</Text>
-          </View>
-          <View style={styles.inputArea}>
-            <TextInput
-              {...this.props}
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholderTextColor={colors.inputPlaceholderGray}
-              secureTextEntry={isSecure}
-              style={styles.inputText}
-              onChangeText={(text) => {
-                this.setState({ text });
-                this.setIconVisible(text.length > 0);
-                if (onChangeText) onChangeText(text);
-              }}
-            />
-            {this.drawIcon()}
-          </View>
+      // <View style={{ alignItems: 'center' }}>
+      <View style={styles.input}>
+        <View style={styles.inputHead}>
+          <Text style={styles.inputTitle}>{label}</Text>
+        </View>
+        <View style={styles.inputArea}>
+          <TextInput
+            {...this.props}
+            underlineColorAndroid="transparent"
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholderTextColor={colors.inputPlaceholderGray}
+            secureTextEntry={isSecure}
+            keyboardType={isSecure ? 'default' : 'email-address'}
+            editable={isSecure}
+            style={styles.inputText}
+            onChangeText={(text) => {
+              this.setState({ text });
+              this.setIconVisible(text.length > 0);
+              if (onChangeText) onChangeText(text);
+            }}
+          />
+          {this.drawIcon()}
         </View>
       </View>
+      // </View>
     );
   }
 }

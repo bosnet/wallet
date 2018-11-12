@@ -42,12 +42,14 @@ const Navigation = {
     BEFORE_TRANSACTION: 'BeforeTransaction',
     INAPP_BROWSER: 'InAppBrowser',
     SERVICE_AGREEMENT: 'ServiceAgreement',
+    TUTORIAL: 'Tutorial',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
   NAV_RESET: 'NAV_RESET',
   NAV_BACK: 'NAV_BACK',
   NAV_RESET_TO_LIST: 'NAV_RESET_TO_LIST',
+  NAV_RESET_TO_CONTACTS: 'NAV_RESET_TO_CONTACTS',
 };
 
 Navigation.pushScreen = (screenName, params) => ({
@@ -74,6 +76,10 @@ Navigation.resetToList = account => ({
   params: {
     account,
   },
+});
+
+Navigation.resetToContacts = () => ({
+  type: Navigation.NAV_RESET_TO_CONTACTS,
 });
 
 Navigation.backScreen = screenName => ({

@@ -74,13 +74,14 @@ const styles = StyleSheet.create({
   },
 
   longButton: {
-    width: 280,
     height: 54,
     borderRadius: 33,
     borderWidth: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 30,
+    alignSelf: 'stretch',
+    marginVertical: 30,
+    marginHorizontal: 48,
   },
   longButtonText: {
     fontSize: 14,
@@ -89,22 +90,24 @@ const styles = StyleSheet.create({
   },
   checkBox: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginHorizontal: 40,
+    alignSelf: 'stretch',
+    // justifyContent: 'flex-start',
+    marginLeft: 15,
     marginBottom: 20,
   },
   checkArea: {
-    paddingRight: 8.5,
+    // paddingRight: 8.5,
+    flexDirection: 'row',
   },
   checkIcon: {
     width: 30,
     height: 30,
+    marginRight: 16,
   },
   checkBoxLabel: {
     fontFamily: 'SpoqaHanSans-Regular',
     fontSize: 16,
     lineHeight: 26,
-    marginRight: 16,
     color: colors.buttonTextGray,
   },
 

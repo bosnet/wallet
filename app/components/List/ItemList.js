@@ -17,7 +17,7 @@ import { types, colors } from '../../resources';
 
 import icEmpty from '../../resources/images/empty.png';
 
-const ItemList = ({ listType, listData, noDataText }) => {
+const ItemList = ({ listType, listData, noDataText, onEndReached }) => {
   const getListByType = () => {
     switch (listType) {
       case types.ListType.FLAT:
@@ -27,6 +27,8 @@ const ItemList = ({ listType, listData, noDataText }) => {
               data={listData.data}
               renderItem={FlatItem}
               keyExtractor={(item, index) => index.toString()}
+              onEndReached={onEndReached}
+              onEndReachedThreshold={0.05}
             />
           );
         }
@@ -62,14 +64,6 @@ const ItemList = ({ listType, listData, noDataText }) => {
             )}
             renderItem={SectionItem}
             keyExtractor={(item, index) => item + index}
-          />
-        );
-      case types.ListType.SORTABLE:
-        return (
-          <SortableList
-            style={{ flex: 1 }}
-            data={listData.data}
-            renderRow={SortableItem}
           />
         );
       default:

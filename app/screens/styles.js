@@ -27,9 +27,9 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   footer: {
-    alignSelf: 'flex-end',
+    alignSelf: 'stretch',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
   },
   section: {
     marginTop: 15,
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'SpoqaHanSans-Regular',
     color: colors.layoutHeadText,
+    lineHeight: 26,
     marginBottom: 40,
     textAlign: 'center',
   },
@@ -85,6 +86,35 @@ const styles = StyleSheet.create({
   hyperlink: {
     color: '#6770cb',
     textDecorationLine: 'underline',
+  },
+
+  imageNew: {
+    position: 'absolute',
+    top: 0,
+    right: 72 + 12,
+    width: 240,
+    height: 118,
+  },
+  imageCombine: {
+    position: 'absolute',
+    top: 0,
+    right: 28 + 13,
+    width: 219,
+    height: 183,
+  },
+  imageNewEng: {
+    position: 'absolute',
+    top: 0,
+    right: 72 + 12,
+    width: 251,
+    height: 152,
+  },
+  imageCombineEng: {
+    position: 'absolute',
+    top: 0,
+    right: 16 + 13,
+    width: 185,
+    height: 230,
   },
 });
 

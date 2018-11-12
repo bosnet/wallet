@@ -1,10 +1,10 @@
 const Accounts = {
   Precaution: {
     TITLE: 'Precautions',
-    PRECAUTION_1: 'You need a minimum balance of 0.1 BOS to make your account valid.\nPlease deposit minimum balance of 0.1 BOS to activate your account',
-    PRECAUTION_2: 'Information in the account will be lost when the app is deleted or when you import the account',
-    PRECAUTION_3: 'Password is required for transferring BOScoin, Secret Seed inquiry, and account importing\nDO NOT lose or share your password to anyone',
-    PRECAUTION_4: 'Secret Seed is required to import your account. DO NOT lose or share your Secret Seed to anyone',
+    PRECAUTION_1: 'You need a minimum balance of\n0.1 BOS to make your account\nvalid\nPlease deposit minimum balance\nof 0.1 BOS to activate your\naccount',
+    PRECAUTION_2: 'Information in the account will be\nlost when the app is deleted or\nwhen you import the account',
+    PRECAUTION_3: 'Password is required for\ntransferring BOScoin, Secret\nSeed inquiry, and account\nimporting\nDO NOT lose or share your\npassword to anyone',
+    PRECAUTION_4: 'Secret Seed is required to import\nyour account\nDO NOT lose or share your Secret\nSeed to anyone',
     ALERT_NEED_CHECK: 'Please check all cautions',
     BACK_BUTTON: 'Close',
     BUTTON_TEXT: 'Ok',
@@ -25,8 +25,8 @@ const Accounts = {
     ALERT_PASSWORD_SET_TITLE: 'Password setting completed',
     ALERT_PASSWORD_SET_MESSAGE: 'Remember the Recovery Key you see on the next screen in order to recover your account',
 
-    WARNING1: '* Changing the password will remove the existing Recovery Key.',
-    WARNING2: '* You can find new Recovery Key in settings.',
+    WARNING1: 'Changing the password will remove the existing Recovery Key.',
+    WARNING2: 'You can find new Recovery Key in settings.',
 
     BUTTON_TEXT: 'Ok',
 
@@ -52,8 +52,8 @@ const Accounts = {
     PLACEHOLDER_RESTORE: 'Enter the recovery yey start with letter \'B\'',
     HELPER_DEFAULT_RESTORE: 'enter your recovery yey start with letter \'B\'',
     HELPER_ERROR_NO_RESTORE: 'Recovery Key is needed to recover your account',
-    HELPER_ERROR_NOT_VALID_RESTORE: 'Recovery Key is invalid',
-    TOAST_RK_NOT_VALID: 'Recovery Key is invalid',
+    HELPER_ERROR_NOT_VALID_RESTORE: 'Please check Recovery key or password again',
+    TOAST_RK_NOT_VALID: 'Please check Recovery key or password again',
 
     PLACEHOLDER_RES_PASSWORD: 'Enter account password',
     HELPER_DEFAULT_RES_PASSWORD: 'Password phrase must be longer than 8 letters include English upper & lower case , numbers and special characters',
@@ -62,10 +62,11 @@ const Accounts = {
 
     TOAST_DUPLICATED_ADDRESS: 'This account setted up already.',
 
-    NOTICE1_RK: '* Password belongs to you only.',
-    NOTICE1_SS: '* Secret Seed belongs to you only.',
-    NOTICE2: '* You can not import your account when you lose the password . \n So please use \' restore account using with the Secret Seed\' menu.',
-    NOTICE2_SS: '* You can not import your account when you lose the Secret Seed . \n So please use \' restore account using with the Recovery Key\' menu.',
+    NOTICE1_RK: 'Password belongs to you only',
+    NOTICE2_RK: 'You can not import your account when you lose the password . \n So please use \' restore account using with the Secret Seed\' menu.',
+    NOTICE1_SS: 'Secret Seed belongs to you only.',
+    NOTICE2: 'You can not import your account when you lose the password . \n So please use \' restore account using with the Secret Seed\' menu.',
+    NOTICE2_SS: 'You can not import your account when you lose the Secret Seed . \n So please use \' restore account using with the Recovery Key\' menu.',
 
     BUTTON_TEXT: 'Ok',
     BUTTON_NEXT: 'Next',
@@ -79,9 +80,10 @@ const Accounts = {
     INPUT_PLACEHOLDER: 'Please enter account name',
     HELPER_DEFAULT: 'Account\'s name has to be more than 1 letter but less than 10 letters',
     HELPER_ERROR_NO_INPUT: 'Please enter at least one character and no more than ten character for the name of the account',
+    HELPER_ERROR_INVALID_NAME: 'This field contains unsupported text',
     HELPER_ERROR_DUPLICATE_NAME: 'This name is already in used',
 
-    NOTICE: '* If you remove BOS wallet or move wallet information to another cell-phone through account importing, existed name will be disappeared.',
+    NOTICE: 'If you remove BOS wallet or move wallet information to another cell-phone through account importing, existed name will be disappeared.',
 
     BOTTOM_BUTTON_TEXT: 'Ok',
   },
@@ -116,8 +118,8 @@ const Accounts = {
     ALERT_BUTTON_OK: 'Ok',
 
     BACK_KEY_TEXT: 'Cancel',
-    NOTICE1: '* Changing the password will remove the existing Recovery Key.',
-    NOTICE2: '* You can find new Recovery Key in settings.',
+    NOTICE1: 'Password belongs to you only',
+    NOTICE2: 'You can find new Recovery Key in settings.',
 
     BUTTON_TEXT_OK: 'Ok',
     BUTTON_TEXT_NEXT: 'Ok',
@@ -130,6 +132,8 @@ const Accounts = {
     BACK_BUTTON: 'Close',
     BUTTON_SAVE: 'Save',
     BUTTON_COPY: 'Copy',
+
+    PUBLIC_ADDRESS: 'Public Address',
 
     TOAST_CLIPBOARD: 'has been copied',
 
@@ -166,10 +170,10 @@ const Accounts = {
 
     TITLE_SS: 'Caution! Secret Seed can be leaking',
     TITLE_RK: 'Caution! Recovery Key can be leaking',
-    MESSAGE_SS: 'If you lose / forgot your Secret Seed, You can lose your all digital asset. So please be aware keep your Secret Seed in secure',
-    MESSAGE_RK: 'If you lose / forgot your Recovery Key, You can lose your all digital asset. So please be aware keep your Recovery Key in secure',
-    NOTI_SS: '* Do not lose your Secret Seed or Recovery Key\nYou can not retrieve your account without them',
-    NOTI_RK: '* If you lose / forgot your Recovery Key, You can lose your all digital asset. So please be aware keep your Recovery Key in secure',
+    MESSAGE_SS: 'If you lose / forgot your Secret Seed,\nYou can lose your all digital asset.\nSo please be aware keep\nyour Secret Seed in secure',
+    MESSAGE_RK: 'If you lose / forgot your Recovery Key,\nYou can lose your all digital asset.\nSo please be aware keep\nyour Recovery Key in secure',
+    NOTI_SS: 'Do not lose your Secret Seed or Recovery Key\nYou can not retrieve your account without them',
+    NOTI_RK: 'If you lose / forgot your Recovery Key, You can lose your all digital asset. So please be aware keep your Recovery Key in secure',
 
     BUTTON_TEXT_OK: 'Ok',
   },
@@ -178,7 +182,7 @@ const Accounts = {
     BACK_BUTTON: 'Cancel',
 
     MESSAGE: 'Are you save Secret Seed, Recovery Key and password insecure?',
-    NOTI: '* If you delete your account without saving them, you can not recover your account',
+    NOTI: 'If you delete your account without saving them, you can not recover your account',
 
     BUTTON_TEXT_OK: 'Ok',
   },

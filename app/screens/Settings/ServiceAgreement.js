@@ -22,6 +22,20 @@ class ServiceAgreement extends React.Component {
     super(props);
   }
 
+  componentWillUnmount() {
+    const { settings, doAction } = this.props;
+    doAction(
+      SettingsAction.setSettings({
+        useFirebase: this.toggle.getValue(),
+      }),
+    );
+
+    AppStorage.saveSettingsAsync({
+      ...settings,
+      useFirebase: this.toggle.getValue(),
+    });
+  }
+
   render() {
     const { settings } = this.props;
     const Strings = strings[settings.language].Settings.ServiceAgreement;
@@ -45,24 +59,15 @@ class ServiceAgreement extends React.Component {
           <Text style={[styles.layoutHead, styles.headText]}>
             {Strings.HEAD_TEXT}
           </Text>
-          <View
-            style={
-              {
-                width: 315,
-                flexDirection: 'row',
-                marginLeft: -16,
-              }
-            }
+          <LabelText
+            text={Strings.LABEL_FIREBASE}
+            style={{ marginRight: -16 }}
           >
-            <LabelText
-              text={Strings.LABEL_FIREBASE}
-            >
-              <ToggleButton
-                value={settings.useFirebase}
-              />
-            </LabelText>
-
-          </View>
+            <ToggleButton
+              ref={(c) => { this.toggle = c; }}
+              value={settings.useFirebase}
+            />
+          </LabelText>
           <TextArea
             // label={Strings.LABEL_FIREBASE}
             text={Strings.TEXT_FIREBASE}
@@ -73,6 +78,7 @@ class ServiceAgreement extends React.Component {
               Strings.NOTI_FIREBASE,
             ]}
           />
+
           <View style={styles.filler} />
         </View>
         <AndroidBackHandler />

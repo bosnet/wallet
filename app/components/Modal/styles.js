@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
   homeIntro: {
     flex: 1,
     margin: 0,
+    // marginBottom: -50,
+    // paddingBottom: 50,
   },
   imageNew: {
     position: 'absolute',

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 
 import styles from '../../styles';
-import logo from '../../../../resources/images/bos-wallet.png';
+import logo from '../../../../resources/images/boscoinwallet.png';
 
 const LeftElement = () => (
   <View style={styles.toolbarElement}>

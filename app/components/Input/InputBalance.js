@@ -2,8 +2,8 @@ import React from 'react';
 import {
   View, Text, TextInput,
 } from 'react-native';
-import PropTypes from 'prop-types';
 
+import PropTypes from 'prop-types';
 import styles from './styles';
 import { colors } from '../../resources';
 
@@ -33,7 +33,7 @@ class InputBalance extends React.Component {
   }
 
   clear() {
-    this.textinput.clear();
+    this.textinput.clearText();
   }
 
   render() {

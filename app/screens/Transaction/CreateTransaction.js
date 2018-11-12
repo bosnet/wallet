@@ -24,10 +24,12 @@ class CreateTransaction extends React.Component {
       data: navigation.getParam('data', null),
     };
 
+    console.log(JSON.stringify(this.state.data));
+
     this.callbackOkButton = this.callbackOkButton.bind(this);
   }
 
-  callbackOkButton() {
+  componentWillUnmount() {
     const { doAction, recents } = this.props;
     const { data } = this.state;
 
@@ -37,7 +39,13 @@ class CreateTransaction extends React.Component {
       doAction(AddrAction.addRecent(data.target));
       AppStorage.saveRecentAddressAsync(recents);
     }
+  }
 
+  callbackOkButton() {
+    const { doAction, recents } = this.props;
+    const { data } = this.state;
+
+    
     doAction(NavAction.resetToList(data.account));
   }
 
@@ -57,13 +65,47 @@ class CreateTransaction extends React.Component {
     );
   }
 
-  renderButtons() {
+  renderErrorText() {
     const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.CreateTransaction;
+
+    const { data } = this.state;
+    let text = '';
+
+    if (data.status !== 200) {
+      return (
+        <TextArea
+          label={Strings.LABEL_TFAIL}
+          text={`${Strings.LABEL_FAIL_PREFIX} ${data.title}`}
+          underline={false}
+        />
+      );
+    }
+  }
+
+  renderButtons() {
+    const { settings, accounts, addressBook, doAction } = this.props;
     const Strings = strings[settings.language].Transactions.CreateTransaction;
 
     const { data } = this.state;
 
     console.log(JSON.stringify(data));
+
+    if (
+      accounts.map(e => e.address).indexOf(data.target) >= 0
+      || addressBook.map(e => e.address).indexOf(data.target) >= 0
+    ) {
+      return (
+        <BottomButton
+          actions={[
+            {
+              text: Strings.BUTTON_TEXT_OK,
+              action: NavAction.resetToList(data.account),
+            },
+          ]}
+        />
+      );
+    }
 
     if (data.status === 200) {
       return (
@@ -75,15 +117,18 @@ class CreateTransaction extends React.Component {
             },
             {
               text: Strings.BUTTON_TEXT_ADD,
-              action: NavAction.pushScreen(
-                NavAction.Screens.MODIFY_ADDRESS,
-                {
-                  mode: 'Add',
-                  address: {
-                    address: data.target,
+              callback: () => {
+                doAction(NavAction.resetToContacts());
+                doAction(NavAction.pushScreen(
+                  NavAction.Screens.MODIFY_ADDRESS,
+                  {
+                    mode: 'Add',
+                    address: {
+                      address: data.target,
+                    },
                   },
-                },
-              ),
+                ));
+              },
             },
           ]}
         />
@@ -123,11 +168,7 @@ class CreateTransaction extends React.Component {
           showsVerticalScrollIndicator={false}
         >
           {this.renderHeadText()}
-          <TextArea
-            label={Strings.LABEL_TID}
-            text={(data.status === 200) ? data.transactionId : `${Strings.LABEL_FAIL_PREFIX} ${data.detail}`}
-            underline={false}
-          />
+          {this.renderErrorText()}
           <TextArea
             label={Strings.LABEL_ADDR}
             text={data.target}
@@ -135,7 +176,7 @@ class CreateTransaction extends React.Component {
           />
           <TextArea
             label={(data.status === 200) ? Strings.LABEL_AMOUNT : Strings.LABEL_FAILED_AMOUNT}
-            text={data.amount}
+            text={data.amount ? Number(data.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : 0}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -147,7 +188,7 @@ class CreateTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={(data.status === 200) ? (data.amount + data.fee) : 0}
+            text={(data.status === 200) ? (Number(data.amount) + Number(data.fee)).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : 0}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -169,6 +210,8 @@ CreateTransaction.navigationOptions = {
 const mapStateToProps = state => ({
   settings: state.settings,
   recents: state.recentAddress.list,
+  accounts: state.accounts.list,
+  addressBook: state.addressBook.list,
 });
 
 const mapDispatchToProps = dispatch => ({

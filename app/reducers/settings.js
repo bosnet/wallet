@@ -9,7 +9,10 @@ const initialState = {
 function settingsAction(state = initialState, action) {
   switch (action.type) {
     case Settings.SET_SETTINGS:
-      return { ...state, language: action.params.language };
+      return {
+        ...state,
+        ...action.params,
+      };
     case Settings.SET_FIREBASE:
       return { ...state, useFirebase: action.value };
     default:

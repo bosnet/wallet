@@ -2,6 +2,7 @@ import Walkthrough from './screens/OnBoarding';
 import {
   HomeScreen,
   IndexPage,
+  Tutorial,
 } from './screens/Home';
 
 import {
@@ -90,6 +91,7 @@ const router = {
   BeforeTransaction: { screen: BeforeTransaction },
   InAppBrowser: { screen: InAppBrowser },
   ServiceAgreement: { screen: ServiceAgreement },
+  Tutorial: { screen: Tutorial },
 };
 
 export default router;

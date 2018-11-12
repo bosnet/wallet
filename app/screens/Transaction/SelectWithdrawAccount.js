@@ -12,7 +12,7 @@ import { TextArea } from '../../components/Text';
 import { colors, types } from '../../resources';
 import { Navigation as NavAction } from '../../actions';
 import { SelectableList } from '../../components/List';
-import { retrieveAccount, retrieveTransactions } from '../../libs/Transactions';
+import { retrieveAccount } from '../../libs/Transactions';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
 class SelectWithdrawAccount extends React.Component {

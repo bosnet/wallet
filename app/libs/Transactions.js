@@ -1,5 +1,7 @@
 import sebakjs from 'sebakjs-util';
 import CryptoJS from 'crypto-js';
+import bs58 from 'bs58';
+
 import {
   ToastAndroid,
   Clipboard,
@@ -91,19 +93,21 @@ export const retrieveOperations = (txHash, date, fee) => {
       const returnData = {
         source: records.source,
         target: records.body.target,
-        amount: (Number(records.body.amount) / BOS_GON_RATE),
+        amount: Number((records.body.amount) / BOS_GON_RATE),
         type: records.type,
         txHash,
         date,
         fee: fee / BOS_GON_RATE,
       };
 
+      console.log(JSON.stringify(data));
+
       return returnData;
     });
 };
 
-export const retrieveTransactions = (address) => {
-  return fetch(`${SEREVER_ADDR}/v1/accounts/${address}/transactions?limit=10&reverse=true`, {
+export const retrieveTransactions = (address, cursor, limit) => {
+  return fetch(`${SEREVER_ADDR}/v1/accounts/${address}/transactions?cursor=${cursor}&limit=${limit}&reverse=true`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -114,6 +118,8 @@ export const retrieveTransactions = (address) => {
     .then((data) => {
       const promises = [];
       const { records } = data._embedded;
+
+      if (!records) return [];
 
       records.forEach((item) => {
         promises.push(retrieveOperations(item.hash, item.created, item.fee));
@@ -154,7 +160,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
           },
           B: {
             target,
-            amount: String(amount * BOS_GON_RATE),
+            amount: (amount * BOS_GON_RATE).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''), // 소수점 오차떄문에 Fixed 후 replace으로 변경 필요
             // linked: '',
           },
         },
@@ -166,7 +172,10 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   const RDPData = makeRLPData(HType, body.B);
   console.log(JSON.stringify(RDPData));
 
-  const secretKey = AES.decrypt(source.secretSeed.slice(3), password);
+  const rawRestoreKey = source.secretSeed.slice(3).slice(0, -2);
+  const decoded58 = bs58.decode(rawRestoreKey);
+  const secretKey = AES.decrypt(decoded58, password).toString(CryptoJS.enc.Utf8);
+
   const hash = sebakjs.hash(RDPData);
   const sig = sebakjs.sign(hash, NETWORK_ID, secretKey.toString(CryptoJS.enc.Utf8));
 
@@ -174,7 +183,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   body.H.signature = sig;
 
   console.log(JSON.stringify(body));
-  Clipboard.setString(JSON.stringify(body));
+  // Clipboard.setString(JSON.stringify(body));
 
   return fetch(`${SEREVER_ADDR}/v1/transactions`, {
     method: 'POST',

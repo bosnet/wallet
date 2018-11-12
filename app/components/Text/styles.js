@@ -6,17 +6,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 15,
-    width: 315,
-    marginLeft: 16,
     paddingRight: 16,
-    // height: 44,
+    alignSelf: 'stretch',
+    marginHorizontal: 24,
   },
   labelText: {
     fontSize: 16,
     fontFamily: 'SpoqaHanSans-Regular',
+    alignSelf: 'stretch',
   },
   labelTextbold: {
     fontFamily: 'SpoqaHanSans-Bold',
+    alignSelf: 'stretch',
   },
   areaOption: {
     alignSelf: 'flex-end',
@@ -28,7 +29,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   textArea: {
-    width: 315,
+    alignSelf: 'stretch',
+    marginHorizontal: 16,
     borderBottomWidth: 2,
     borderBottomColor: colors.listSeperatorGray,
     marginBottom: 7,
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
   },
   balanceText: {
     fontFamily: 'SpoqaHanSans-Bold',
+    fontWeight: '500',
     fontSize: 16,
     paddingHorizontal: 3,
     textAlignVertical: 'center',
@@ -77,12 +80,13 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   balanceArea: {
-    width: 315,
+    // width: 315,
     marginTop: 10,
     borderBottomWidth: 2,
     borderBottomColor: colors.listSeperatorGray,
     marginBottom: 10,
-    alignSelf: 'center',
+    alignSelf: 'stretch',
+    marginHorizontal: 24,
   },
   balanceHead: {
     marginTop: 15,
@@ -122,12 +126,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headText: {
-    alignSelf: 'flex-start',
+    alignSelf: 'stretch',
     marginTop: 30,
     marginBottom: 20,
     marginLeft: 30,
     height: 36,
-    width: 315,
   },
   headTextContent: {
     fontSize: 18,

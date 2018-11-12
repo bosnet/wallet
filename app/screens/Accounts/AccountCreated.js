@@ -111,7 +111,7 @@ class AccountCreated extends React.Component {
           </Text>
           <View style={styles.section}>
             <TextArea
-              label={`${name} ${keyText}`}
+              label={`${name} ${keyText} ${Strings.PUBLIC_ADDRESS}`}
               lableColor={colors.labelTextBlack}
               text={key}
               underline={false}
@@ -121,10 +121,13 @@ class AccountCreated extends React.Component {
           <View style={styles.section}>
             <LabelText
               text={`${name} ${keyText} QR CODE`}
+              color={colors.headTextBlack}
             />
-            <QRPanel
-              value={key}
-            />
+            <View style={styles.alignCenter}>
+              <QRPanel
+                value={key}
+              />
+            </View>
           </View>
         </ScrollView>
         <View style={styles.filler} />

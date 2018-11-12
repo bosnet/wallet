@@ -4,8 +4,10 @@ import { createStore, applyMiddleware } from 'redux';
 import {
   AsyncStorage, View
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 import AppStorage from './libs/AppStorage';
+import FirebaseControl from './libs/FirebaseControl';
 
 import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
@@ -39,7 +41,8 @@ class App extends React.Component {
       const addressBook = values[2];
       const recents = values[3];
 
-      console.log(accounts);
+      console.log("Recents")
+      console.log(settings);
 
       if (accounts && accounts.length > 0) {
         store.dispatch(Accounts.loadAccounts(accounts));
@@ -58,6 +61,12 @@ class App extends React.Component {
       this.setState({
         isLoaded: true,
       });
+
+      if (!settings || settings.useFirebase) {
+        console.log("useCrashlystic");
+        FirebaseControl.useCrashlystic();
+        console.log("useCrashlystic Done");
+      }
     });
   }
 

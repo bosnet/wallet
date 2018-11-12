@@ -18,12 +18,26 @@ class ToggleButton extends React.Component {
       value,
     };
     this.onPress = this.onPress.bind(this);
+    this.getValue = this.getValue.bind(this);
+    this.setValue = this.setValue.bind(this);
   }
 
   onPress() {
     this.setState(prevState => ({
       value: !prevState.value,
     }));
+  }
+
+  setValue(value) {
+    this.setState({
+      value,
+    });
+  }
+
+  getValue() {
+    const { value } = this.state;
+
+    return value;
   }
 
   render() {

@@ -20,6 +20,7 @@ import { colors } from '../../resources';
 import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
 import { getPublicFromRestore } from '../../libs/KeyGenerator';
 import AndroidBackHandler from '../../AndroidBackHandler';
+import AppStorage from '../../libs/AppStorage';
 
 const validateKey = (text) => {
   if (text.match(/^BOS.+/)) {
@@ -123,7 +124,9 @@ class ImportByRestore extends React.Component {
     if (isValid) {
       getPublicFromRestore(key, password)
         .then((account) => {
-          if (accounts.map(e => e.address).indexOf(account.address) > 0) {
+          console.log(JSON.stringify(account));
+
+          if (accounts.map(e => e.address).indexOf(account.address) >= 0) {
             ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
             return;
           }
@@ -132,8 +135,13 @@ class ImportByRestore extends React.Component {
             addAccount({
               name: account.name,
               address: account.address,
+              secretSeed: account.secretSeed,
             });
-            goToScreen(NavAction.Screens.HOME);
+
+            AppStorage.saveAccountAsync(accounts)
+              .then(() => {
+                goToScreen(NavAction.Screens.HOME);
+              });
           } else {
             ToastAndroid.show(Strings.TOAST_RK_NOT_VALID, ToastAndroid.SHORT);
           }
@@ -265,6 +273,7 @@ class ImportByRestore extends React.Component {
               keyHelperText,
             ]}
             color={keyHelperColor}
+            noStar
           />
           <InputPassword
             ref={(c) => { this.password = c; }}
@@ -276,6 +285,7 @@ class ImportByRestore extends React.Component {
               passHelperText,
             ]}
             color={passHelperColor}
+            noStar
           />
           <View style={styles.footer}>
             <NotiPanel

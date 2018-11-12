@@ -51,7 +51,7 @@ class SelectableAccountItem extends React.Component {
 
     return (
       <TouchableOpacity
-        style={[(selected ? { backgroundColor: '#DCE7F6' } : null), { paddingLeft: 24 }]}
+        style={[(selected ? { backgroundColor: '#DCE7F6' } : null)]}
         onPress={() => {
           setSelected(id);
         }}
@@ -66,7 +66,7 @@ class SelectableAccountItem extends React.Component {
           />
           <TextArea
             label={Strings.WITHDRAWAL_ITEM_LABEL}
-            text={(balance > 0) ? balance - TRANSACTION_FEE - MINIMUM_BALANCE : 0}
+            text={(balance > 0) ? Number(balance).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : 0}
             type={types.TextArea.BALACNE}
             underline={false}
           />

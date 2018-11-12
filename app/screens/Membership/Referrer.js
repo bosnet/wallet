@@ -51,6 +51,7 @@ const Referrer = () => (
         texts={[
           'G로 시작하는 공개 주소 56자를 입력하세요',
         ]}
+        noStar
       />
       <CheckBox
         label="추천인이 없습니다"

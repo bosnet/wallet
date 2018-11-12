@@ -13,7 +13,7 @@ const InfoPage = ({
   <View style={styles.infoPage}>
     <Text
       style={styles.infoHeadText}
-      numberOfLines={2}
+      numberOfLines={3}
     >
       {headText}
     </Text>

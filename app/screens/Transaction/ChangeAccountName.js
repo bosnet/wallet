@@ -34,12 +34,17 @@ class ChangeAccountName extends React.Component {
 
     this.onFocus = this.onFocus.bind(this);
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
+    this.onChangeText = this.onChangeText.bind(this);
   }
 
   componentDidMount() {
     const { account } = this.state;
     const { accounts } = this.props;
     this.input.getWrappedInstance().setText(accounts[account.index].name);
+
+    this.setState({
+      buttonActive: accounts[account.index].name.length > 0,
+    });
   }
 
   onFocus() {
@@ -56,24 +61,57 @@ class ChangeAccountName extends React.Component {
     }
   }
 
+  onChangeText(text) {
+    this.setState({
+      buttonActive: text.length > 0,
+    });
+  }
+
   callbackBottomButton() {
     const { account, helperColor, helperText, buttonActive } = this.state;
 
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.ChangeAccountName;
 
-
     const { doAction, accounts } = this.props;
     const text = this.input.getWrappedInstance().getText();
 
-    if (accounts.map(e => e.name).indexOf(text) >= 0) {
-
+    if (text.length === 0) {
       this.setState({
-        helperText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+        helperText: Strings.HELPER_ERROR_NO_INPUT,
         helperColor: colors.alertTextRed,
       });
 
       return;
+    }
+
+    if (text.length > 10) {
+      this.setState({
+        helperText: Strings.HELPER_ERROR_NO_INPUT,
+        helperColor: colors.alertTextRed,
+      });
+
+      return;
+    }
+
+    if (text.match(/[^0-9a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\s!@#$%^&*()=_-]/)) {
+      this.setState({
+        helperText: Strings.HELPER_ERROR_INVALID_NAME,
+        helperColor: colors.alertTextRed,
+      });
+
+      return;
+    }
+
+    if (accounts.map(e => e.name).indexOf(text) >= 0) {
+      if (account.name !== text) {
+        this.setState({
+          helperText: Strings.HELPER_ERROR_DUPLICATE_NAME,
+          helperColor: colors.alertTextRed,
+        });
+
+        return;
+      }
     }
 
     doAction(AccountsAction.changeName(account.index, text));
@@ -113,12 +151,14 @@ class ChangeAccountName extends React.Component {
             label={Strings.INPUT_LABEL}
             placeholder={Strings.INPUT_PLACEHOLDER}
             onFocus={this.onFocus}
+            onChangeText={this.onChangeText}
           />
           <NotiPanel
             texts={[
               helperText,
             ]}
             color={helperColor}
+            noStar
           />
           <View style={styles.filler} />
           <View style={styles.footer}>
@@ -135,7 +175,7 @@ class ChangeAccountName extends React.Component {
                 callback: this.callbackBottomButton,
               },
             ]}
-            // inactive={!buttonActive}
+            inactive={!buttonActive}
           />
         </View>
         <AndroidBackHandler />

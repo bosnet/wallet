@@ -8,6 +8,8 @@ const Transactions = {
 
     INVALID_ACCOUNT_NOTI: '이 계좌를 유효한 계좌로 만들기 위해\n최소 잔액(0.1BOS)이 있어야 합니다\n공개 주소로 최소 잔액 0.1 BOS를 받으세요',
     INVALID_ACCOUNT_BUTTON: '0.1 BOS 받기',
+
+    TOAST_ACCOUNT_NOT_AVAILABLE: '현재 이 계좌는 유효한 계좌가 아닙니다\n유효한 계좌만 송금할 수 있습니다',
   },
   SendBalance: {
     TITLE: '보내기',
@@ -59,6 +61,8 @@ const Transactions = {
 
     BUTTON_TEXT_OK: '확인',
     BUTTON_TEXT_EXPLORER: '익스플로러',
+
+    TOAST_CLIPBOARD: '공개 주소가 클립보드에 복사되었습니다',
   },
   BeforeTransaction: {
     TITLE: '송금 내역 확인',
@@ -78,7 +82,7 @@ const Transactions = {
     BUTTON_TEXT_SHARE: '공유',
     BUTTON_TEXT_COPY: '복사',
 
-    TOAST_CLIPBOARD: '공개 주소가 클립보드에 복사되었습니다',
+    TOAST_CLIPBOARD: '클립보드에 복사되었습니다',
   },
   ReceiveAccount: {
     TITLE: '받는 계좌',
@@ -126,7 +130,7 @@ const Transactions = {
     BUTTON_TEXT_OK: '확인',
     BUTTON_TEXT_ADD: '주소록 추가',
 
-    LABEL_TID: '트랜잭션 아이디',
+    LABEL_TFAIL: '트랜잭션 결과',
     LABEL_FAIL_PREFIX: '트랜잭션 실패 -',
 
     LABEL_ADDR: '받는 계좌 공개 주소',

@@ -52,6 +52,8 @@ function navigation(state = initialNavState, action) {
       );
       break;
     case Navigation.NAV_RESET_TO_LIST:
+      console.log('\n\n\nparams');
+      console.log(JSON.stringify(action.params));
       nextState = RootNavigator.router.getStateForAction(
         StackActions.reset({
           index: 1,
@@ -62,7 +64,26 @@ function navigation(state = initialNavState, action) {
             }),
             NavigationActions.navigate({
               routeName: Navigation.Screens.TRANSACTION_LIST,
-              key: Navigation.Screens.TRANSACTION_LIST,
+              key: `${Navigation.Screens.TRANSACTION_LIST}${action.params.account.address}`,
+              params: action.params,
+            }),
+          ],
+        }),
+        state,
+      );
+      break;
+    case Navigation.NAV_RESET_TO_CONTACTS:
+      nextState = RootNavigator.router.getStateForAction(
+        StackActions.reset({
+          index: 1,
+          actions: [
+            NavigationActions.navigate({
+              routeName: Navigation.Screens.HOME,
+              key: Navigation.Screens.HOME,
+            }),
+            NavigationActions.navigate({
+              routeName: Navigation.Screens.ADDRESSBOOK,
+              key: Navigation.Screens.ADDRESSBOOK,
               params: action.params,
             }),
           ],

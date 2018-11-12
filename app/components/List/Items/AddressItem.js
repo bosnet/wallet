@@ -117,6 +117,7 @@ class AddressItem extends React.Component {
                     NavAction.Screens.MODIFY_ADDRESS,
                     {
                       address,
+                      mode: 'Modify',
                     },
                   ),
                 );

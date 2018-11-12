@@ -18,7 +18,6 @@ import { HomeToolbar } from '../../components/Toolbar';
 import { LoadingPanel } from '../../components/Panel';
 import { ItemList } from '../../components/List';
 import { BalanceArea } from '../../components/Text';
-import { HomeIntro } from '../../components/Modal';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
 class HomeScreen extends React.Component {
@@ -62,7 +61,8 @@ class HomeScreen extends React.Component {
     const { isLoading, list, totalBalance } = this.state;
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
 
-    // if (!navigation.isFocused()) return null;
+    if (!navigation.isFocused()) return;
+
     let errorFlag = false;
 
     this.setState({
@@ -205,7 +205,7 @@ class HomeScreen extends React.Component {
 
   render() {
     const { isLoaded, isLoading, totalBalance, list } = this.state;
-    const { updateFlag, updateFlags } = this.props;
+    const { updateFlag, updateFlags, isVisible } = this.props;
 
     if (!isLoading && updateFlags[NavAction.Screens.HOME]) { // Need Update
       this.loadAccounts();
@@ -225,7 +225,6 @@ class HomeScreen extends React.Component {
           />
           {this.renderAccountList(isLoaded, updateFlag)}
         </View>
-        <HomeIntro />
         <AndroidBackHandler />
       </View>
     );

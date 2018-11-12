@@ -5,17 +5,28 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import { colors } from '../../resources';
 
-const labelText = ({
-  text,
-  color,
-  bold,
-  children,
-}) => (
-  <View style={styles.label}>
-    <Text style={[styles.labelText, { color }, bold ? styles.labelTextbold : null]}>{text}</Text>
-    {children}
-  </View>
-);
+class labelText extends React.Component {
+
+  render() {
+    const {
+      text,
+      color,
+      bold,
+      children,
+      style
+    } = this.props;
+
+    return (
+      <View
+        {...this.props}
+        style={[style, styles.label]}
+      >
+        <Text style={[styles.labelText, { color }, bold ? styles.labelTextbold : null]}>{text}</Text>
+        {children}
+      </View>
+    )
+  }
+}
 
 labelText.propTypes = {
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
@@ -26,7 +37,7 @@ labelText.propTypes = {
 
 labelText.defaultProps = {
   bold: null,
-  color: colors.labelTextBlack,
+  color: colors.itemTextGray,
   children: null,
 };
 

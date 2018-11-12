@@ -21,7 +21,7 @@ const TransactionItem = ({ item, textColor, doAction }) => (
     <Text style={styles.transactionTitle}>
       {item.title}
     </Text>
-    <View style={{ marginLeft: -8 }}>
+    <View style={{ marginHorizontal: -24 }}>
       <TextArea
         label={item.name}
         text={item.address}

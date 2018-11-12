@@ -1,5 +1,9 @@
 import React from 'react';
-import { View, Text, ToastAndroid, Alert,ScrollView } from 'react-native';
+import {
+  View, Text, ToastAndroid,
+  Alert, ScrollView,
+  Keyboard,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
@@ -38,11 +42,23 @@ class AuthChangePassword extends React.Component {
       helperText: Strings[MODE_PASSWORD].HELPER_DEFAULT,
       helperColor: colors.transparent,
       callback: navigation.getParam('callback', null),
+
+      buttonActive: false,
     };
 
     this.onFocus = this.onFocus.bind(this);
+    this.onChangeText = this.onChangeText.bind(this);
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
+    this._keyboardDidHide = this._keyboardDidHide.bind(this);
+  }
+
+  componentDidMount() {
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidHideListener.remove();
   }
 
   onFocus() {
@@ -59,8 +75,32 @@ class AuthChangePassword extends React.Component {
     }
   }
 
+  onChangeText(text) {
+    const input = this.input.getWrappedInstance().getText();
+
+    this.setState({
+      buttonActive: (text.length > 0),
+    });
+  }
+
   onNavigateWithResult(key) {
     this.input.getWrappedInstance().setText(key.toString());
+  }
+
+  _keyboardDidHide() {
+    const { settings } = this.props;
+    const { mode } = this.state;
+    const Strings = strings[settings.language].Accounts.AuthChangePassword;
+
+
+    const text = this.input.getWrappedInstance().getText();
+
+    if (text.length === 0) {
+      this.setState({
+        helperText: Strings[mode].HELPER_NO_INPUT,
+        helperColor: colors.alertTextRed,
+      });
+    }
   }
 
   callbackBottomButton() {
@@ -190,6 +230,7 @@ class AuthChangePassword extends React.Component {
           label={Strings[mode].INPUT_LABEL}
           placeholder={Strings[mode].INPUT_PLACEHOLDER}
           onFocus={this.onFocus}
+          onChangeText={this.onChangeText}
         />
       );
     }
@@ -200,6 +241,7 @@ class AuthChangePassword extends React.Component {
           label={Strings[mode].INPUT_LABEL}
           placeholder={Strings[mode].INPUT_PLACEHOLDER}
           onFocus={this.onFocus}
+          onChangeText={this.onChangeText}
           option={{
             type: InputTextOptions.QR_CODE,
             action: NavAction.pushScreen(
@@ -233,24 +275,26 @@ class AuthChangePassword extends React.Component {
           if (mode === MODE_PASSWORD) {
             this.setState({
               mode: MODE_SECURE_KEY,
-              helperText: Strings[MODE_SECURE_KEY].HELPER_NO_INPUT,
-              helperColor: colors.alertTextRed,
+              helperText: Strings[MODE_SECURE_KEY].HELPER_DEFAULT,
+              helperColor: colors.textAreaNotiTextGray,
             });
           }
           if (mode === MODE_SECURE_KEY) {
             this.setState({
               mode: MODE_PASSWORD,
-              helperText: Strings[MODE_PASSWORD].HELPER_NO_INPUT,
-              helperColor: colors.alertTextRed,
+              helperText: Strings[MODE_PASSWORD].HELPER_DEFAULT,
+              helperColor: colors.textAreaNotiTextGray,
             });
           }
+
+          this.onChangeText('');
         }}
       />
     );
   }
 
   render() {
-    const { mode, helperColor, helperText, option } = this.state;
+    const { mode, helperColor, helperText, option, buttonActive } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.AuthChangePassword;
 
@@ -269,42 +313,41 @@ class AuthChangePassword extends React.Component {
             },
           }}
         />
-        <View style={styles.defaultLayout}>
-          <ScrollView
-            contentContainerStyle={[styles.alignCenter, { marginLeft: -6 }]}
-            showsVerticalScrollIndicator={false}
-          >
-            <Text style={[styles.layoutHead, styles.headText]}>
-              {Strings[mode].HEAD_TEXT}
-            </Text>
-            {this.renderInput(mode)}
-            <NotiPanel
-              texts={[
-                helperText,
-              ]}
-              color={helperColor}
-            />
-            {this.renderTextButton()}
-            <View style={styles.footer}>
-              <NotiPanel
-                texts={[
-                  Strings.NOTICE1,
-                  Strings.NOTICE2,
-                ]}
-              />
-            </View>
-          </ScrollView>
-          <View style={styles.filler} />
-          <BottomButton
-            actions={[
-              {
-                text: Strings.BUTTON_TEXT_OK,
-                callback: this.callbackBottomButton,
-              },
+        <ScrollView
+          contentContainerStyle={[styles.alignCenter, { alignContent: 'stretch' }]}
+          showsVerticalScrollIndicator={false}
+        >
+          <Text style={[styles.layoutHead, styles.headText]}>
+            {Strings[mode].HEAD_TEXT}
+          </Text>
+          {this.renderInput(mode)}
+          <NotiPanel
+            texts={[
+              helperText,
             ]}
-          // inactive={!buttonActive}
+            color={helperColor}
+            noStar
+          />
+          {this.renderTextButton()}
+        </ScrollView>
+        <View style={styles.filler} />
+        <View style={styles.footer}>
+          <NotiPanel
+            texts={[
+              Strings.NOTICE1,
+              // Strings.NOTICE2,
+            ]}
           />
         </View>
+        <BottomButton
+          actions={[
+            {
+              text: Strings.BUTTON_TEXT_OK,
+              callback: this.callbackBottomButton,
+            },
+          ]}
+          inactive={!buttonActive}
+        />
         <AndroidBackHandler />
       </View>
     );

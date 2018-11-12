@@ -60,6 +60,7 @@ class WarningKeyLeakageRestore extends React.Component {
           <NotiPanel
             texts={[
               keyType === 'SS' ? Strings.NOTI_SS : Strings.NOTI_RK,
+              keyType === 'SS' ? Strings.NOTI_SS2 : Strings.NOTI_RK2,
             ]}
           />
         </View>

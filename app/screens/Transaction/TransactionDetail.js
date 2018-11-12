@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Linking,
+  ToastAndroid,
   Clipboard,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -34,70 +35,20 @@ class TransactionDetail extends React.Component {
     const { navigation } = this.props;
     const item = navigation.getParam('item', null);
 
+    console.log(JSON.stringify(item));
+
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.TransactionDetail;
 
     if (item.amount >= 0) {
       return (
         <View>
-          <View
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            <LabelText
-              text={Strings.LABEL_SENDER}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  Clipboard.setString(item.address);
-                }}
-              >
-                <Image
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }}
-                  source={icCopy}
-                />
-              </TouchableOpacity>
-            </LabelText>
-          </View>
-          <View style={{ marginLeft: 8 }}>
-            <TextArea
-              label={item.name}
-              text={item.address}
-              underline={false}
-            />
-            <TextArea
-              label={Strings.LABEL_RECEIVED_AMOUNT}
-              text={item.amount}
-              type={types.TextArea.BALACNE}
-              underline={false}
-            />
-            <TextArea
-              label={Strings.LABEL_TOTAL}
-              text={item.amount}
-              type={types.TextArea.BALACNE}
-              underline={false}
-            />
-          </View>
-        </View>
-      );
-    }
-
-    return (
-      <View>
-        <View
-          style={{
-            flexDirection: 'row',
-          }}
-        >
           <LabelText
-            text={Strings.LABEL_RECEIVER}
+            text={Strings.LABEL_SENDER}
           >
             <TouchableOpacity
               onPress={() => {
+                ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
                 Clipboard.setString(item.address);
               }}
             >
@@ -110,32 +61,70 @@ class TransactionDetail extends React.Component {
               />
             </TouchableOpacity>
           </LabelText>
-        </View>
-        <View style={{ marginLeft: 8 }}>
           <TextArea
             label={item.name}
             text={item.address}
             underline={false}
           />
           <TextArea
-            label={Strings.LABEL_SEND_AMOUNT}
-            text={-(item.amount)}
-            type={types.TextArea.BALACNE}
-            underline={false}
-          />
-          <TextArea
-            label={Strings.LABEL_FEE}
-            text={item.fee}
+            label={Strings.LABEL_RECEIVED_AMOUNT}
+            text={Number(item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
             type={types.TextArea.BALACNE}
             underline={false}
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={-(item.amount) + (item.fee)}
+            text={item.amount}
             type={types.TextArea.BALACNE}
             underline={false}
           />
         </View>
+      );
+    }
+
+    return (
+      <View>
+        <LabelText
+          text={Strings.LABEL_RECEIVER}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+              Clipboard.setString(item.address);
+            }}
+          >
+            <Image
+              style={{
+                width: 20,
+                height: 20,
+              }}
+              source={icCopy}
+            />
+          </TouchableOpacity>
+        </LabelText>
+        <TextArea
+          label={item.name}
+          text={item.address}
+          underline={false}
+        />
+        <TextArea
+          label={Strings.LABEL_SEND_AMOUNT}
+          text={Number(-item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+          type={types.TextArea.BALACNE}
+          underline={false}
+        />
+        <TextArea
+          label={Strings.LABEL_FEE}
+          text={item.fee}
+          type={types.TextArea.BALACNE}
+          underline={false}
+        />
+        <TextArea
+          label={Strings.LABEL_TOTAL}
+          text={-(item.amount) + (item.fee)}
+          type={types.TextArea.BALACNE}
+          underline={false}
+        />
       </View>
     );
   }
@@ -171,7 +160,7 @@ class TransactionDetail extends React.Component {
             />
             <TextArea
               label={Strings.LABEL_TYPE}
-              text={(item.amount < 0) ? Strings.TYPE_SEND : Strings.TYPE_RECV}
+              text={`${(item.amount < 0) ? Strings.TYPE_SEND : Strings.TYPE_RECV}${item.title ? `- ${item.title}` : ''}`}
               underline={false}
             />
             <TextArea

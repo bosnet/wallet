@@ -12,6 +12,7 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { InputAccounts, MyAccounts, AddressBook } from './ReceiveAccountTabs';
 import { Navigation as NavAction } from '../../actions';
 import AndroidBackHandler from '../../AndroidBackHandler';
+import { InputText, InputTextOptions } from '../../components/Input';
 
 const FirstRoute = () => (
   <View style={[styles.container, { backgroundColor: '#ffffff' }]} />
@@ -25,12 +26,15 @@ class TabViewExample extends React.Component {
     super(props);
 
     const { navigation } = this.props;
+    const account = navigation.getParam('account', null);
+
 
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.ReceiveAccount;
 
     this.state = {
-      index: 0,
+      index: 2,
+      account,
       routes: [
         { key: 'myAccount', title: Strings.TAB1_TITLE },
         { key: 'addressBook', title: Strings.TAB2_TITLE },
@@ -41,7 +45,7 @@ class TabViewExample extends React.Component {
   }
 
   render() {
-    const { callback } = this.state;
+    const { callback, account } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.ReceiveAccount;
 
@@ -61,6 +65,7 @@ class TabViewExample extends React.Component {
           }}
         />
         <TabView
+          useNativeDriver
           navigationState={this.state}
           // renderScene={SceneMap({
           //   myAccount: FirstRoute,
@@ -73,6 +78,7 @@ class TabViewExample extends React.Component {
                 return (
                   <MyAccounts
                     callback={callback}
+                    currentAccount={account}
                   />
                 );
               case 'addressBook':
@@ -84,6 +90,7 @@ class TabViewExample extends React.Component {
               case 'inputAddress':
                 return (
                   <InputAccounts
+                    key={route.key}
                     callback={callback}
                   />
                 );
@@ -112,7 +119,6 @@ class TabViewExample extends React.Component {
             />
           )}
           onIndexChange={index => this.setState({ index })}
-
         />
         <AndroidBackHandler />
       </View>

@@ -28,7 +28,7 @@ class AndroidBackHandler extends React.Component {
   onBackPress() {
     let result = true;
     const { lastPress } = this.state;
-    const { doAction, action } = this.props;
+    const { doAction, action, callback } = this.props;
 
     const { navigation, goBack } = this.props;
     console.log("BACK");
@@ -38,6 +38,7 @@ class AndroidBackHandler extends React.Component {
         lastPress: 0,
       });
       if (action) doAction(action);
+      if (callback) callback();
       else goBack();
     } else {
       const delta = new Date().getTime() - lastPress;

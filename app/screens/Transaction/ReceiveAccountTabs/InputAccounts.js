@@ -12,6 +12,7 @@ import { InputText, InputTextOptions } from '../../../components/Input';
 import { TextArea, LabelText } from '../../../components/Text';
 import { Navigation as NavAction } from '../../../actions';
 import { SelectableList } from '../../../components/List';
+import { checkPublicKey } from '../../../libs/KeyGenerator';
 
 class InputAccounts extends React.Component {
   constructor(props) {
@@ -24,29 +25,59 @@ class InputAccounts extends React.Component {
     this.state = {
       list: [],
       callback,
+      selected: null,
+      buttonActive: false,
 
       addressNotiColor: colors.textAreaNotiTextGray,
       addressNotiText: Strings.HELPER_ADDRESS_DEFAULT,
     };
 
+    this.onChange = this.onChange.bind(this);
+    this.onChangeText = this.onChangeText.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
     this.buildAccountList = this.buildAccountList.bind(this);
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
   }
 
   componentDidMount() {
-    // this.input.getWrappedInstance().setText('GD2KIHL4OYMHHGX55D2D3LVTT44JDHVC6TPLNCUTLWHGIWTJM5MVNC66');
+    setTimeout(() => {
+      this.input.getWrappedInstance().setMultiline();
+    }, 100);
+  }
+ 
+  componentDidUpdate() {
+    console.log("componentDidUpdate")
   }
 
   onNavigateWithResult(key) {
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.ReceiveAccount.InputAccounts;
+
     this.input.getWrappedInstance().setText(key.toString());
+
+    const text = key.toString();
+
+    if (!text.match(/^G.+/) || !checkPublicKey(text)) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ADDRESS_ERROR_NOT_VALID,
+        addressNotiColor: colors.alertTextRed,
+      });
+    } else {
+      this.setState({
+        addressNotiColor: colors.transparent,
+        addressNotiText: Strings.HELPER_ADDRESS_DEFAULT,
+      });
+    }
+
+    this.setState({
+      buttonActive: text.length > 0,
+    });
   }
 
   buildAccountList() {
     const { recents, addressBook, accounts } = this.props;
     const listArray = [];
     recents.forEach((recent, index) => {
-
       const adrIndex = addressBook.map(e => e.address).indexOf(recent.address);
       let name = '';
 
@@ -97,12 +128,11 @@ class InputAccounts extends React.Component {
         return;
       }
 
-      if (!text.match(/^G.+/)) {
+      if (!text.match(/^G.+/) || !checkPublicKey(text)) {
         this.setState({
           addressNotiText: Strings.HELPER_ADDRESS_ERROR_NOT_VALID,
           addressNotiColor: colors.alertTextRed,
         });
-        
         return;
       }
 
@@ -112,8 +142,33 @@ class InputAccounts extends React.Component {
     doAction(NavAction.popScreen());
   }
 
+  onChangeText(text) {
+    const { selected } = this.state;
+
+    this.setState({
+      buttonActive: text.length > 0 || selected,
+    });
+  }
+
+  onChange(selected) {
+    const text = this.input.getWrappedInstance().getText();
+
+    if (selected) {
+      this.setState({
+        buttonActive: true,
+        selected,
+      });
+    } else {
+      this.setState({
+        buttonActive: text.length > 0,
+        selected,
+      });
+    }
+  }
+
   render() {
     const { settings } = this.props;
+    const { buttonActive } = this.state;
     const Strings = strings[settings.language].Transactions.ReceiveAccount.InputAccounts;
 
     const { callback, addressNotiText, addressNotiColor } = this.state;
@@ -129,6 +184,7 @@ class InputAccounts extends React.Component {
             ref={(c) => { this.input = c; }}
             label={(<Text style={styles.textBold}>{Strings.LABEL_PUBLIC_ADDRESS}</Text>)}
             labelColor={colors.labelTextBlack}
+            onChangeText={this.onChangeText}
             placeholder={Strings.INPUT_PLACEHOLDER}
             option={{
               type: InputTextOptions.QR_CODE,
@@ -139,13 +195,13 @@ class InputAccounts extends React.Component {
                 },
               ),
             }}
-            multiline
           />
           <NotiPanel
             texts={[
               addressNotiText,
             ]}
             color={addressNotiColor}
+            noStar
           />
           <LabelText
             text={(
@@ -160,6 +216,7 @@ class InputAccounts extends React.Component {
               data: this.buildAccountList(),
             }}
             noDataText={Strings.NO_RECENT_ADDRESS}
+            onChange={this.onChange}
           />
           <View style={{ marginBottom: 10 }} />
         </ScrollView>
@@ -170,6 +227,7 @@ class InputAccounts extends React.Component {
               callback: this.callbackBottomButton,
             },
           ]}
+          inactive={!buttonActive}
         />
       </View>
     );

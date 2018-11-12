@@ -32,7 +32,7 @@ class Walkthrough extends React.Component {
         <DefaultToolbar
           theme={DefaultToolbarTheme.WHITE_LIGHT}
         />
-        <View style={styles.container}>
+        <View style={styles.defaultLayout}>
           <InfoPage
             headText={Strings.HEAD_TEXT}
             image={icWallet}
@@ -46,7 +46,7 @@ class Walkthrough extends React.Component {
             actions={[
               {
                 text: Strings.BUTTON_TEXT,
-                action: Navigation.resetScreen(Navigation.Screens.HOME),
+                action: Navigation.resetScreen(Navigation.Screens.TUTORIAL),
               },
             ]}
           />

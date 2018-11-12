@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 
   listItem: {
     flexDirection: 'row',
-    flex: 1,
+    alignSelf: 'stretch',
     justifyContent: 'space-between',
     alignItems: 'center',
     minHeight: 54,
@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
     fontFamily: 'SpoqaHanSans-Regular',
     fontSize: 16,
     color: colors.itemTextGray,
+    alignSelf: 'stretch',
+    backgroundColor: colors.testBkg,
   },
   transactionDate: {
     marginLeft: 2,
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
   },
   transactionAccountArea: {
     flexDirection: 'row',
-    flex: 1,
+    alignSelf: 'stretch',
     justifyContent: 'flex-end',
     marginTop: 5,
     marginBottom: 8,

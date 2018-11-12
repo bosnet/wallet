@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  View, Image,
+  View, Image, Dimensions,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
-
 
 import { colors } from '../../resources';
 import { Modal as ModalAction } from '../../actions';

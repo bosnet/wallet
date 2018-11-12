@@ -44,7 +44,6 @@ class CheckBox extends React.Component {
       >
         <View
           style={styles.checkArea}
-          
         >
           <Image style={styles.checkIcon} source={value ? icCheckOn : icCheckOff} />
         </View>

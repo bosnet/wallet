@@ -32,9 +32,15 @@ const formatDate = (rawDate) => {
     (date > 9 ? '' : '0') + date,
   ].join('.');
 
-  const time = `${d.getHours()}:${d.getMinutes()}`;
+  const hours = d.getHours();
+  const mins = d.getMinutes();
 
-  return `${dateString} ${time}`;
+  const timeString = [
+    (hours > 9 ? '' : '0') + hours,
+    (mins > 9 ? '' : '0') + mins,
+  ].join(':');
+
+  return `${dateString} ${timeString}`;
 };
 
 class TransactionList extends React.Component {
@@ -48,6 +54,8 @@ class TransactionList extends React.Component {
       isLoaded: false,
       account,
       transactions: [],
+      isValid: false,
+      page: 0,
     };
 
     this.renderNotValid = this.renderNotValid.bind(this);
@@ -85,8 +93,16 @@ class TransactionList extends React.Component {
     retrieveAccount(account.address)
       .then((data) => {
         console.log(JSON.stringify(data));
-        const storedData = accounts[account.index];
-        storedData.index = account.index;
+        if (data.status !== 404) {
+          this.setState({
+            isValid: true,
+          });
+        }
+
+        const index = accounts.map(e => e.address).indexOf(account.address);
+
+        const storedData = accounts[index];
+        storedData.index = index;
         storedData.balance = data.balance;
 
         this.setState({
@@ -94,8 +110,9 @@ class TransactionList extends React.Component {
         });
       });
 
-    retrieveTransactions(account.address)
+    retrieveTransactions(account.address, 0, 10)
       .then((results) => {
+        console.log(results);
         const data = [];
 
         results.forEach((result) => {
@@ -121,7 +138,7 @@ class TransactionList extends React.Component {
             }
 
             object.address = result.target;
-            object.amount = -result.amount;
+            object.amount = (-result.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
             object.textColor = colors.itemTextRed;
           }
 
@@ -138,7 +155,7 @@ class TransactionList extends React.Component {
 
             object.address = result.source;
             object.textColor = colors.itemTextBlue;
-            object.amount = result.amount;
+            object.amount = (result.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
           }
 
           data.push(object);
@@ -148,7 +165,7 @@ class TransactionList extends React.Component {
           transactions: data,
           isLoaded: true,
         });
-      })
+      });
   }
 
   renderNotValid() {
@@ -162,10 +179,11 @@ class TransactionList extends React.Component {
           style={[
             styles.layoutHead,
             {
-              fontSize: 20,
+              fontSize: 18,
               fontFamily: 'SpoqaHanSans-Regular',
               color: colors.layoutHeadText,
               textAlign: 'center',
+              marginHorizontal: 24,
             }]}
         >
           {Strings.INVALID_ACCOUNT_NOTI}
@@ -190,6 +208,9 @@ class TransactionList extends React.Component {
           listData={{
             data: transactions,
           }}
+          onEndReached={({ distanceFromEnd }) => {
+            console.log("onEndReached" + distanceFromEnd);
+          }}
         />
       );
     }
@@ -198,7 +219,7 @@ class TransactionList extends React.Component {
   }
 
   render() {
-    const { account, transactions } = this.state;
+    const { account, transactions, isValid } = this.state;
     const { pushScreen, updateFlags, doAction } = this.props;
 
     const { settings } = this.props;
@@ -225,9 +246,8 @@ class TransactionList extends React.Component {
             },
           }}
         />
-        <ScrollView
-          contentContainerStyle={styles.alignCenter}
-          showsVerticalScrollIndicator={false}
+        <View
+          style={styles.alignCenter}
         >
           <BalancePanel
             text={account.balance ? account.balance : 0}
@@ -236,7 +256,13 @@ class TransactionList extends React.Component {
             buttons={[
               {
                 text: Strings.BUTTON_SEND,
-                onPress: () => pushScreen(NavAction.Screens.SEND_BALANCE, { account }),
+                onPress: () => {
+                  if (account.balance <= 0) {
+                    ToastAndroid.show(Strings.TOAST_ACCOUNT_NOT_AVAILABLE, ToastAndroid.SHORT);
+                    // return;
+                  }
+                  pushScreen(NavAction.Screens.SEND_BALANCE, { account })
+                },
               },
               {
                 text: Strings.BUTTON_RECEIVE,
@@ -244,8 +270,8 @@ class TransactionList extends React.Component {
               },
             ]}
           />
-          { (!account.balance && account.balance <= 0) ? this.renderNotValid() : this.renderTransactionList(transactions)}
-        </ScrollView>
+          { !isValid ? this.renderNotValid() : this.renderTransactionList(transactions)}
+        </View>
         <AndroidBackHandler />
       </View>
     );

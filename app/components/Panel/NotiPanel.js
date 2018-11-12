@@ -6,18 +6,31 @@ import styles from './styles';
 
 const getTextKey = index => `noti${index}`;
 
-const createTexts = (texts, textColor) => texts.map((text, index) => (
+const renderStar = textColor => (
   <Text
-    key={getTextKey(index)}
-    style={[styles.notiText, textColor ? { color: textColor } : null]}
+    style={textColor ? { color: textColor } : null}
   >
-    {text}
+    {'* '}
   </Text>
+);
+
+const createTexts = (texts, textColor, noStar) => texts.map((text, index) => (
+  <View
+    style={styles.notiTextArea}
+    key={getTextKey(index)}
+  >
+    {noStar ? null : renderStar(textColor)}
+    <Text
+      style={[styles.notiText, textColor ? { color: textColor } : null]}
+    >
+      {text}
+    </Text>
+  </View>
 ));
 
-const NotiPanel = ({ texts, color }) => (
+const NotiPanel = ({ texts, color, noStar }) => (
   <View style={styles.notiPanel}>
-    {createTexts(texts, color)}
+    {createTexts(texts, color, noStar)}
   </View>
 );
 

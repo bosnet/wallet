@@ -35,6 +35,7 @@ class SelectableList extends React.Component {
 
   setSelected(key) {
     const { items, selected } = this.state;
+    const { onChange } = this.props;
     let isOn = false;
     items.forEach((item) => {
       if (item.id === key) {
@@ -58,6 +59,8 @@ class SelectableList extends React.Component {
         selected: null,
       });
     }
+
+    if (onChange) onChange(isOn);
   }
 
   addItem(item) {

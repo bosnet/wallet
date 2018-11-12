@@ -8,6 +8,9 @@ const Transactions = {
 
     INVALID_ACCOUNT_NOTI: 'You need a minimum balance of 0.1 BOS to make your account valid.\nPlease deposit minimum balance of 0.1 BOS to activate your account.',
     INVALID_ACCOUNT_BUTTON: 'Receive 0.1 BOS',
+
+    
+    TOAST_ACCOUNT_NOT_AVAILABLE: 'This account is not valid. Please activate your account\n(minimum balance of 0.1 BOS)',
   },
   SendBalance: {
     TITLE: 'Send',
@@ -57,6 +60,8 @@ const Transactions = {
 
     BUTTON_TEXT_OK: 'Ok',
     BUTTON_TEXT_EXPLORER: 'Explorer',
+
+    TOAST_CLIPBOARD: 'Public Address has been copied',
   },
   BeforeTransaction: {
     TITLE: 'Transfer details confirm',
@@ -124,7 +129,7 @@ const Transactions = {
     BUTTON_TEXT_OK: 'Ok',
     BUTTON_TEXT_ADD: 'Add contact',
 
-    LABEL_TID: 'Transaction ID',
+    LABEL_TFAIL: 'Transaction results',
     LABEL_FAIL_PREFIX: 'Transaction failed -',
 
     LABEL_ADDR: 'Received account\'s public address',

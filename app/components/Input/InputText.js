@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View, Text, Image, TextInput, TouchableOpacity,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,17 +20,20 @@ class InputText extends React.Component {
   constructor(props) {
     super(props);
 
-    const { value } = props;
+    const { value, noClear } = props;
 
     this.state = {
       text: '',
       isIconVisible: value ? Boolean(value) : false,
+      exMultiline: false,
     };
 
     this.setIconVisible = this.setIconVisible.bind(this);
     this.drawIcon = this.drawIcon.bind(this);
     this.getText = this.getText.bind(this);
+    this.clearText = this.clearText.bind(this);
     this.createOption = this.createOption.bind(this);
+    this.focus = this.focus.bind(this);
   }
 
   setIconVisible(value) {
@@ -52,6 +55,24 @@ class InputText extends React.Component {
         isIconVisible: true,
       });
     }
+  }
+
+  clearText() {
+    const { onChangeText } = this.props;
+    
+    this.textinput.clear();
+    this.setState({
+      text: '',
+      isIconVisible: false,
+    });
+
+    if (onChangeText) onChangeText('');
+  }
+
+  setMultiline() {
+    this.setState({
+      exMultiline: true,
+    });
   }
 
   createOption() {
@@ -83,7 +104,7 @@ class InputText extends React.Component {
         <TouchableOpacity
           style={styles.inputSupport}
           onPress={() => {
-            this.textinput.clear();
+            this.clearText();
           }}
         >
           <Image style={styles.supportButton} source={icInputDel} />
@@ -94,6 +115,10 @@ class InputText extends React.Component {
     return null;
   }
 
+  focus() {
+    this.textinput.focus();
+  }
+
   render() {
     const {
       label,
@@ -101,7 +126,10 @@ class InputText extends React.Component {
       multiline,
       option,
       onChangeText,
+      noClear,
     } = this.props;
+
+    const { exMultiline } = this.state;
 
     return (
       <KeyboardAvoidingView style={styles.input}>
@@ -116,7 +144,7 @@ class InputText extends React.Component {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
             autoCorrect={false}
-            multiline={multiline}
+            multiline={exMultiline ? true : multiline}
             style={styles.inputText}
             onChangeText={(text) => {
               this.setState({ text });
@@ -124,7 +152,7 @@ class InputText extends React.Component {
               if (onChangeText) onChangeText(text);
             }}
           />
-          {this.drawIcon()}
+          {noClear ? null : this.drawIcon()}
         </View>
 
       </KeyboardAvoidingView>

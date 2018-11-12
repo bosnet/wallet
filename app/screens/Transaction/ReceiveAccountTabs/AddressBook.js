@@ -22,10 +22,12 @@ class AddressBook extends React.Component {
     this.state = {
       list: [],
       callback,
+      buttonActive: false,
     };
 
     this.buildAccountList = this.buildAccountList.bind(this);
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   buildAccountList() {
@@ -55,8 +57,23 @@ class AddressBook extends React.Component {
     }
   }
 
+  onChange(selected) {
+    if (selected) {
+      this.setState({
+        buttonActive: true,
+      });
+    } else {
+      this.setState({
+        buttonActive: false,
+      });
+    }
+  }
+
+
   render() {
     const { settings } = this.props;
+    const { buttonActive } = this.state;
+
     const Strings = strings[settings.language].Transactions.ReceiveAccount.AddressBook;
 
     return (
@@ -71,6 +88,7 @@ class AddressBook extends React.Component {
               data: this.buildAccountList(),
             }}
             noDataText={Strings.NOTI_NO_ADDRESS}
+            onChange={this.onChange}
           />
           <View style={{ marginBottom: 10 }} />
         </ScrollView>
@@ -81,6 +99,7 @@ class AddressBook extends React.Component {
               callback: this.callbackBottomButton,
             },
           ]}
+          inactive={!buttonActive}
         />
       </View>
     );

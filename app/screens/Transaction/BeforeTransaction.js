@@ -83,6 +83,7 @@ class BeforeTransaction extends React.Component {
                               detail: res.detail,
                               amount,
                               account,
+                              target,
                             },
                           },
                         ),
@@ -124,6 +125,7 @@ class BeforeTransaction extends React.Component {
                               detail: res.detail,
                               amount,
                               account,
+                              target,
                             },
                           },
                         ),
@@ -159,6 +161,7 @@ class BeforeTransaction extends React.Component {
                         title: result.title,
                         amount,
                         account,
+                        target,
                       },
                       // option: 'transaction',
                     },
@@ -200,7 +203,7 @@ class BeforeTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_AMOUNT}
-            text={amount}
+            text={Number(amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -212,7 +215,7 @@ class BeforeTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={amount + fee}
+            text={(Number(amount) + Number(fee)).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
             type={types.TextArea.BALACNE}
             underline={false}
           />

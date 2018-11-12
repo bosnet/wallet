@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, ScrollView, ToastAndroid, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
@@ -38,8 +38,18 @@ class ImportBySecure extends React.Component {
     };
 
     this.onChangeText = this.onChangeText.bind(this);
+    this.onEndEditing = this.onEndEditing.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
     this.validateInput = this.validateInput.bind(this);
+    this._keyboardDidHide = this._keyboardDidHide.bind(this);
+  }
+
+  componentDidMount() {
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidHideListener.remove();
   }
 
   onChangeText() {
@@ -50,6 +60,10 @@ class ImportBySecure extends React.Component {
         this.setState({ buttonActive: false });
       }
     };
+  }
+
+  onEndEditing() {
+    this.validateInput();
   }
 
   onNavigateWithResult(key) {
@@ -65,6 +79,11 @@ class ImportBySecure extends React.Component {
       this.validateInput();
     });
   }
+
+  _keyboardDidHide() {
+    this.validateInput();
+  }
+
 
   validateInput() {
     const { settings } = this.props;
@@ -147,6 +166,7 @@ class ImportBySecure extends React.Component {
               helperText,
             ]}
             color={helperColor}
+            noStar
           />
           <View style={styles.filler} />
           <View style={styles.footer}>

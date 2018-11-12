@@ -26,11 +26,12 @@ const checkDotRange = (balance) => {
 };
 
 const checkValidBalance = (balance) => {
-  if (balance.toString().match(/[.]/g) > 1) { // Has Many(2+) Dot
+  const commas = balance.toString().match(/[.]/g);
+  if (commas && commas.length > 1) { // Has Many(2+) Dot
     return false;
   }
 
-  if (balance.toString().match(/[^0-9.]|^[^0-9]/)) {
+  if (balance.toString().match(/[^0-9.]/)) {
     return false;
   }
 
@@ -55,14 +56,18 @@ class SendBalance extends React.Component {
 
     this.state = {
       account,
-      maxSendable: account ? getMaxSendable(account.balance) : '',
+      maxSendable: account ? account.balance : '',
       balanceNotiColor: colors.textAreaNotiTextGray,
       balanceNotiText: Strings.HELPER_BALANCE_DEFAULT,
 
       addressNotiColor: colors.textAreaNotiTextGray,
       addressNotiText: Strings.HELPER_ADDRESS_DEFAULT,
+
+      buttonActive: false,
     };
 
+    this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeBalance = this.onChangeBalance.bind(this);
     this.onEndEditBalance = this.onEndEditBalance.bind(this);
     this.onFocusAddress = this.onFocusAddress.bind(this);
     this.onEndEditAddress = this.onEndEditAddress.bind(this);
@@ -73,7 +78,10 @@ class SendBalance extends React.Component {
 
   componentDidMount() {
     const { navigation } = this.props;
+    const { account } = this.state;
     const address = navigation.getParam('address', null);
+
+    console.log(JSON.stringify(account));
 
     if (address) {
       this.inputAddress.getWrappedInstance().setText(address);
@@ -82,14 +90,32 @@ class SendBalance extends React.Component {
 
   onFocusAddress() {
     const { pushScreen } = this.props;
+    const { account } = this.state;
 
     Keyboard.dismiss();
     pushScreen(
       NavAction.Screens.RECEIVE_ACCOUNT,
       {
         callback: this.onNavigateWithResult,
+        account,
       },
     );
+  }
+
+  onChangeAddress(address) {
+    const amount = this.inputBalance.getText();
+
+    this.setState({
+      buttonActive: (address.length > 0 && amount.length > 0),
+    });
+  }
+
+  onChangeBalance(balance) {
+    const input = this.inputAddress.getWrappedInstance().getText();
+
+    this.setState({
+      buttonActive: (balance.length > 0 && input.length > 0),
+    });
   }
 
   onEndEditAddress() {
@@ -97,6 +123,16 @@ class SendBalance extends React.Component {
   }
 
   onEndEditBalance() {
+    this.validateBalance();
+  }
+
+  onNavigateWithResult(key) {
+    this.inputAddress.getWrappedInstance().setText(key.toString());
+
+    this.onChangeAddress(key.toString());
+  }
+
+  validateBalance() {
     const text = this.inputBalance.getText();
     const { maxSendable } = this.state;
 
@@ -109,7 +145,7 @@ class SendBalance extends React.Component {
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_NO_INPUT,
         balanceNotiColor: colors.alertTextRed,
       });
-      return;
+      return false;
     }
 
     if (!checkValidBalance(text)) {
@@ -117,7 +153,7 @@ class SendBalance extends React.Component {
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_NOT_VALID,
         balanceNotiColor: colors.alertTextRed,
       });
-      return;
+      return false;
     }
 
     if (!checkDotRange(text)) {
@@ -125,31 +161,29 @@ class SendBalance extends React.Component {
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_DOT_RANGE,
         balanceNotiColor: colors.alertTextRed,
       });
-      return;
+      return false;
     }
 
-    if (parseFloat(text) > maxSendable) {
+    if (parseFloat(text) >= Number(maxSendable) - 0.01) {
       this.setState({
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_RANGE,
         balanceNotiColor: colors.alertTextRed,
       });
-      return;
+      return false;
     }
 
     this.setState({
       balanceNotiText: Strings.HELPER_BALANCE_DEFAULT,
       balanceNotiColor: colors.transparent,
     });
-  }
 
-  onNavigateWithResult(key) {
-    this.inputAddress.getWrappedInstance().setText(key.toString());
+    return true;
   }
 
   selectWithdrawCallback(account) {
     this.setState({
       account,
-      maxSendable: getMaxSendable(account.balance),
+      maxSendable: account.balance,
     });
   }
 
@@ -162,6 +196,12 @@ class SendBalance extends React.Component {
     const target = this.inputAddress.getWrappedInstance().getText();
     const amount = this.inputBalance.getText();
 
+    let errorFlag = false;
+
+    if (!this.validateBalance()) {
+      errorFlag = true;
+    }
+
     if (target.length === 0) {
       this.setState({
         addressNotiText: Strings.HELPER_ADDRESS_ERROR_NO_INPUT,
@@ -170,8 +210,16 @@ class SendBalance extends React.Component {
 
       ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
 
-      return;
+      errorFlag = true;
+    } else {
+      this.setState({
+        addressNotiText: Strings.HELPER_ADDRESS_DEFAULT,
+        addressNotiColor: colors.transparent,
+      });
     }
+
+    if (errorFlag) return;
+
 
     pushScreen(
       NavAction.Screens.BEFORE_TRANSACTION,
@@ -190,6 +238,7 @@ class SendBalance extends React.Component {
       balanceNotiColor,
       addressNotiText,
       addressNotiColor,
+      buttonActive,
     } = this.state;
 
     const { settings } = this.props;
@@ -229,12 +278,14 @@ class SendBalance extends React.Component {
             keyboardType="numeric"
             textColor={colors.textAreaContentsNavy}
             onEndEditing={this.onEndEditBalance}
+            onChangeText={this.onChangeBalance}
           />
           <NotiPanel
             texts={[
               balanceNotiText,
             ]}
             color={balanceNotiColor}
+            noStar
           />
           <InputText
             ref={(c) => { this.inputAddress = c; }}
@@ -244,12 +295,14 @@ class SendBalance extends React.Component {
             multiline
             onFocus={this.onFocusAddress}
             onEndEditing={this.onEndEditAddress}
+            onChangeText={this.onChangeAddress}
           />
           <NotiPanel
             texts={[
               addressNotiText,
             ]}
             color={addressNotiColor}
+            noStar
           />
 
           <View style={styles.filler} />
@@ -260,6 +313,7 @@ class SendBalance extends React.Component {
                 callback: this.bottomButtonCallback,
               },
             ]}
+            inactive={!buttonActive}
           />
         </View>
         <AndroidBackHandler />

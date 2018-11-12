@@ -3,14 +3,14 @@ import { colors } from '../../resources';
 
 const styles = StyleSheet.create({
   input: {
-    width: 315,
+    alignItems: 'stretch',
+    alignSelf: 'stretch',
     borderBottomWidth: 2,
     borderBottomColor: colors.listSeperatorGray,
     marginBottom: 10,
-    marginLeft: 2,
+    marginHorizontal: 24,
   },
   inputTitle: {
-    flex: 1,
     color: colors.textAreaTitleGray,
     fontSize: 16,
     marginTop: 15,
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
   },
   inputHead: {
     flexDirection: 'row',
-    alignItems: 'stretch',
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
   },
   inputSupport: {
     paddingVertical: 10,
@@ -50,12 +51,12 @@ const styles = StyleSheet.create({
     fontFamily: 'SpoqaHanSans-Regular',
   },
   balanceArea: {
-    width: 315,
     marginTop: 10,
     borderBottomWidth: 2,
     borderBottomColor: colors.listSeperatorGray,
     marginBottom: 10,
-    alignSelf: 'center',
+    marginHorizontal: 24,
+    alignSelf: 'stretch',
   },
   balanceHead: {
     marginTop: 15,

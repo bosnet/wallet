@@ -136,6 +136,7 @@ class AddressBook extends React.Component {
                 texts={[
                   Strings.NOTI,
                 ]}
+                noStar
               />
               {this.renderAddressList()}
               <View style={{ marginBottom: 10 }} />

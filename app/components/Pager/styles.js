@@ -15,15 +15,15 @@ const styles = StyleSheet.create({
   },
   infoHeadText: {
     marginTop: 25,
-    marginLeft: 50,
+    marginHorizontal: 30,
     fontSize: 30,
     lineHeight: 40,
     color: colors.warningTextPurple,
     fontFamily: 'SpoqaHanSans-Bold',
   },
   infoImage: {
-    margin: 50,
-
+    marginHorizontal: 30,
+    marginVertical: 50,
   },
   infoContentArea: {
     flexDirection: 'row',
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   infoContentText: {
-    marginLeft: 50,
+    marginHorizontal: 30,
     marginBottom: 50,
     fontSize: 18,
     lineHeight: 24,
