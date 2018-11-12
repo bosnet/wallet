@@ -4,14 +4,10 @@ BOScoin Wallet for SEBAK
 ## Installation
 
 ```sh
-$ yarn # or npm install
+$ npm install
 ```
 
 ## Configuration
-
-```sh
-$ yarn # or npm install
-```
 
 ## Deployment
 
