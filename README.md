@@ -4,10 +4,18 @@ BOScoin Wallet for SEBAK
 ## Installation
 
 ```sh
+$ npm install -g react-native-cli
 $ npm install
 ```
 
 ## Configuration
+
+You can change `app/config/transactionConfig.json`.
+
+- `SEREVER_ADDR`: API Server URL.
+- `NETWORK_ID`: API Server's Network ID
+- `TRANSACTION_FEE`: Transaction Fee
+- `MINIMUM_BALANCE`: Minimum Balance
 
 ## Deployment
 
