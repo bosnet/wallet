@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   infoHeadText: {
     marginTop: 25,
     marginHorizontal: 30,
-    fontSize: 30,
+    fontSize: 26,
     lineHeight: 40,
     color: colors.warningTextPurple,
     fontFamily: 'SpoqaHanSans-Bold',

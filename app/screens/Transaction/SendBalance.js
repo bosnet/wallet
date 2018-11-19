@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ToastAndroid, Keyboard } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -64,6 +65,9 @@ class SendBalance extends React.Component {
 
       buttonActive: false,
     };
+
+    console.log(DeviceInfo.getBrand());
+
 
     this.onChangeAddress = this.onChangeAddress.bind(this);
     this.onChangeBalance = this.onChangeBalance.bind(this);
@@ -284,7 +288,7 @@ class SendBalance extends React.Component {
             label={Strings.BALANCE_INPUT_LABEL}
             subLabel={`${Strings.LABEL_FEE} ${TRANSACTION_FEE} BOS`}
             placeholder={Strings.BALANCE_INPUT_PLACEHOLDER}
-            keyboardType="numeric"
+            keyboardType={DeviceInfo.getBrand() !== 'lge' ? 'numeric' : 'default'}
             textColor={colors.textAreaContentsNavy}
             onEndEditing={this.onEndEditBalance}
             onChangeText={this.onChangeBalance}

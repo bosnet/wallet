@@ -8,6 +8,7 @@ const OnBoarding = {
     ALERT_OTHER_ERROR_MESSAGE: 'An error occurred. Please try again',
 
     ALERT_BUTTON_UPDATE: 'Update',
+    ALERT_BUTTON_LATER: 'Later',
     ALERT_BUTTON_RETRY: 'Retry',
     ALERT_BUTTON_QUIT: 'Finish',
   },

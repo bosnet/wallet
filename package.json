@@ -47,6 +47,7 @@
     "react-native-modal": "^6.5.0",
     "react-native-os": "^1.0.1",
     "react-native-qrcode": "^0.2.7",
+    "react-native-randombytes": "^3.5.1",
     "react-native-requests-logger": "^1.1.5",
     "react-native-sortable-list": "0.0.22",
     "react-native-splash-screen": "^3.1.1",

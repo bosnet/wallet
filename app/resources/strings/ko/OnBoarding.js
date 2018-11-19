@@ -8,6 +8,7 @@ const OnBoarding = {
     ALERT_OTHER_ERROR_MESSAGE: '앗! 문제가 발생했어요 잠시 후 다시 시도해 주세요',
 
     ALERT_BUTTON_UPDATE: '업데이트',
+    ALERT_BUTTON_LATER: '나중에',
     ALERT_BUTTON_RETRY: '재시도',
     ALERT_BUTTON_QUIT: '종료',
   },

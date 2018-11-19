@@ -4,14 +4,12 @@ import { createStore, applyMiddleware } from 'redux';
 import {
   View, Alert, BackHandler, Linking,
 } from 'react-native';
-import { getAppstoreAppVersion } from 'react-native-appstore-version-checker';
-import DeviceInfo from 'react-native-device-info';
 
 import strings from './resources/strings';
 
 import AppStorage from './libs/AppStorage';
 import FirebaseControl from './libs/FirebaseControl';
-
+import { VERSION } from './config/appConfig';
 import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
 
@@ -27,14 +25,10 @@ class App extends React.Component {
 
     this.state = {
       isLoaded: false,
-    };
+    }; 
   }
 
   componentDidMount() {
-    DeviceInfo.getBrand();
-    DeviceInfo.getDeviceId();
-    DeviceInfo.getDeviceName();
-    
     // AsyncStorage.clear();
     Promise.all([
       AppStorage.loadAccountsAsync(),
@@ -48,8 +42,8 @@ class App extends React.Component {
       const addressBook = values[2];
       const recents = values[3];
 
-      // this.checkAppVersion(accounts, addressBook, settings, recents);
-      this.runApp(accounts, addressBook, settings, recents);
+      this.checkAppVersion(accounts, addressBook, settings, recents);
+      // this.runApp(accounts, addressBook, settings, recents);
     });
   }
 
@@ -57,10 +51,23 @@ class App extends React.Component {
     const language = (settings && settings.language) ? settings.language : 'ko';
     const Strings = strings[language].OnBoarding.SplashScreen;
 
-    return getAppstoreAppVersion('com.boswallet') // put any apps packageId here
+    console.log('appVersion');
+    return fetch('https://raw.githubusercontent.com/bosnet/wallet/master/Version.txt', {
+      method: 'GET',
+      timeout: 3000,
+      headers: {
+        Accept: 'text/plain',
+      },
+    })
+      .then(response => response.text())
       .then((appVersion) => {
         console.log(appVersion);
-        if (appVersion) {
+        const latest = appVersion.split('.');
+        console.log(latest);
+        const current = VERSION.split('.');
+        console.log(current);
+
+        if (latest[0] >= current[0] && latest[1] > current[1]) {
           Alert.alert(
             Strings.ALERT_UPDATE_TITLE,
             Strings.ALERT_FORCE_UPDATE_MESSAGE,
@@ -80,6 +87,26 @@ class App extends React.Component {
             ],
             { cancelable: false },
           );
+        } else if (latest[0] === current[0] && latest[1] === current[1] && latest[2] > current[2]) {
+          Alert.alert(
+            Strings.ALERT_UPDATE_TITLE,
+            Strings.ALERT_UPDATE_MESSGAE,
+            [
+              {
+                text: Strings.ALERT_BUTTON_UPDATE,
+                onPress: () => {
+                  Linking.openURL('market://details?id=com.boswallet');
+                },
+              },
+              {
+                text: Strings.ALERT_BUTTON_LATER,
+                onPress: () => {
+                  this.runApp(accounts, addressBook, settings, recents);
+                },
+              },
+            ],
+            { cancelable: false },
+          );
         } else {
           this.runApp(accounts, addressBook, settings, recents);
         }
@@ -93,8 +120,8 @@ class App extends React.Component {
             {
               text: Strings.ALERT_BUTTON_RETRY,
               onPress: () => {
-                // this.checkAppVersion(accounts, addressBook, settings, recents);
-                this.runApp(accounts, addressBook, settings, recents);
+                this.checkAppVersion(accounts, addressBook, settings, recents);
+                // this.runApp(accounts, addressBook, settings, recents);
               },
             },
             {

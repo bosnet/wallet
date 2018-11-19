@@ -1,6 +1,8 @@
 /** @format */
 import { AppRegistry } from 'react-native';
 import react from 'react';
+import '../shim';
+
 XMLHttpRequest = GLOBAL.originalXMLHttpRequest ? 
   GLOBAL.originalXMLHttpRequest : GLOBAL.XMLHttpRequest;
 

@@ -93,7 +93,7 @@ class SettingsScreen extends React.Component {
                     {
                       text: Strings.VERSION,
                       type: types.ListItem.OPTION_TEXT,
-                      value: VERSION,
+                      value: `v ${VERSION}`,
                     },
                   ],
                 },

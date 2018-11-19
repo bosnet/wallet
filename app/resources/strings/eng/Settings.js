@@ -19,10 +19,10 @@ const Settings = {
     BACK_BUTTON: 'Close',
 
     HEAD_TEXT1: 'Please keep your information in secure',
-    CONTEXT1: 'You can be stole all of your\ndigital asset when you forgot or share\nyour Secret Seed, Recovery Key\nand password',
+    CONTEXT1: 'You can be stole all of your digital asset when you forgot or share your Secret Seed, Recovery Key and password',
 
     HEAD_TEXT2: 'Please be aware your information leaking',
-    CONTEXT2: 'Your Secret Seed and Recovery Key\nmay be stolen\nPlease close the BOS Wallet\nnot in use',
+    CONTEXT2: 'Your Secret Seed and Recovery Key may be stolen. Please close the BOS Wallet not in use',
 
     BUTTON_TEXT_OK: 'OK',
   },
