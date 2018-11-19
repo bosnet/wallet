@@ -111,7 +111,7 @@ class AccountCreated extends React.Component {
           </Text>
           <View style={styles.section}>
             <TextArea
-              label={`${name} ${keyText} ${Strings.PUBLIC_ADDRESS}`}
+              label={`${name} ${keyText}`}
               lableColor={colors.labelTextBlack}
               text={key}
               underline={false}
@@ -120,7 +120,7 @@ class AccountCreated extends React.Component {
           <View style={styles.seperator} />
           <View style={styles.section}>
             <LabelText
-              text={`${name} ${keyText} QR CODE`}
+              text={`${name} QR CODE`}
               color={colors.headTextBlack}
             />
             <View style={styles.alignCenter}>

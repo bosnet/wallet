@@ -25,10 +25,12 @@ class SelectWithdrawAccount extends React.Component {
       list: [],
       isLoaded: false,
       callback: navigation.getParam('callback', null),
+      buttonActive: false,
     };
 
     this.buildAccountList = this.buildAccountList.bind(this);
     this.callbackBottomButton = this.callbackBottomButton.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +67,19 @@ class SelectWithdrawAccount extends React.Component {
         });
       });
   }
+
+  onChange(selected) {
+    if (selected) {
+      this.setState({
+        buttonActive: true,
+      });
+    } else {
+      this.setState({
+        buttonActive: false,
+      });
+    }
+  }
+
 
   callbackBottomButton() {
     const { callback } = this.state;
@@ -103,6 +118,7 @@ class SelectWithdrawAccount extends React.Component {
             data: list,
           }}
           noDataText={Strings.NOTI_NO_ADDRESS}
+          onChange={this.onChange}
         />
       );
     }
@@ -111,7 +127,7 @@ class SelectWithdrawAccount extends React.Component {
 
 
   render() {
-    const { list, isLoaded } = this.state;
+    const { list, isLoaded, buttonActive } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.SelectWithdraw;
 
@@ -144,6 +160,7 @@ class SelectWithdrawAccount extends React.Component {
               callback: this.callbackBottomButton,
             },
           ]}
+          inactive={!buttonActive}
         />
         <AndroidBackHandler />
       </View>

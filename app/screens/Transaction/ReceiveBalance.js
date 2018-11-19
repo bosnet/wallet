@@ -55,7 +55,7 @@ class ReceiveBalance extends React.Component {
           <View style={styles.section}>
             <TextArea
               label={(
-                account.name
+                `${account.name} ${Strings.PUBLIC_ADDRESS}`
               )}
               lableColor={colors.labelTextBlack}
               text={(account && account.address) ? account.address : ''}
@@ -70,6 +70,7 @@ class ReceiveBalance extends React.Component {
                   {`${account.name} QR CODE`}
                 </Text>
               )}
+              color={colors.labelTextBlack}
             />
             <View style={{ marginBottom: 20 }} />
             <QRPanel

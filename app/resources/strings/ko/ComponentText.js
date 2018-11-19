@@ -5,7 +5,7 @@ const ComponentText = {
     NOTI_DEFAULT: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
     ERROR_NODATA: '비밀번호를 입력하세요',
     ERROR_RANGE: '잘못된 비밀번호 입니다. 다시 확인해주세요',
-    ERROR_MATCH: '비밀번호가 일치하지 않습니다.',
+    ERROR_MATCH: '비밀번호가 일치하지 않습니다',
   },
 
   ADDRESS_PANEL_TITLE: '저장된 공개 주소',
@@ -13,6 +13,8 @@ const ComponentText = {
   HOMEINTRO_MODAL_BUTTON: '시작하기',
 
   WITHDRAWAL_ITEM_LABEL: '출금 가능 금액',
+
+  ON_DELAYING: '조회지연',
 
   AddressItem: {
     LABEL_SEND: '보내기',

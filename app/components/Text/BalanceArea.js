@@ -2,10 +2,12 @@ import React from 'react';
 import {
   View, Text,
 } from 'react-native';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
 import { colors } from '../../resources';
+import strings from '../../resources/strings';
 
 
 const BalanceArea = ({
@@ -14,29 +16,34 @@ const BalanceArea = ({
   lableColor,
   text,
   textColor,
-}) => (
-  <View
-    style={styles.balanceArea}
-  >
-    <View style={styles.balanceHead}>
-      <Text
-        style={[
-          styles.balanceTitle,
-          { color: lableColor },
-        ]}
-      >
-        {label}
-      </Text>
-      <Text style={styles.balanceSubTitle}>
-        {subLabel}
-      </Text>
+  settings,
+}) => {
+  const Strings = strings[settings.language].ComponentText;
+
+  return (
+    <View
+      style={styles.balanceArea}
+    >
+      <View style={styles.balanceHead}>
+        <Text
+          style={[
+            styles.balanceTitle,
+            { color: lableColor },
+          ]}
+        >
+          {label}
+        </Text>
+        <Text style={styles.balanceSubTitle}>
+          {subLabel}
+        </Text>
+      </View>
+      <View style={styles.balanceContentArea}>
+        <Text style={[styles.balanceAmount, { color: textColor }]}>{!isNaN(text) ? text : Strings.ON_DELAYING}</Text>
+        <Text style={[styles.balanceUnit, { color: textColor }]}>{!isNaN(text) ? 'BOS' : ''}</Text>
+      </View>
     </View>
-    <View style={styles.balanceContentArea}>
-      <Text style={[styles.balanceAmount, { color: textColor }]}>{text}</Text>
-      <Text style={[styles.balanceUnit, { color: textColor }]}>BOS</Text>
-    </View>
-  </View>
-);
+  );
+}
 
 BalanceArea.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -53,4 +60,8 @@ BalanceArea.defaultProps = {
   textColor: colors.textAreaContentsGray,
 };
 
-export default BalanceArea;
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+export default connect(mapStateToProps)(BalanceArea);

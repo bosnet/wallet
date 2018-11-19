@@ -1,6 +1,7 @@
 import sebakjs from 'sebakjs-util';
 import CryptoJS from 'crypto-js';
-import bs58 from 'bs58';
+
+import { decryptWallet } from './KeyGenerator';
 
 import {
   ToastAndroid,
@@ -17,11 +18,11 @@ const makeRLPData = (type, body) => {
   if (type === 'payment') {
     const tx = [
       body.source,
-      Number(body.fee),
+      body.fee,
       Number(body.sequence_id),
       [[
         [body.operations[0].H.type],
-        [body.operations[0].B.target, Number(body.operations[0].B.amount)],
+        [body.operations[0].B.target, body.operations[0].B.amount],
       ]],
     ];
     return tx;
@@ -29,11 +30,11 @@ const makeRLPData = (type, body) => {
 
   const tx = [
     body.source,
-    Number(body.fee),
+    body.fee,
     Number(body.sequence_id),
     [[
       [body.operations[0].H.type],
-      [body.operations[0].B.target, Number(body.operations[0].B.amount), ''],
+      [body.operations[0].B.target, body.operations[0].B.amount, ''],
     ]],
   ];
 
@@ -55,23 +56,34 @@ export const retrieveAccount = address => (
   })
     .then(response => response.json())
     .then((data) => {
+      console.log(JSON.stringify(data));
       if (data.status === 404) {
         return {
           status: 404,
           balance: 0,
         };
       }
+
+      if (!data.status) {
+        return {
+          status: 200,
+          ...data,
+          balance: Number(data.balance) / BOS_GON_RATE,
+        };
+      }
+
+
       if (data.status === 500) {
         return {
           status: 500,
         };
       }
 
-      return {
-        status: 200,
-        ...data,
-        balance: Number(data.balance) / BOS_GON_RATE,
-      };
+      if (data.status === 429) {
+        return {
+          status: 429,
+        };
+      }
     })
 );
 
@@ -106,8 +118,8 @@ export const retrieveOperations = (txHash, date, fee) => {
     });
 };
 
-export const retrieveTransactions = (address, cursor, limit) => {
-  return fetch(`${SEREVER_ADDR}/v1/accounts/${address}/transactions?cursor=${cursor}&limit=${limit}&reverse=true`, {
+export const retrieveTransactions = (address, limit) => {
+  return fetch(`${SEREVER_ADDR}/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -117,6 +129,14 @@ export const retrieveTransactions = (address, cursor, limit) => {
     .then(response => response.json())
     .then((data) => {
       const promises = [];
+
+
+      if (data.status === 429) {
+        return {
+          status: 429,
+        };
+      }
+
       const { records } = data._embedded;
 
       if (!records) return [];
@@ -144,7 +164,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   const body = {
     T: 'transaction',
     H: {
-      version: '``',
+      version: '1',
       created: makeFullISOString(new Date().toISOString()),
       // 'hash': '2g3ZSrEnsUWeX5Mxz5uTh2b4KVpVQS7Ek2HzZd759FHn',
       // 'signature': '3oWmCMNHExRQnZVEBSH16ZBgLE6ayz7t1fsjzTjAB6WpXMpkDJbhcL8KudqFFG21XmfSXnJH1BLhnBUh4p68yFeR'
@@ -160,7 +180,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
           },
           B: {
             target,
-            amount: (amount * BOS_GON_RATE).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''), // 소수점 오차떄문에 Fixed 후 replace으로 변경 필요
+            amount: (amount * BOS_GON_RATE).toFixed(0), // 소수점 오차떄문에 Fixed 후 replace으로 변경 필요
             // linked: '',
           },
         },
@@ -170,14 +190,10 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
 
 
   const RDPData = makeRLPData(HType, body.B);
-  console.log(JSON.stringify(RDPData));
-
-  const rawRestoreKey = source.secretSeed.slice(3).slice(0, -2);
-  const decoded58 = bs58.decode(rawRestoreKey);
-  const secretKey = AES.decrypt(decoded58, password).toString(CryptoJS.enc.Utf8);
+  const secretKey = decryptWallet(password, source.secretSeed);
 
   const hash = sebakjs.hash(RDPData);
-  const sig = sebakjs.sign(hash, NETWORK_ID, secretKey.toString(CryptoJS.enc.Utf8));
+  const sig = sebakjs.sign(hash, NETWORK_ID, secretKey);
 
   body.H.hash = hash;
   body.H.signature = sig;
@@ -219,21 +235,6 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
         target: res.message.operations[0].B.target,
       });
     });
-
-  // return fetch(`http://conall.co.kr/moon.php`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     charset: 'utf-8',
-  //   },
-  //   body: JSON.stringify(body),
-  // })
-  //   .then((response) => {
-  //     return response.text();
-  //   })
-  //   .then(result=> {
-  //     ToastAndroid.show(JSON.stringify(result), ToastAndroid.LONG);
-  //   });
 };
 
 export const listAccounts = () => {};

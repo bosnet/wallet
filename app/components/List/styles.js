@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   itemList: {
     alignSelf: 'stretch',
     marginLeft: 24,
+    // height: 'auto',
   },
 
   listItem: {

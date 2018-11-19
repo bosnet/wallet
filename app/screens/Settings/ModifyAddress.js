@@ -69,7 +69,15 @@ class ModifyAddress extends React.Component {
   }
 
   onNavigateWithResult(key) {
-    this.inputAddress.getWrappedInstance().setText(key.toString());
+    this.inputAddress.getWrappedInstance().setText(key.toString())
+      .then(() => {
+        const addressText = this.inputAddress.getWrappedInstance().getText();
+        const name = this.inputName.getWrappedInstance().getText();
+        
+        this.setState({
+          buttonActive: (name.length > 0 && addressText.length > 0),
+        });
+      });
   }
 
   onChangeName(name) {
@@ -98,10 +106,39 @@ class ModifyAddress extends React.Component {
 
     if (buttonActive) return;
 
+    let errorFlag = false;
+
     if (name.length <= 0) {
       this.setState({
         nameNotiText: Strings.HELPER_ERROR_NO_NAME,
         nameNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (name.length > 10) {
+      this.setState({
+        nameNotiText: Strings.HELPER_ERROR_NAME_NOT_VALID,
+        nameNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (name.match(/[^0-9a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\s!@#$%^&*()=_-]/)) {
+      this.setState({
+        nameNotiText: Strings.HELPER_ERROR_INVALID_NAME,
+        nameNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (!errorFlag) {
+      this.setState({
+        nameNotiText: Strings.HELPER_NAME,
+        nameNotiColor: colors.transparent,
       });
     }
 
@@ -109,6 +146,33 @@ class ModifyAddress extends React.Component {
       this.setState({
         addressNotiText: Strings.HELPER_ERROR_NO_ADDRESS,
         addressNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (addressText.length > 0 && !addressText.match(/^G.+/)) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
+        addressNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (!checkPublicKey(addressText)) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
+        addressNotiColor: colors.alertTextRed,
+      });
+
+      errorFlag = true;
+    }
+
+    if (!errorFlag) {
+      this.setState({
+        addressNotiText: Strings.HELPER_ADDRESS,
+        addressNotiColor: colors.transparent,
       });
     }
   }

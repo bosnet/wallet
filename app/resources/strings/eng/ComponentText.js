@@ -4,8 +4,8 @@ const ComponentText = {
     HELP: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
     NOTI_DEFAULT: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
     ERROR_NODATA: 'Enter your password',
-    ERROR_RANGE: 'Wrong password please check again',
-    ERROR_MATCH: 'Please enter password again.',
+    ERROR_RANGE: 'Wrong password, please check again',
+    ERROR_MATCH: 'Please enter password again',
   },
 
   ADDRESS_PANEL_TITLE: 'Saved Public Address',
@@ -13,6 +13,8 @@ const ComponentText = {
   HOMEINTRO_MODAL_BUTTON: 'Let\'s start',
 
   WITHDRAWAL_ITEM_LABEL: 'Withdrawal available',
+
+  ON_DELAYING: 'On Delaying',
 
   AddressItem: {
     LABEL_SEND: 'Send',

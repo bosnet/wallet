@@ -217,4 +217,6 @@ export {
   getSecureKey,
   checkSecretKey,
   checkPublicKey,
+  decryptWallet,
+  encryptWallet,
 };

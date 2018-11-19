@@ -6,7 +6,9 @@ const Transactions = {
 
     LABEL_CREATED: 'Create account',
 
-    INVALID_ACCOUNT_NOTI: 'You need a minimum balance of 0.1 BOS to make your account valid.\nPlease deposit minimum balance of 0.1 BOS to activate your account.',
+    TOAST_ON_DELAY: 'Loading... Please wait a minute',
+
+    INVALID_ACCOUNT_NOTI: 'You need a minimum balance of\n0.1 BOS to make your account valid\nPlease deposit minimum balance of\n0.1 BOS to activate your account',
     INVALID_ACCOUNT_BUTTON: 'Receive 0.1 BOS',
 
     
@@ -21,23 +23,23 @@ const Transactions = {
     BALANCE_INPUT_PLACEHOLDER: '0.0000000',
     HELPER_BALANCE_DEFAULT: 'Please enter transferred amount',
     HELPER_BALANCE_ERROR_NO_INPUT: 'Please enter transferred amount',
-    HELPER_BALANCE_ERROR_NOT_VALID: 'Amount is invalid.', // 토의 필요
+    HELPER_BALANCE_ERROR_NOT_VALID: 'Amount is invalid',
     HELPER_BALANCE_ERROR_RANGE: 'Please enter transferred amount less than withdrawal available',
     HELPER_BALANCE_ERROR_DOT_RANGE: 'You can enter up to 7 decimal place',
 
-    ADDRESS_INPUT_LABEL: 'Enter public address',
+    ADDRESS_INPUT_LABEL: 'Enter Public Address',
     ADDRESS_INPUT_PLACEHOLDER: 'Enter Public Address start with letter "G"',
-    HELPER_ADDRESS_DEFAULT: 'Enter public address',
-    HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter public address',
+    HELPER_ADDRESS_DEFAULT: 'Enter Public Address',
+    HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address',
     HELPER_ADDRESS_ERROR_NOT_VALID: 'This Public Address is invalid',
 
     LABEL_FEE: 'Transaction fee',
 
-    BUTTON_TEXT_OK: 'Ok',
+    BUTTON_TEXT_OK: 'OK',
   },
   SelectWithdraw: {
-    TITLE: 'Select withdrawal account',
-    NOTI_NO_ADDRESS: 'Accounts not register yet. ',
+    TITLE: 'Withdrawal account',
+    NOTI_NO_ADDRESS: 'There are no valid withdrawal accounts',
     BACK_BUTTON: 'Cancel',
     BUTTON_TEXT_OK: 'Select',
   },
@@ -46,7 +48,7 @@ const Transactions = {
     LABEL_SENDER: 'Withdrawal account',
     LABEL_RECEIVED_AMOUNT: 'Received amount',
 
-    LABEL_RECEIVER: 'Receiving account',
+    LABEL_RECEIVER: 'Receive account',
     LABEL_SEND_AMOUNT: 'Sent amount',
 
     LABEL_FEE: 'Transaction fee',
@@ -58,15 +60,15 @@ const Transactions = {
     TYPE_RECV: 'Deposit',
     LABEL_TRANSACTION_ID: 'Transaction ID',
 
-    BUTTON_TEXT_OK: 'Ok',
+    BUTTON_TEXT_OK: 'OK',
     BUTTON_TEXT_EXPLORER: 'Explorer',
 
-    TOAST_CLIPBOARD: 'Public Address has been copied',
+    TOAST_CLIPBOARD: 'Copied to clipboard',
   },
   BeforeTransaction: {
-    TITLE: 'Transfer details confirm',
-    HEAD_TEXT: 'Please check transfer details below.',
-    LABEL_RECEIVER: 'Received account\'s public address',
+    TITLE: 'Transfer details',
+    HEAD_TEXT: 'Please check transfer details below',
+    LABEL_RECEIVER: 'Received account\'s Public Address',
     LABEL_AMOUNT: 'Amount',
     LABEL_FEE: 'Transaction fee',
     LABEL_TOTAL: 'Total amount',
@@ -77,11 +79,12 @@ const Transactions = {
   ReceiveBalance: {
     TITLE: 'Receive',
     BACK_BUTTON: 'Close',
+    PUBLIC_ADDRESS: 'Public Address',
 
     BUTTON_TEXT_SHARE: 'Share',
     BUTTON_TEXT_COPY: 'Copy',
 
-    TOAST_CLIPBOARD: 'Public Address has been copied',
+    TOAST_CLIPBOARD: 'Copied to clipboard',
   },
   ReceiveAccount: {
     TITLE: 'Receiving account',
@@ -99,7 +102,7 @@ const Transactions = {
 
     // TAB 2
     AddressBook: {
-      NOTI_NO_ADDRESS: 'Accounts not register yet.',
+      NOTI_NO_ADDRESS: 'Accounts not register yet',
       BUTTON_TEXT_SELECT: 'Select',
     },
 
@@ -107,10 +110,10 @@ const Transactions = {
     InputAccounts: {
       NO_RECENT_ADDRESS: 'Latest transfer record not exists',
       BUTTON_TEXT_SELECT: 'Select',
-      INPUT_PLACEHOLDER: 'Please enter Public Address start with letter \'G\'',
+      INPUT_PLACEHOLDER: 'Enter Public Address start with letter \'G\'',
 
-      HELPER_ADDRESS_DEFAULT: 'Please enter Public Address start with letter \'G\' and its length is 56 letters long.',
-      HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter public address',
+      HELPER_ADDRESS_DEFAULT: 'Please enter Public Address start with letter \'G\' and\nits length is 56 letters long',
+      HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address',
       HELPER_ADDRESS_ERROR_NOT_VALID: 'Incorrect Public Address',
 
       LABEL_PUBLIC_ADDRESS: 'Public Address',
@@ -126,13 +129,13 @@ const Transactions = {
     HEAD_TEXT_TRANSACTION_OK: 'Transaction is created',
     HEAD_TEXT_TRANSACTION_FAIL: 'You transaction request has been failed\nPlease try again',
 
-    BUTTON_TEXT_OK: 'Ok',
+    BUTTON_TEXT_OK: 'OK',
     BUTTON_TEXT_ADD: 'Add contact',
 
     LABEL_TFAIL: 'Transaction results',
     LABEL_FAIL_PREFIX: 'Transaction failed -',
 
-    LABEL_ADDR: 'Received account\'s public address',
+    LABEL_ADDR: 'Received account\'s Public Address',
     LABEL_AMOUNT: 'Amount',
     LABEL_FAILED_AMOUNT: 'Transfer failure amount',
     LABEL_FEE: 'Transaction fee',

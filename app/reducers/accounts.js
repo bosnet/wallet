@@ -82,10 +82,15 @@ function accountsAction(state = initialState, action) {
       return {
         ...state,
       };
+    case Navigation.NAV_PUSH:
+    case Navigation.NAV_POP:
+    case Navigation.NAV_BACK:
+    case Navigation.NAV_RESET:
+    case Navigation.NAV_RESET_TO_LIST:
     case Accounts.SET_UPDATE_FLAG:
-
       console.log('SET_UPDATE_FLAG');
-      state.updateFlags = setUpdateFlags(state.updateFlags);
+      state.updateFlags[Navigation.Screens.HOME] = true;
+      state.updateFlags[Navigation.Screens.TRANSACTION_LIST] = true;
       return {
         ...state,
         updateFlag: true,

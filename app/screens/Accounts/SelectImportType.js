@@ -34,6 +34,7 @@ const SelectImportType = ({ settings }) => {
         <LongButton
           text={Strings.SELECT_SS}
           action={NavAction.pushScreen(NavAction.Screens.IMPORT_BY_SECURE)}
+          borderColor={colors.transparent}
         />
         <LongButton
           text={Strings.SELECT_RK}

@@ -15,7 +15,7 @@ const OnBoarding = {
   Walkthrough: {
     HEAD_TEXT: 'You can get\nyour transfer result\nright away',
     CONTEXT_TEXT: 'Experience easy & instant send BOScoin to your friend\'s BOScoin account',
-    BUTTON_TEXT: 'Start BOScoin wallet',
+    BUTTON_TEXT: 'Start BOScoin Wallet',
   },
 };
 export default OnBoarding;

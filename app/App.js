@@ -2,18 +2,22 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import {
-  AsyncStorage, View
+  View, Alert, BackHandler, Linking,
 } from 'react-native';
-import firebase from 'react-native-firebase';
+import { getAppstoreAppVersion } from 'react-native-appstore-version-checker';
+import DeviceInfo from 'react-native-device-info';
+
+import strings from './resources/strings';
 
 import AppStorage from './libs/AppStorage';
 import FirebaseControl from './libs/FirebaseControl';
 
 import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
-import AndroidBackHandler from './AndroidBackHandler';
 
-import { Accounts, Navigation, Settings, AddressBook } from './actions';
+import {
+  Accounts, Navigation, Settings, AddressBook,
+} from './actions';
 
 const store = createStore(AppReducer, applyMiddleware(middleware));
 
@@ -27,7 +31,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
+    DeviceInfo.getBrand();
+    DeviceInfo.getDeviceId();
+    DeviceInfo.getDeviceName();
+    
     // AsyncStorage.clear();
     Promise.all([
       AppStorage.loadAccountsAsync(),
@@ -41,33 +48,91 @@ class App extends React.Component {
       const addressBook = values[2];
       const recents = values[3];
 
-      console.log("Recents")
-      console.log(settings);
-
-      if (accounts && accounts.length > 0) {
-        store.dispatch(Accounts.loadAccounts(accounts));
-        store.dispatch(Navigation.resetScreen(Navigation.Screens.HOME));
-      } else {
-        store.dispatch(Accounts.loadAccounts([]));
-        store.dispatch(Navigation.resetScreen(Navigation.Screens.WALKTHROUGH));
-      }
-
-      if (settings) store.dispatch(Settings.setSettings(settings));
-
-      if (addressBook) store.dispatch(AddressBook.setAddress(addressBook));
-
-      if (recents) store.dispatch(AddressBook.setRecent(recents));
-
-      this.setState({
-        isLoaded: true,
-      });
-
-      if (!settings || settings.useFirebase) {
-        console.log("useCrashlystic");
-        FirebaseControl.useCrashlystic();
-        console.log("useCrashlystic Done");
-      }
+      // this.checkAppVersion(accounts, addressBook, settings, recents);
+      this.runApp(accounts, addressBook, settings, recents);
     });
+  }
+
+  checkAppVersion(accounts, addressBook, settings, recents) {
+    const language = (settings && settings.language) ? settings.language : 'ko';
+    const Strings = strings[language].OnBoarding.SplashScreen;
+
+    return getAppstoreAppVersion('com.boswallet') // put any apps packageId here
+      .then((appVersion) => {
+        console.log(appVersion);
+        if (appVersion) {
+          Alert.alert(
+            Strings.ALERT_UPDATE_TITLE,
+            Strings.ALERT_FORCE_UPDATE_MESSAGE,
+            [
+              {
+                text: Strings.ALERT_BUTTON_UPDATE,
+                onPress: () => {
+                  Linking.openURL('market://details?id=com.boswallet');
+                },
+              },
+              {
+                text: Strings.ALERT_BUTTON_QUIT,
+                onPress: () => {
+                  BackHandler.exitApp();
+                },
+              },
+            ],
+            { cancelable: false },
+          );
+        } else {
+          this.runApp(accounts, addressBook, settings, recents);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert(
+          Strings.ALERT_GENERAL_TITLE,
+          Strings.ALERT_OTHER_ERROR_MESSAGE,
+          [
+            {
+              text: Strings.ALERT_BUTTON_RETRY,
+              onPress: () => {
+                // this.checkAppVersion(accounts, addressBook, settings, recents);
+                this.runApp(accounts, addressBook, settings, recents);
+              },
+            },
+            {
+              text: Strings.ALERT_BUTTON_QUIT,
+              onPress: () => {
+                BackHandler.exitApp();
+              },
+            },
+          ],
+          { cancelable: false },
+        );
+      });
+  }
+
+  runApp(accounts, addressBook, settings, recents) {
+    if (accounts && accounts.length > 0) {
+      store.dispatch(Accounts.loadAccounts(accounts));
+      store.dispatch(Navigation.resetScreen(Navigation.Screens.HOME));
+    } else {
+      store.dispatch(Accounts.loadAccounts([]));
+      store.dispatch(Navigation.resetScreen(Navigation.Screens.WALKTHROUGH));
+    }
+
+    if (settings) store.dispatch(Settings.setSettings(settings));
+
+    if (addressBook) store.dispatch(AddressBook.setAddress(addressBook));
+
+    if (recents) store.dispatch(AddressBook.setRecent(recents));
+
+    this.setState({
+      isLoaded: true,
+    });
+
+    if (!settings || settings.useFirebase) {
+      console.log("useCrashlystic");
+      FirebaseControl.useCrashlystic();
+      console.log("useCrashlystic Done");
+    }
   }
 
   render() {

@@ -84,7 +84,12 @@ class AuthChangePassword extends React.Component {
   }
 
   onNavigateWithResult(key) {
-    this.input.getWrappedInstance().setText(key.toString());
+    this.input.getWrappedInstance().setText(key.toString())
+      .then(() => {
+        this.setState({
+          buttonActive: (key.toString().length > 0),
+        });
+      });
   }
 
   _keyboardDidHide() {
@@ -260,7 +265,7 @@ class AuthChangePassword extends React.Component {
   }
 
   renderTextButton() {
-    const { option, mode } = this.state;
+    const { option, mode, next } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.AuthChangePassword;
 
@@ -294,7 +299,7 @@ class AuthChangePassword extends React.Component {
   }
 
   render() {
-    const { mode, helperColor, helperText, option, buttonActive } = this.state;
+    const { mode, helperColor, helperText, next, buttonActive } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.AuthChangePassword;
 
@@ -334,8 +339,8 @@ class AuthChangePassword extends React.Component {
         <View style={styles.footer}>
           <NotiPanel
             texts={[
-              Strings.NOTICE1,
-              // Strings.NOTICE2,
+              next === NavAction.Screens.SET_PASSWORD ? Strings.NOTICE_CHANGE1 : Strings.NOTICE1,
+              next === NavAction.Screens.SET_PASSWORD ? Strings.NOTICE_CHANGE2 : null,
             ]}
           />
         </View>

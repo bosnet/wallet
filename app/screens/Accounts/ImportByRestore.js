@@ -80,6 +80,7 @@ class ImportByRestore extends React.Component {
     };
 
     this.onChangeText = this.onChangeText.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
     this.onEndEditing = this.onEndEditing.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
     this.validateRestoreKey = this.validateRestoreKey.bind(this);
@@ -89,7 +90,19 @@ class ImportByRestore extends React.Component {
 
   onChangeText() {
     return (text) => {
-      if (text.length > 0 && validateKey(text)) {
+      const password = this.password.getWrappedInstance().getText();
+      if (text.length > 0 && password.length > 0) {
+        this.setState({ buttonActive: true });
+      } else {
+        this.setState({ buttonActive: false });
+      }
+    };
+  }
+
+  onChangePassword() {
+    return (password) => {
+      const text = this.input.getWrappedInstance().getText();
+      if (text.length > 0 && password.length > 0) {
         this.setState({ buttonActive: true });
       } else {
         this.setState({ buttonActive: false });
@@ -161,7 +174,6 @@ class ImportByRestore extends React.Component {
 
     if (text.trim().length === 0) {
       this.setState({
-        buttonActive: false,
         keyHelperText: Strings.HELPER_ERROR_NO_RESTORE,
         keyHelperColor: colors.alertTextRed,
       });
@@ -170,12 +182,10 @@ class ImportByRestore extends React.Component {
 
       if (result) {
         this.setState({
-          buttonActive: true,
           keyHelperColor: colors.transparent,
         });
       } else {
         this.setState({
-          buttonActive: false,
           keyHelperText: Strings.HELPER_ERROR_NOT_VALID_RESTORE,
           keyHelperColor: colors.alertTextRed,
         });
@@ -279,6 +289,7 @@ class ImportByRestore extends React.Component {
             ref={(c) => { this.password = c; }}
             label={Strings.PASSWORD_LABEL}
             placeholder={Strings.PLACEHOLDER_RES_PASSWORD}
+            onChangeText={this.onChangePassword()}
           />
           <NotiPanel
             texts={[

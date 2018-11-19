@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     // justifyContent: 'flex-start',
-    marginLeft: 15,
+    marginHorizontal: 15,
     marginBottom: 20,
   },
   checkArea: {
@@ -108,18 +108,20 @@ const styles = StyleSheet.create({
     fontFamily: 'SpoqaHanSans-Regular',
     fontSize: 16,
     lineHeight: 26,
+    alignSelf: 'stretch',
+    marginRight: 45,
     color: colors.buttonTextGray,
   },
 
   panelButtonGroup: {
-    width: 327,
     height: 42,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: colors.buttonBorderGray,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
+    marginHorizontal: 30,
   },
   pannelButton: {
     flex: 1,

@@ -74,7 +74,7 @@ class TransactionDetail extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={item.amount}
+            text={Number(item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -109,7 +109,7 @@ class TransactionDetail extends React.Component {
         />
         <TextArea
           label={Strings.LABEL_SEND_AMOUNT}
-          text={Number(-item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+          text={Number(-(item.amount) - (item.fee)).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
           type={types.TextArea.BALACNE}
           underline={false}
         />
@@ -121,7 +121,7 @@ class TransactionDetail extends React.Component {
         />
         <TextArea
           label={Strings.LABEL_TOTAL}
-          text={-(item.amount) + (item.fee)}
+          text={Number(-item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
           type={types.TextArea.BALACNE}
           underline={false}
         />
@@ -142,8 +142,7 @@ class TransactionDetail extends React.Component {
         <DefaultToolbar
           theme={DefaultToolbarTheme.WHITE}
           data={{
-            left: {
-              hasArrow: true,
+            center: {
               title: Strings.TITLE,
             },
           }}
@@ -160,7 +159,7 @@ class TransactionDetail extends React.Component {
             />
             <TextArea
               label={Strings.LABEL_TYPE}
-              text={`${(item.amount < 0) ? Strings.TYPE_SEND : Strings.TYPE_RECV}${item.title ? `- ${item.title}` : ''}`}
+              text={`${(item.amount < 0) ? Strings.TYPE_SEND : Strings.TYPE_RECV}${item.title ? ` - ${item.title}` : ''}`}
               underline={false}
             />
             <TextArea

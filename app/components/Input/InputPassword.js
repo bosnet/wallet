@@ -69,7 +69,7 @@ class InputPassword extends React.Component {
             });
           }}
         >
-          <Image style={styles.supportButton} source={isSecure ? icEye : icEyeOff} />
+          <Image style={styles.eyeButton} source={isSecure ? icEye : icEyeOff} />
         </TouchableOpacity>
       );
     }

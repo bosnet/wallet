@@ -10,6 +10,7 @@ import { colors } from '../../../resources';
 import { Navigation as NavAction } from '../../../actions';
 
 import icVoting from '../../../resources/images/voting_orange.png';
+import strings from '../../../resources/strings';
 
 const createIcon = (icon) => {
   let result = null;
@@ -46,24 +47,29 @@ const AccountItem = ({
   account,
   icon,
   onPress,
-}) => (
-  <TouchableOpacity
-    style={styles.accountItem}
-    onPress={account ? () => {
-      onPress(NavAction.pushScreen(NavAction.Screens.TRANSACTION_LIST, { account }));
-    } : null}
-  >
-    <View style={styles.accoutnItemHead}>
-      <Text style={styles.accountName}>
-        {account.name}
-      </Text>
-    </View>
-    <View style={styles.accountItemContent}>
-      <Text style={styles.accountBalance}>{account.balance !== undefined ? account.balance : ''}</Text>
-      <Text style={styles.accountUnit}>BOS</Text>
-    </View>
-  </TouchableOpacity>
-);
+  settings,
+}) => {
+  const Strings = strings[settings.language].ComponentText;
+
+  return (
+    <TouchableOpacity
+      style={styles.accountItem}
+      onPress={account ? () => {
+        onPress(NavAction.pushScreen(NavAction.Screens.TRANSACTION_LIST, { account }));
+      } : null}
+    >
+      <View style={styles.accoutnItemHead}>
+        <Text style={styles.accountName}>
+          {account.name}
+        </Text>
+      </View>
+      <View style={styles.accountItemContent}>
+        <Text style={styles.accountBalance}>{ !isNaN(account.balance) ? account.balance : Strings.ON_DELAYING}</Text>
+        <Text style={styles.accountUnit}>{ !isNaN(account.balance) ? 'BOS' : ''}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 AccountItem.propTypes = {
   onPress: PropTypes.func,
@@ -77,8 +83,12 @@ AccountItem.defaultProps = {
   textColor: colors.itemTextBlack,
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapStateToProps = state => ({
+  settings: state.settings,
+});
+
+const mapDispatchToProps = dispatch => ({
   onPress: action => dispatch(action),
 });
 
-export default connect(null, mapDispatchToProps)(AccountItem);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountItem);

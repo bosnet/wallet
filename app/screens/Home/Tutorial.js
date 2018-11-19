@@ -104,7 +104,7 @@ class Tutorial extends React.Component {
             text={Strings.Tutorial.BUTTON_TEXT}
             backgroundColor={colors.buttonWhite}
             textColor={colors.buttonTextPurple}
-            borderColor={colors.white}
+            borderColor={colors.transparent}
             width="auto"
             action={NavAction.resetScreen(NavAction.Screens.HOME)}
           />

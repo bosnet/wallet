@@ -60,8 +60,9 @@ class HomeScreen extends React.Component {
     const { showModal, accounts, doAction, navigation, settings } = this.props;
     const { isLoading, list, totalBalance } = this.state;
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
+    const HomeStrings = strings[settings.language].Home;
 
-    if (!navigation.isFocused()) return;
+    if (!navigation.isFocused()) return null;
 
     let errorFlag = false;
 
@@ -84,11 +85,17 @@ class HomeScreen extends React.Component {
     return Promise.all(
       accounts.map((account, index) => (
         retrieveAccount(account.address)
-          .then(data => ({
-            ...account,
-            index,
-            balance: data.balance,
-          }))
+          .then((data) => {
+            if (data.status === 429) {
+              ToastAndroid.show(HomeStrings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+            }
+
+            return ({
+              ...account,
+              index,
+              balance: data.balance,
+            });
+          })
       )),
     )
       .catch((e) => {
@@ -111,18 +118,29 @@ class HomeScreen extends React.Component {
               },
             },
           ],
+          { cancelable: false },
         );
       })
       .then((results) => {
         let total = 0;
 
-        console.log(JSON.stringify(results));
+        let nanFlag = false;
 
         results.forEach((account) => {
-          if (account.balance) total += account.balance;
+          if (isNaN(account.balance)) {
+            nanFlag = true;
+          }
+
+          if (!nanFlag) {
+            if (account.balance) total += account.balance;
+          }
         });
 
-        // total = total.toFixed(7);
+        if (nanFlag) {
+          total = NaN;
+        }
+
+        console.log(total);
 
         this.setState({
           list: results,

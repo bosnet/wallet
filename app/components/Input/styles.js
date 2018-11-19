@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  eyeButton: {
+    width: 22,
+    height: 20,
+  },
   areaOption: {
     alignSelf: 'flex-end',
     marginRight: 8,

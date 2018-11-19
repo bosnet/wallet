@@ -55,7 +55,7 @@ const Settings = {
     HELPER_ERROR_DUPLICATE_NAME: '이미 사용 중인 이름입니다',
 
 
-    TOAST_MODIFY_ADDRESS: '공개 주소는 수정 할 수 없습니다',
+    TOAST_MODIFY_ADDRESS: '공개 주소는 수정할 수 없습니다',
 
     LABEL_ADDRESS: '공개 주소',
     PLACEHOLDER_ADDRESS: 'G로 시작하는 공개 주소 입력',

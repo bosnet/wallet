@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.boswallet.NativeFunctions.NativeFunctionsPackage;
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.masteratul.RNAppstoreVersionCheckerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -30,6 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+            new RNDeviceInfo(),
+            new RNAppstoreVersionCheckerPackage(),
               new SplashScreenReactPackage(),
               new RNCameraPackage(),
               new RNFirebasePackage(),

@@ -376,7 +376,7 @@ class SetPassword extends React.Component {
   }
 
   render() {
-    const { input1, input2, buttonActive } = this.state;
+    const { input1, input2, buttonActive, mode } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.SetPassword;
 
@@ -417,7 +417,7 @@ class SetPassword extends React.Component {
           <InputPassword
             ref={(c) => { this.input2 = c; }}
             label={Strings.INPUT2_LABEL}
-            placeholder={Strings.PLACEHOLDER}
+            placeholder={Strings.PLACEHOLDER2}
             onChangeText={this.onChangeText}
             onFocus={this.onFocus('input2')}
             onEndEditing={this.onEndEditing('input2')}

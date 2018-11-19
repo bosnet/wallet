@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ToastAndroid, Keyboard } from 'react-native';
-import RNKeyboard from 'react-native-keyboard';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -74,6 +73,7 @@ class SendBalance extends React.Component {
     this.selectWithdrawCallback = this.selectWithdrawCallback.bind(this);
     this.bottomButtonCallback = this.bottomButtonCallback.bind(this);
     this.onNavigateWithResult = this.onNavigateWithResult.bind(this);
+    this._keyboardDidHide = this._keyboardDidHide.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +86,8 @@ class SendBalance extends React.Component {
     if (address) {
       this.inputAddress.getWrappedInstance().setText(address);
     }
+
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
   onFocusAddress() {
@@ -132,8 +134,15 @@ class SendBalance extends React.Component {
     this.onChangeAddress(key.toString());
   }
 
+  _keyboardDidHide () {
+    this.validateBalance();
+  }
+
   validateBalance() {
+    if (!this.inputBalance) return;
+
     const text = this.inputBalance.getText();
+
     const { maxSendable } = this.state;
 
     const { settings } = this.props;
@@ -164,7 +173,7 @@ class SendBalance extends React.Component {
       return false;
     }
 
-    if (parseFloat(text) >= Number(maxSendable) - 0.01) {
+    if (parseFloat(text) > Number(maxSendable) - 0.001) {
       this.setState({
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_RANGE,
         balanceNotiColor: colors.alertTextRed,

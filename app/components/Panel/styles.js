@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
   },
 
   balancePanel: {
-    flex: 1,
     marginTop: 25,
     marginBottom: 30,
     alignItems: 'center',

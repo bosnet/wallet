@@ -20,6 +20,7 @@ import { retrieveAccount, retrieveTransactions } from '../../libs/Transactions';
 import { ItemList } from '../../components/List';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
+
 const formatDate = (rawDate) => {
   const d = new Date(rawDate);
   const year = d.getFullYear();
@@ -52,6 +53,7 @@ class TransactionList extends React.Component {
 
     this.state = {
       isLoaded: false,
+      isLoading: false,
       account,
       transactions: [],
       isValid: false,
@@ -67,11 +69,6 @@ class TransactionList extends React.Component {
     const { updateFlags, doAction } = this.props;
 
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
-    this.updateAccountData();
-
-    this.setState({
-      isLoaded: false,
-    });
   }
 
   componentWillUnmount() {
@@ -80,41 +77,60 @@ class TransactionList extends React.Component {
   }
 
   updateAccountData(updateFlag) {
-    const { account, transactions } = this.state;
+    const { account, isLoading } = this.state;
     const { navigation, accounts, addressBook, doAction } = this.props;
 
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.TransactionList;
 
-    // if (!navigation.isFocused()) return;
+    if (!navigation.isFocused()) return;
+
+    if (isLoading) return;
+
+    this.setState({
+      isLoading: true,
+    });
 
     doAction(AccountsAction.unsetUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
 
     retrieveAccount(account.address)
       .then((data) => {
-        console.log(JSON.stringify(data));
-        if (data.status !== 404) {
-          this.setState({
-            isValid: true,
-          });
-        }
-
         const index = accounts.map(e => e.address).indexOf(account.address);
 
         const storedData = accounts[index];
         storedData.index = index;
-        storedData.balance = data.balance;
+
+        if (data.status === 429) {
+          ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+          this.setState({
+            isLoaded: false,
+          });
+          storedData.balance = NaN;
+        }
+
+        if (data.status !== 404) {
+          this.setState({
+            isValid: true,
+          });
+          storedData.balance = data.balance;
+        } else {
+          this.setState({
+            isValid: false,
+            isLoaded: true,
+          });
+          storedData.balance = data.balance;
+        }
 
         this.setState({
           account: storedData,
         });
       });
 
-    retrieveTransactions(account.address, 0, 10)
+    retrieveTransactions(account.address, 5)
       .then((results) => {
         console.log(results);
         const data = [];
-
+        
         results.forEach((result) => {
           const object = {
             type: types.ListItem.TRANSACTION,
@@ -138,7 +154,7 @@ class TransactionList extends React.Component {
             }
 
             object.address = result.target;
-            object.amount = (-result.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+            object.amount = (-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
             object.textColor = colors.itemTextRed;
           }
 
@@ -163,15 +179,18 @@ class TransactionList extends React.Component {
 
         this.setState({
           transactions: data,
+          isLoading: false,
           isLoaded: true,
         });
       });
   }
 
   renderNotValid() {
-    const { account } = this.state;
+    const { account, isLoaded } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.TransactionList;
+
+    if (!isLoaded) return null;
 
     return (
       <View>
@@ -201,6 +220,8 @@ class TransactionList extends React.Component {
   renderTransactionList() {
     const { transactions, isLoaded } = this.state;
 
+    console.log(JSON.stringify(transactions));
+
     if (isLoaded) {
       return (
         <ItemList
@@ -208,8 +229,14 @@ class TransactionList extends React.Component {
           listData={{
             data: transactions,
           }}
-          onEndReached={({ distanceFromEnd }) => {
-            console.log("onEndReached" + distanceFromEnd);
+          onScrollEndDrag={(event) => {
+            const contentOffset = event.nativeEvent.contentOffset.y;
+            const layoutMeasurement = event.nativeEvent.layoutMeasurement.height;
+            const contentSize = event.nativeEvent.contentSize.height;
+
+            if (layoutMeasurement + contentOffset >= contentSize) {
+              console.log("end");
+            }
           }}
         />
       );
@@ -247,10 +274,10 @@ class TransactionList extends React.Component {
           }}
         />
         <View
-          style={styles.alignCenter}
+          style={[styles.alignCenter, styles.defaultLayout]}
         >
           <BalancePanel
-            text={account.balance ? account.balance : 0}
+            text={account.balance}
           />
           <PanelButton
             buttons={[
@@ -270,7 +297,13 @@ class TransactionList extends React.Component {
               },
             ]}
           />
-          { !isValid ? this.renderNotValid() : this.renderTransactionList(transactions)}
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            { !isValid ? this.renderNotValid() : this.renderTransactionList(transactions)}
+          </View>
         </View>
         <AndroidBackHandler />
       </View>

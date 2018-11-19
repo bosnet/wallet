@@ -14,19 +14,23 @@ const renderStar = textColor => (
   </Text>
 );
 
-const createTexts = (texts, textColor, noStar) => texts.map((text, index) => (
-  <View
-    style={styles.notiTextArea}
-    key={getTextKey(index)}
-  >
-    {noStar ? null : renderStar(textColor)}
-    <Text
-      style={[styles.notiText, textColor ? { color: textColor } : null]}
+const createTexts = (texts, textColor, noStar) => texts.map((text, index) => {
+  if (!text || text.length === 0) return null;
+
+  return (
+    <View
+      style={styles.notiTextArea}
+      key={getTextKey(index)}
     >
-      {text}
-    </Text>
-  </View>
-));
+      {noStar ? null : renderStar(textColor)}
+      <Text
+        style={[styles.notiText, textColor ? { color: textColor } : null]}
+      >
+        {text}
+      </Text>
+    </View>
+  );
+});
 
 const NotiPanel = ({ texts, color, noStar }) => (
   <View style={styles.notiPanel}>

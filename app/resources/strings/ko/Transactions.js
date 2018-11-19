@@ -4,7 +4,9 @@ const Transactions = {
     BUTTON_SEND: '보내기',
     BUTTON_RECEIVE: '받기',
 
-    LABEL_CREATED: '계좌생성',
+    LABEL_CREATED: '계좌 생성',
+
+    TOAST_ON_DELAY: '로딩중... 잠시 후에 다시 시도해 주세요',
 
     INVALID_ACCOUNT_NOTI: '이 계좌를 유효한 계좌로 만들기 위해\n최소 잔액(0.1BOS)이 있어야 합니다\n공개 주소로 최소 잔액 0.1 BOS를 받으세요',
     INVALID_ACCOUNT_BUTTON: '0.1 BOS 받기',
@@ -20,7 +22,7 @@ const Transactions = {
     BALANCE_INPUT_PLACEHOLDER: '0.0000000',
     HELPER_BALANCE_DEFAULT: '보낼 금액을 입력하세요\n소수점 이하 7자리까지 입력 가능합니다',
     HELPER_BALANCE_ERROR_NO_INPUT: '보낼 금액을 입력하세요',
-    HELPER_BALANCE_ERROR_NOT_VALID: '유효하지 않은 금액입니다.',
+    HELPER_BALANCE_ERROR_NOT_VALID: '유효하지 않은 금액입니다',
     HELPER_BALANCE_ERROR_RANGE: '출금 가능 금액보다 적은 금액을 입력해 주세요',
     HELPER_BALANCE_ERROR_DOT_RANGE: '소수점 이하 7자리까지 입력가능합니다',
 
@@ -38,7 +40,7 @@ const Transactions = {
   },
   SelectWithdraw: {
     TITLE: '출금 계좌 선택',
-    NOTI_NO_ADDRESS: '아직 등록된 주소가 없습니다',
+    NOTI_NO_ADDRESS: '유효한 출금 계좌가 없습니다',
     BACK_BUTTON: '취소',
     BUTTON_TEXT_OK: '선택',
   },
@@ -62,7 +64,7 @@ const Transactions = {
     BUTTON_TEXT_OK: '확인',
     BUTTON_TEXT_EXPLORER: '익스플로러',
 
-    TOAST_CLIPBOARD: '공개 주소가 클립보드에 복사되었습니다',
+    TOAST_CLIPBOARD: '클립보드에 복사되었습니다',
   },
   BeforeTransaction: {
     TITLE: '송금 내역 확인',
@@ -78,6 +80,7 @@ const Transactions = {
   ReceiveBalance: {
     TITLE: '받기',
     BACK_BUTTON: '닫기',
+    PUBLIC_ADDRESS: '공개 주소',
 
     BUTTON_TEXT_SHARE: '공유',
     BUTTON_TEXT_COPY: '복사',

@@ -17,18 +17,20 @@ import { types, colors } from '../../resources';
 
 import icEmpty from '../../resources/images/empty.png';
 
-const ItemList = ({ listType, listData, noDataText, onEndReached }) => {
+const ItemList = ({ listType, listData, noDataText, onScrollEndDrag }) => {
   const getListByType = () => {
     switch (listType) {
       case types.ListType.FLAT:
         if (listData.data.length > 0) {
           return (
             <FlatList
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}
               data={listData.data}
               renderItem={FlatItem}
               keyExtractor={(item, index) => index.toString()}
-              onEndReached={onEndReached}
-              onEndReachedThreshold={0.05}
+              onScrollEndDrag={onScrollEndDrag}
             />
           );
         }
