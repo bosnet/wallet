@@ -4,7 +4,6 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from '../styles';
-import arrow from '../../../resources/images/arrow.png';
 import { colors } from '../../../resources';
 
 import { Navigation as NavAction } from '../../../actions';
@@ -54,7 +53,7 @@ TransactionItem.defaultProps = {
   textColor: colors.itemTextBlack,
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = dispatch => ({
   doAction: action => dispatch(action),
 });
 

@@ -1,16 +1,9 @@
-import CryptoJS from 'crypto-js';
 import sebakjs from 'sebakjs-util';
-import bs58 from 'bs58';
 import crypto from 'crypto';
 import BaseX from 'base-x';
 
-import {
-  ToastAndroid,
-} from 'react-native';
 import Base from 'stellar-base';
 import AppStorage from './AppStorage';
-
-const { AES } = CryptoJS;
 
 const B58 = BaseX('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
 const iv = Buffer.from([0x42, 0x4F, 0x53, 0x5F, 0x43, 0x4F, 0x49, 0x4E,

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DefaultItem, TransactionItem, AccountItem, AddressItem } from './Items';
+import {
+  DefaultItem, TransactionItem, AccountItem, AddressItem
+} from './Items';
 import { types } from '../../resources';
 import { TextArea } from '../Text';
 

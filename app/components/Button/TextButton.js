@@ -24,6 +24,11 @@ const TextButton = ({ text, callback }) => (
 
 TextButton.propTypes = {
   text: PropTypes.string.isRequired,
+  callback: PropTypes.func,
 };
+
+TextButton.defaultProps = {
+  callback: null,
+}
 
 export default TextButton;

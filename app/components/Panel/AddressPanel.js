@@ -20,7 +20,8 @@ const AddressPanel = ({ count, settings }) => {
       </Text>
     </View>
   );
-}
+};
+
 const mapStateToProps = state => ({
   settings: state.settings,
 });

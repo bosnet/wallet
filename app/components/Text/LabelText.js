@@ -6,7 +6,6 @@ import styles from './styles';
 import { colors } from '../../resources';
 
 class labelText extends React.Component {
-
   render() {
     const {
       text,

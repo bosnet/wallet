@@ -47,6 +47,10 @@ const data = {
 };
 
 export default class Basic extends Component {
+  _renderRow ({data, active}) {
+    return <Row data={data} active={active} />
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -55,13 +59,10 @@ export default class Basic extends Component {
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
           data={data}
-          renderRow={this._renderRow} />
+          renderRow={this._renderRow} 
+        />
       </View>
     );
-  }
-
-  _renderRow ({data, active}) {
-    return <Row data={data} active={active} />
   }
 }
 

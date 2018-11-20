@@ -1,17 +1,10 @@
 import sebakjs from 'sebakjs-util';
-import CryptoJS from 'crypto-js';
+import fetch from 'react-native-fetch-polyfill';
 
 import { decryptWallet } from './KeyGenerator';
 
-import {
-  ToastAndroid,
-  Clipboard,
-} from 'react-native';
-import fetch from 'react-native-fetch-polyfill';
 
 import { SEREVER_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
-
-const { AES } = CryptoJS;
 
 const makeRLPData = (type, body) => {
 

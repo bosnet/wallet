@@ -5,8 +5,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import styles from '../styles';
-import { colors } from '../../../resources';
 import { TextArea } from '../../Text';
 
 class SelectableAddressItem extends React.Component {
@@ -40,7 +38,9 @@ class SelectableAddressItem extends React.Component {
 
 
   render() {
-    const { id, address, name, setSelected } = this.props;
+    const {
+      id, address, name, setSelected,
+    } = this.props;
     const { selected } = this.state;
 
     return (

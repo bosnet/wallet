@@ -60,9 +60,16 @@ class AndroidBackHandler extends React.Component {
 }
 
 AndroidBackHandler.propTypes = {
+  doAction: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   navigation: PropTypes.shape({ index: PropTypes.number }).isRequired,
+  callback: PropTypes.func,
+  action: PropTypes.func,
+};
 
+AndroidBackHandler.defaultProps = {
+  callback: null,
+  action: null,
 };
 
 const mapStateToProps = state => ({ navigation: state.navigation });

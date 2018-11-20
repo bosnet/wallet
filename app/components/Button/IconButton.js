@@ -21,6 +21,11 @@ const IconButton = ({ icon, label, callback }) => (
 IconButton.propTypes = {
   icon: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
+  callback: PropTypes.func,
+};
+
+IconButton.defaultProps = {
+  callback: null,
 };
 
 export default IconButton;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Image, Dimensions,
+  View, Image,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { connect } from 'react-redux';

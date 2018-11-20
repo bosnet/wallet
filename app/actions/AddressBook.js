@@ -42,6 +42,6 @@ AddressBook.addRecent = address => ({
 AddressBook.setRecent = list => ({
   type: AddressBook.SET_RECENT,
   list,
-})
+});
 
 export default AddressBook;

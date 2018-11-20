@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 
 import FlatItem from './FlatItem';
 import SectionItem from './SectionItem';
-import SortableItem from './SortableItem';
 import { AlertPanel } from '../Panel';
 
 import styles from './styles';

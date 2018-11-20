@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -12,7 +11,6 @@ import styles from './styles';
 
 
 class BottomButton extends React.Component {
-
   constructor(props) {
     super(props);
 

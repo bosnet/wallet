@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, Image, TextInput, TouchableOpacity, ToastAndroid,
+  View, Text, Image, TextInput, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,8 +9,6 @@ import styles from './styles';
 import icEye from '../../resources/images/eye.png';
 import icEyeOff from '../../resources/images/eye_off.png';
 import { colors } from '../../resources';
-import { ComponentText } from '../../resources/strings/ko';
-import { NotiPanel } from '../Panel';
 
 const NotiType = {
   ERROR: 'noti/error',
@@ -27,15 +25,10 @@ class InputPassword extends React.Component {
       isIconVisible: false,
     };
 
-    // this.onPressTouchable = this.onPressTouchable.bind(this);
     this.setIconVisible = this.setIconVisible.bind(this);
     this.drawIcon = this.drawIcon.bind(this);
     this.getText = this.getText.bind(this);
   }
-
-  // onPressTouchable() {
-  //   this.setState(prevState => ({ isSecure: !prevState.isSecure }));
-  // }
 
   setIconVisible(value) {
     this.setState({
@@ -57,7 +50,6 @@ class InputPassword extends React.Component {
           style={[
             styles.inputSupport,
           ]}
-          // onPress={this.onPressTouchable}
           onPressIn={() => {
             this.setState({
               isSecure: false,
@@ -85,7 +77,6 @@ class InputPassword extends React.Component {
     } = this.props;
     const { isSecure } = this.state;
     return (
-      // <View style={{ alignItems: 'center' }}>
       <View style={styles.input}>
         <View style={styles.inputHead}>
           <Text style={styles.inputTitle}>{label}</Text>
@@ -110,7 +101,6 @@ class InputPassword extends React.Component {
           {this.drawIcon()}
         </View>
       </View>
-      // </View>
     );
   }
 }

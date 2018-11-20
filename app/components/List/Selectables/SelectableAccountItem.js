@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  TouchableOpacity, View, Text,
+  TouchableOpacity, View,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { colors, types } from '../../../resources';
 import styles from '../styles';
 import { TextArea } from '../../Text';
-import { TRANSACTION_FEE, MINIMUM_BALANCE } from '../../../config/transactionConfig'
+
 import strings from '../../../resources/strings';
 
 class SelectableAccountItem extends React.Component {

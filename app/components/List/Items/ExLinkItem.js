@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, Image, TouchableOpacity, Linking,
+  View, Text, Image, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

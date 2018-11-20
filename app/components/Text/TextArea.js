@@ -27,7 +27,7 @@ class TextArea extends React.Component {
 
   createOption() {
     const { option, doAction } = this.props;
-    const { type, callback } = option;
+    const { type } = option;
     switch (type) {
       case Options.QR_CODE:
         return (

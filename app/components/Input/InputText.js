@@ -1,12 +1,10 @@
 import React from 'react';
 import {
   View, Text, Image, TextInput, TouchableOpacity,
-  KeyboardAvoidingView, Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { Navigation as NavAction } from '../../actions';
 
 import styles from './styles';
 import icInputDel from '../../resources/images/icon_input_del.png';
@@ -20,7 +18,7 @@ class InputText extends React.Component {
   constructor(props) {
     super(props);
 
-    const { value, noClear } = props;
+    const { value } = props;
 
     this.state = {
       text: '',
@@ -57,9 +55,15 @@ class InputText extends React.Component {
     }
   }
 
+  setMultiline() {
+    this.setState({
+      exMultiline: true,
+    });
+  }
+
   clearText() {
     const { onChangeText } = this.props;
-    
+
     this.textinput.clear();
     this.setState({
       text: '',
@@ -67,12 +71,6 @@ class InputText extends React.Component {
     });
 
     if (onChangeText) onChangeText('');
-  }
-
-  setMultiline() {
-    this.setState({
-      exMultiline: true,
-    });
   }
 
   createOption() {

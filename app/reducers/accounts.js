@@ -1,27 +1,11 @@
 
 import { Accounts, Navigation } from '../actions';
-import AppStorage from '../libs/AppStorage';
 
 const initialState = {
   list: [],
   updateFlag: true,
   updateFlags: {},
 };
-
-function updateName(array, index, name) {
-  return array.map((item, i) => {
-    if (i !== index) {
-      // This isn't the item we care about - keep it as-is
-      return item;
-    }
-
-    // Otherwise, this is the one we want - return an updated value
-    return {
-      ...item,
-      name,
-    };
-  });
-}
 
 function setUpdateFlags(flags) {
   for (let property in flags) {

@@ -45,7 +45,6 @@ const isFreezing = (freezing) => {
 
 const AccountItem = ({
   account,
-  icon,
   onPress,
   settings,
 }) => {

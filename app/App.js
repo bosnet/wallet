@@ -4,12 +4,12 @@ import { createStore, applyMiddleware } from 'redux';
 import {
   View, Alert, BackHandler, Linking,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import strings from './resources/strings';
 
 import AppStorage from './libs/AppStorage';
 import FirebaseControl from './libs/FirebaseControl';
-import { VERSION } from './config/appConfig';
 import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
 
@@ -25,7 +25,7 @@ class App extends React.Component {
 
     this.state = {
       isLoaded: false,
-    }; 
+    };
   }
 
   componentDidMount() {
@@ -47,7 +47,7 @@ class App extends React.Component {
     });
   }
 
-  checkAppVersion(accounts, addressBook, settings, recents) {
+  async checkAppVersion(accounts, addressBook, settings, recents) {
     const language = (settings && settings.language) ? settings.language : 'ko';
     const Strings = strings[language].OnBoarding.SplashScreen;
 
@@ -60,14 +60,11 @@ class App extends React.Component {
     })
       .then(response => response.text())
       .then((appVersion) => {
-        // console.log(appVersion.split('.'));
         const latest = appVersion.replace(/\n/g, '').split('.');
-        // console.log(latest);
-        // console.log(latest.length);
         if (latest.length !== 3) throw Error('Wrong VersionCode');
 
+        const VERSION = DeviceInfo.getVersion();
         const current = VERSION.split('.');
-        // console.log(current);
 
         if (
           (latest[0] >= current[0] && latest[1] > current[1])

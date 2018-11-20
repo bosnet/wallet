@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, View, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 
 import styles from '../styles';
 import { types } from '../../resources';
@@ -10,7 +11,6 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 
 import { ItemList } from '../../components/List';
 import { Navigation as NavAction } from '../../actions';
-import { VERSION } from '../../config/appConfig';
 import strings from '../../resources/strings';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
@@ -93,7 +93,7 @@ class SettingsScreen extends React.Component {
                     {
                       text: Strings.VERSION,
                       type: types.ListItem.OPTION_TEXT,
-                      value: `v ${VERSION}`,
+                      value: `v ${DeviceInfo.getVersion()}`,
                     },
                   ],
                 },
