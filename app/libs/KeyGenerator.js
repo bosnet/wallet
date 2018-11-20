@@ -79,7 +79,7 @@ const checkPublicKey = (publicKey) => {
     Base.Keypair.fromPublicKey(publicKey);
     return true;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return false;
   }
 };

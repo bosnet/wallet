@@ -1,6 +1,6 @@
 const ComponentText = {
   InputPassword: {
-    PLACEHOLDER: '영문(대/소문자), 숫자, 특수문자 포함 8자 이상 입력',
+    PLACEHOLDER: '비밀번호 입력',
     HELP: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
     NOTI_DEFAULT: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자이상 입니다',
     ERROR_NODATA: '비밀번호를 입력하세요',

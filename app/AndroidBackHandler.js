@@ -31,7 +31,6 @@ class AndroidBackHandler extends React.Component {
     const { doAction, action, callback } = this.props;
 
     const { navigation, goBack } = this.props;
-    console.log("BACK");
 
     if (navigation.index > 0) {
       this.setState({

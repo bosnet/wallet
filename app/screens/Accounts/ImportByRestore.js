@@ -137,7 +137,7 @@ class ImportByRestore extends React.Component {
     if (isValid) {
       getPublicFromRestore(key, password)
         .then((account) => {
-          console.log(JSON.stringify(account));
+          // console.log(JSON.stringify(account));
 
           if (accounts.map(e => e.address).indexOf(account.address) >= 0) {
             ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);

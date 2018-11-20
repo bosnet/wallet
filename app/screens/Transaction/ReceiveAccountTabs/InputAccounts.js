@@ -45,10 +45,6 @@ class InputAccounts extends React.Component {
     }, 100);
   }
  
-  componentDidUpdate() {
-    console.log("componentDidUpdate")
-  }
-
   onNavigateWithResult(key) {
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.ReceiveAccount.InputAccounts;

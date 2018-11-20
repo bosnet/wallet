@@ -96,7 +96,7 @@ const Accounts = {
       HEAD_TEXT: 'Enter current password',
 
       INPUT_LABEL: 'Current password',
-      INPUT_PLACEHOLDER: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
+      INPUT_PLACEHOLDER: 'Enter password',
       HELPER_DEFAULT: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
       HELPER_NO_INPUT: 'Enter your password',
       HELPER_INVALID: 'Wrong password, please check again',

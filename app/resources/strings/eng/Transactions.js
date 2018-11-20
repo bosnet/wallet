@@ -28,7 +28,7 @@ const Transactions = {
     HELPER_BALANCE_ERROR_DOT_RANGE: 'You can enter up to 7 decimal place',
 
     ADDRESS_INPUT_LABEL: 'Enter Public Address',
-    ADDRESS_INPUT_PLACEHOLDER: 'Enter Public Address start with letter "G"',
+    ADDRESS_INPUT_PLACEHOLDER: 'Enter Public Address',
     HELPER_ADDRESS_DEFAULT: 'Enter Public Address',
     HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address',
     HELPER_ADDRESS_ERROR_NOT_VALID: 'This Public Address is invalid',
@@ -47,6 +47,7 @@ const Transactions = {
     TITLE: 'Transaction details',
     LABEL_SENDER: 'Withdrawal account',
     LABEL_RECEIVED_AMOUNT: 'Received amount',
+    BACK_BUTTON: 'Close',
 
     LABEL_RECEIVER: 'Receive account',
     LABEL_SEND_AMOUNT: 'Sent amount',
@@ -110,7 +111,7 @@ const Transactions = {
     InputAccounts: {
       NO_RECENT_ADDRESS: 'Latest transfer record not exists',
       BUTTON_TEXT_SELECT: 'Select',
-      INPUT_PLACEHOLDER: 'Enter Public Address start with letter \'G\'',
+      INPUT_PLACEHOLDER: 'Enter Public Address',
 
       HELPER_ADDRESS_DEFAULT: 'Please enter Public Address start with letter \'G\' and\nits length is 56 letters long',
       HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address',

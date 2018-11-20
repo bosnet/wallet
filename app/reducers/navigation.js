@@ -52,8 +52,8 @@ function navigation(state = initialNavState, action) {
       );
       break;
     case Navigation.NAV_RESET_TO_LIST:
-      console.log('\n\n\nparams');
-      console.log(JSON.stringify(action.params));
+      // console.log('\n\n\nparams');
+      // console.log(JSON.stringify(action.params));
       nextState = RootNavigator.router.getStateForAction(
         StackActions.reset({
           index: 1,

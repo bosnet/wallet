@@ -88,7 +88,7 @@ function accountsAction(state = initialState, action) {
     case Navigation.NAV_RESET:
     case Navigation.NAV_RESET_TO_LIST:
     case Accounts.SET_UPDATE_FLAG:
-      console.log('SET_UPDATE_FLAG');
+      // console.log('SET_UPDATE_FLAG');
       state.updateFlags[Navigation.Screens.HOME] = true;
       state.updateFlags[Navigation.Screens.TRANSACTION_LIST] = true;
       return {

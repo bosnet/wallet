@@ -107,6 +107,7 @@ class ModifyAddress extends React.Component {
     if (buttonActive) return;
 
     let errorFlag = false;
+    let addressErrorFlag = false;
 
     if (name.length <= 0) {
       this.setState({
@@ -149,27 +150,30 @@ class ModifyAddress extends React.Component {
       });
 
       errorFlag = true;
+      addressErrorFlag = true;
     }
 
-    if (addressText.length > 0 && !addressText.match(/^G.+/)) {
+    if (!addressErrorFlag && addressText.length > 0 && !addressText.match(/^G.+/)) {
       this.setState({
         addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
         addressNotiColor: colors.alertTextRed,
       });
 
       errorFlag = true;
+      addressErrorFlag = true;
     }
 
-    if (!checkPublicKey(addressText)) {
+    if (!addressErrorFlag && !checkPublicKey(addressText)) {
       this.setState({
         addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
         addressNotiColor: colors.alertTextRed,
       });
 
       errorFlag = true;
+      addressErrorFlag = true;
     }
 
-    if (!errorFlag) {
+    if (!addressErrorFlag) {
       this.setState({
         addressNotiText: Strings.HELPER_ADDRESS,
         addressNotiColor: colors.transparent,

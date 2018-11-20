@@ -1,6 +1,6 @@
 const ComponentText = {
   InputPassword: {
-    PLACEHOLDER: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
+    PLACEHOLDER: 'Enter password',
     HELP: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
     NOTI_DEFAULT: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
     ERROR_NODATA: 'Enter your password',

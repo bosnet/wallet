@@ -35,8 +35,6 @@ class TransactionDetail extends React.Component {
     const { navigation } = this.props;
     const item = navigation.getParam('item', null);
 
-    console.log(JSON.stringify(item));
-
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.TransactionDetail;
 
@@ -138,12 +136,16 @@ class TransactionDetail extends React.Component {
 
     return (
       <View style={styles.container}>
-        <AppStatusBar theme={StatusBarTheme.WHITE} />
+        <AppStatusBar theme={StatusBarTheme.PURPLE} />
         <DefaultToolbar
-          theme={DefaultToolbarTheme.WHITE}
+          theme={DefaultToolbarTheme.PURPLE}
           data={{
             center: {
               title: Strings.TITLE,
+            },
+            right: {
+              actionText: Strings.BACK_BUTTON,
+              action: NavAction.popScreen(),
             },
           }}
         />

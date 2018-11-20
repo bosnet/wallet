@@ -51,7 +51,6 @@ class App extends React.Component {
     const language = (settings && settings.language) ? settings.language : 'ko';
     const Strings = strings[language].OnBoarding.SplashScreen;
 
-    console.log('appVersion');
     return fetch('https://raw.githubusercontent.com/bosnet/wallet/master/Version.txt', {
       method: 'GET',
       timeout: 3000,
@@ -61,13 +60,19 @@ class App extends React.Component {
     })
       .then(response => response.text())
       .then((appVersion) => {
-        console.log(appVersion);
         const latest = appVersion.split('.');
+                  
         console.log(latest);
-        const current = VERSION.split('.');
-        console.log(current);
+        console.log(latest.length);
+        if (latest.length !== 3) throw Error('Wrong VersionCode');
 
-        if (latest[0] >= current[0] && latest[1] > current[1]) {
+        const current = VERSION.split('.');
+        // console.log(current);
+
+        if (
+          (latest[0] >= current[0] && latest[1] > current[1])
+          || (latest[0] > current[0])
+        ) {
           Alert.alert(
             Strings.ALERT_UPDATE_TITLE,
             Strings.ALERT_FORCE_UPDATE_MESSAGE,
@@ -112,7 +117,6 @@ class App extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
         Alert.alert(
           Strings.ALERT_GENERAL_TITLE,
           Strings.ALERT_OTHER_ERROR_MESSAGE,
@@ -156,9 +160,9 @@ class App extends React.Component {
     });
 
     if (!settings || settings.useFirebase) {
-      console.log("useCrashlystic");
+      // console.log("useCrashlystic");
       FirebaseControl.useCrashlystic();
-      console.log("useCrashlystic Done");
+      // console.log("useCrashlystic Done");
     }
   }
 

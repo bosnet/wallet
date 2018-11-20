@@ -27,7 +27,7 @@ const Transactions = {
     HELPER_BALANCE_ERROR_DOT_RANGE: '소수점 이하 7자리까지 입력가능합니다',
 
     ADDRESS_INPUT_LABEL: '받는 계좌 공개 주소',
-    ADDRESS_INPUT_PLACEHOLDER: 'G로 시작하는 공개 주소를 입력하세요',
+    ADDRESS_INPUT_PLACEHOLDER: '공개 주소 입력',
     HELPER_ADDRESS_DEFAULT: '공개 주소를 입력하세요',
     HELPER_ADDRESS_ERROR_NO_INPUT: '공개 주소를 입력하세요',
     HELPER_ADDRESS_ERROR_NOT_VALID: '이 공개 주소로는 입금이 불가능 합니다',
@@ -46,6 +46,7 @@ const Transactions = {
   },
   TransactionDetail: {
     TITLE: '거래 상세 내역',
+    BACK_BUTTON: '닫기',
     LABEL_SENDER: '보낸 계좌',
     LABEL_RECEIVED_AMOUNT: '받은 금액',
 
@@ -111,7 +112,7 @@ const Transactions = {
     InputAccounts: {
       NO_RECENT_ADDRESS: '최근에 송금한 내역이 없습니다',
       BUTTON_TEXT_SELECT: '선택',
-      INPUT_PLACEHOLDER: 'G로 시작하는 공개 주소 56자를 입력하세요',
+      INPUT_PLACEHOLDER: '공개 주소 입력',
 
       HELPER_ADDRESS_DEFAULT: 'G로 시작하는 공개 주소 56자를 입력하세요',
       HELPER_ADDRESS_ERROR_NO_INPUT: '공개 주소를 입력하세요',

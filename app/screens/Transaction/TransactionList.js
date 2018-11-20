@@ -128,7 +128,6 @@ class TransactionList extends React.Component {
 
     retrieveTransactions(account.address, 5)
       .then((results) => {
-        console.log(results);
         const data = [];
         
         results.forEach((result) => {
@@ -220,8 +219,6 @@ class TransactionList extends React.Component {
   renderTransactionList() {
     const { transactions, isLoaded } = this.state;
 
-    console.log(JSON.stringify(transactions));
-
     if (isLoaded) {
       return (
         <ItemList
@@ -235,7 +232,7 @@ class TransactionList extends React.Component {
             const contentSize = event.nativeEvent.contentSize.height;
 
             if (layoutMeasurement + contentOffset >= contentSize) {
-              console.log("end");
+              // console.log("end");
             }
           }}
         />

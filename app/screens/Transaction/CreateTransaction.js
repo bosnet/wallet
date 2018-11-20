@@ -24,8 +24,6 @@ class CreateTransaction extends React.Component {
       data: navigation.getParam('data', null),
     };
 
-    console.log(JSON.stringify(this.state.data));
-
     this.callbackOkButton = this.callbackOkButton.bind(this);
   }
 
@@ -88,8 +86,6 @@ class CreateTransaction extends React.Component {
     const Strings = strings[settings.language].Transactions.CreateTransaction;
 
     const { data } = this.state;
-
-    console.log(JSON.stringify(data));
 
     if (
       accounts.map(e => e.address).indexOf(data.target) >= 0

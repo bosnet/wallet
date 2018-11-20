@@ -18,6 +18,11 @@ const styles = StyleSheet.create({
     height: 18,
     marginLeft: 25,
   },
+  logoImageTest: {
+    width: 177,
+    height: 18,
+    marginLeft: 25,
+  },
   actionGroup: {
     width: 120,
     height: 32,

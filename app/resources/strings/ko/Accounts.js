@@ -97,7 +97,7 @@ const Accounts = {
       HEAD_TEXT: '이 계좌의 비밀번호를 입력해 주세요',
 
       INPUT_LABEL: '비밀번호',
-      INPUT_PLACEHOLDER: '영문(대/소문자), 숫자, 특수문자 포함 8자 이상 입력',
+      INPUT_PLACEHOLDER: '비밀번호 입력',
       HELPER_DEFAULT: '비밀번호는 영문(대/소문자), 숫자, 특수 문자 포함 8자 이상 입니다',
       HELPER_NO_INPUT: '비밀번호를 입력하세요',
       HELPER_INVALID: '잘못된 비밀번호 입니다. 다시 확인해 주세요',

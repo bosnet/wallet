@@ -93,10 +93,6 @@ class SetPassword extends React.Component {
     const password1 = this.input1.getWrappedInstance().getText();
     const password2 = this.input2.getWrappedInstance().getText();
 
-    console.log('a ' + password1.length);
-    console.log('b ' + password2.length);
-    console.log('c ' + text.length);
-
     this.setState({
       buttonActive: (password1.length > 0 && password2.length > 0 && text.length > 0),
     });

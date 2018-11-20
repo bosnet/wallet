@@ -61,17 +61,12 @@ class BeforeTransaction extends React.Component {
           const lastSequenceId = accountData.sequence_id;
           account.balance = accountData.balance;
 
-          console.log(JSON.stringify(account));
-          console.log(JSON.stringify(accountData));
-
           new retrieveAccount(target)
             .then((result) => {
               if (result.status === 200) {
       
                 makeTransaction(account, password, target, amount, 'payment', lastSequenceId)
                   .then((res) => {
-                    console.log(res);
-
                     if (res.status !== 200) {
                       doAction(
                         NavAction.pushScreen(
@@ -112,8 +107,6 @@ class BeforeTransaction extends React.Component {
               if (result.status === 404) {
                 makeTransaction(account, password, target, amount, 'create', lastSequenceId)
                   .then((res) => {
-                    console.log(res);
-
                     if (res.status !== 200) {
                       doAction(
                         NavAction.pushScreen(

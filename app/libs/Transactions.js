@@ -56,7 +56,7 @@ export const retrieveAccount = address => (
   })
     .then(response => response.json())
     .then((data) => {
-      console.log(JSON.stringify(data));
+      // console.log(JSON.stringify(data));
       if (data.status === 404) {
         return {
           status: 404,
@@ -112,7 +112,7 @@ export const retrieveOperations = (txHash, date, fee) => {
         fee: fee / BOS_GON_RATE,
       };
 
-      console.log(JSON.stringify(data));
+      // console.log(JSON.stringify(data));
 
       return returnData;
     });
@@ -198,8 +198,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   body.H.hash = hash;
   body.H.signature = sig;
 
-  console.log(JSON.stringify(body));
-  // Clipboard.setString(JSON.stringify(body));
+  // console.log(JSON.stringify(body));
 
   return fetch(`${SEREVER_ADDR}/v1/transactions`, {
     method: 'POST',
@@ -211,12 +210,12 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
     body: JSON.stringify(body),
   })
     .then((response) => {
-      console.log(response);
+      // console.log(response);
 
       return response.json();
     })
     .then((res) => {
-      console.log(JSON.stringify(res));
+      // console.log(JSON.stringify(res));
 
       if (res.status !== 'submitted') {
         return ({

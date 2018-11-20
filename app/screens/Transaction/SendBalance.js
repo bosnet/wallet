@@ -66,9 +66,6 @@ class SendBalance extends React.Component {
       buttonActive: false,
     };
 
-    console.log(DeviceInfo.getBrand());
-
-
     this.onChangeAddress = this.onChangeAddress.bind(this);
     this.onChangeBalance = this.onChangeBalance.bind(this);
     this.onEndEditBalance = this.onEndEditBalance.bind(this);
@@ -84,8 +81,6 @@ class SendBalance extends React.Component {
     const { navigation } = this.props;
     const { account } = this.state;
     const address = navigation.getParam('address', null);
-
-    console.log(JSON.stringify(account));
 
     if (address) {
       this.inputAddress.getWrappedInstance().setText(address);

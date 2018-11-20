@@ -44,7 +44,6 @@ class HomeScreen extends React.Component {
     const { updateFlags, doAction, settings } = this.props;
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
 
-    console.log('doAction');
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.HOME));
     this.loadAccounts();
   }
@@ -99,7 +98,7 @@ class HomeScreen extends React.Component {
       )),
     )
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
         errorFlag = true;
         Alert.alert(
           Strings.ALERT_GENERAL_TITLE,
@@ -139,8 +138,6 @@ class HomeScreen extends React.Component {
         if (nanFlag) {
           total = NaN;
         }
-
-        console.log(total);
 
         this.setState({
           list: results,
