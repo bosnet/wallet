@@ -30,7 +30,7 @@ AddressBook.modifyAddress = (name, address) => ({
   address,
 });
 
-AddressBook.unsetFlag = params => ({
+AddressBook.unsetFlag = () => ({
   type: AddressBook.UNSET_FLAG,
 });
 

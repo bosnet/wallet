@@ -60,10 +60,10 @@ class App extends React.Component {
     })
       .then(response => response.text())
       .then((appVersion) => {
-        const latest = appVersion.split('.');
-                  
-        console.log(latest);
-        console.log(latest.length);
+        // console.log(appVersion.split('.'));
+        const latest = appVersion.replace(/\n/g, '').split('.');
+        // console.log(latest);
+        // console.log(latest.length);
         if (latest.length !== 3) throw Error('Wrong VersionCode');
 
         const current = VERSION.split('.');
@@ -121,13 +121,13 @@ class App extends React.Component {
           Strings.ALERT_GENERAL_TITLE,
           Strings.ALERT_OTHER_ERROR_MESSAGE,
           [
-            {
-              text: Strings.ALERT_BUTTON_RETRY,
-              onPress: () => {
-                this.checkAppVersion(accounts, addressBook, settings, recents);
-                // this.runApp(accounts, addressBook, settings, recents);
-              },
-            },
+            // {
+            //   text: Strings.ALERT_BUTTON_RETRY,
+            //   onPress: () => {
+            //     this.checkAppVersion(accounts, addressBook, settings, recents);
+            //     // this.runApp(accounts, addressBook, settings, recents);
+            //   },
+            // },
             {
               text: Strings.ALERT_BUTTON_QUIT,
               onPress: () => {

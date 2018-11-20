@@ -108,7 +108,7 @@ const Accounts = {
       HEAD_TEXT: 'Enter current Secret Seed',
 
       INPUT_LABEL: 'Current Secret Seed',
-      INPUT_PLACEHOLDER: 'Enter the Secret Seed start with letter \'S\'',
+      INPUT_PLACEHOLDER: 'Enter Secret Seed',
       HELPER_DEFAULT: 'Enter your Secret Seed start with letter \'S\'',
       HELPER_NO_INPUT: 'Enter your Secret Seed',
       HELPER_INVALID: 'Secret Seed is invalid',

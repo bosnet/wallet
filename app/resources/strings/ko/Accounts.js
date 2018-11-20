@@ -109,7 +109,7 @@ const Accounts = {
       HEAD_TEXT: '이 계좌의 보안키를 입력해 주세요',
 
       INPUT_LABEL: '보안키',
-      INPUT_PLACEHOLDER: 'S로 시작하는 보안키 입력',
+      INPUT_PLACEHOLDER: '보안키 입력',
       HELPER_DEFAULT: 'S로 시작하는 보안키를 입력해 주세요',
       HELPER_NO_INPUT: '보안키를 입력하세요',
       HELPER_INVALID: '보안키가 올바르지 않습니다',
