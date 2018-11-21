@@ -46,13 +46,13 @@ const Accounts = {
     IMPORT_RK_LABEL: 'Recovery Key',
     PASSWORD_LABEL: 'Enter account password',
 
-    PLACEHOLDER_SECURE: 'Enter the Secret Seed start with letter \'S\'',
+    PLACEHOLDER_SECURE: 'Enter Secret Seed',
     HELPER_DEFAULT_SECURE: 'Enter your Secret Seed start with letter \'S\'',
     HELPER_ERROR_NO_SECURE: 'Enter your Secret Seed',
     HELPER_ERROR_NOT_VALID: 'Secret Seed is invalid',
     TOAST_SS_NOT_VALID: 'Secret Seed is invalid',
 
-    PLACEHOLDER_RESTORE: 'Enter your Recovery Key start with letter \'B\'',
+    PLACEHOLDER_RESTORE: 'Enter Recovery Key',
     HELPER_DEFAULT_RESTORE: 'enter your recovery yey start with letter \'B\'',
     HELPER_ERROR_NO_RESTORE: 'Recovery Key is needed to import your account',
     HELPER_ERROR_NOT_VALID_RESTORE: 'Please check Recovery key or password again',
@@ -66,10 +66,10 @@ const Accounts = {
     TOAST_DUPLICATED_ADDRESS: 'This account setted up already',
 
     NOTICE1_RK: 'Password belongs to you only',
-    NOTICE2_RK: 'You can not import your account when you lose the password . \n So please use \' restore account using with the Secret Seed\' menu',
+    NOTICE2_RK: 'Secret Seed belongs to you only\nYou can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Recovery Key\' menu',
     NOTICE1_SS: 'Secret Seed belongs to you only',
-    NOTICE2: 'You can not import your account when you lose the password . \n So please use \' restore account using with the Secret Seed\' menu',
-    NOTICE2_SS: 'You can not import your account when you lose the Secret Seed . \n So please use \' restore account using with the Recovery Key\' menu',
+    NOTICE2: 'Secret Seed belongs to you only\nYou can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Recovery Key\' menu',
+    NOTICE2_SS: 'Secret Seed belongs to you only\n You can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Secret Seed\' menu',
 
     BUTTON_TEXT: 'OK',
     BUTTON_NEXT: 'Next',
@@ -201,6 +201,13 @@ const Accounts = {
     MESSAGE: 'Are you sure you want to delete it?',
 
     BUTTON_TEXT_OK: 'OK',
+  },
+  SelectAccountCreation: {
+    TITLE: 'Select make account options',
+    BACK_BUTTON: 'Close',
+
+    SELECT_NORMAL: 'Creat new account',
+    SELECT_TESTNET: 'Creat new account on Testnet',
   },
 };
 

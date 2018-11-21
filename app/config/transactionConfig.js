@@ -1,4 +1,4 @@
-export const SEREVER_ADDR = 'https://testnet-sebak.blockchainos.org/api';
+export const SEREVER_ADDR = 'https://testnet-sebak.blockchainos.org';
 export const MINIMUM_BALANCE = '0.1';
 export const TRANSACTION_FEE = 0.001;
 export const NETWORK_ID = 'sebak-test-network';

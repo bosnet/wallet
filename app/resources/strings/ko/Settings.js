@@ -58,7 +58,7 @@ const Settings = {
     TOAST_MODIFY_ADDRESS: '공개 주소는 수정할 수 없습니다',
 
     LABEL_ADDRESS: '공개 주소',
-    PLACEHOLDER_ADDRESS: 'G로 시작하는 공개 주소 입력',
+    PLACEHOLDER_ADDRESS: '공개 주소 입력',
     HELPER_ADDRESS: 'G로 시작하는 공개 주소 56자를 입력하세요',
     HELPER_ERROR_NO_ADDRESS: '공개 주소를 입력하세요',
     HELPER_ERROR_ADDRESS_NOT_VALID: '공개 주소가 올바르지 않습니다',

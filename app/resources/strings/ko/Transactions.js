@@ -8,7 +8,7 @@ const Transactions = {
 
     TOAST_ON_DELAY: '로딩중... 잠시 후에 다시 시도해 주세요',
 
-    INVALID_ACCOUNT_NOTI: '이 계좌를 유효한 계좌로 만들기 위해\n최소 잔액(0.1BOS)이 있어야 합니다\n공개 주소로 최소 잔액 0.1 BOS를 받으세요',
+    INVALID_ACCOUNT_NOTI: '이 계좌를 유효한 계좌로 만들기 위해\n최소 잔액(0.1 BOS)이 있어야 합니다\n공개 주소로 최소 잔액 0.1 BOS를 받으세요',
     INVALID_ACCOUNT_BUTTON: '0.1 BOS 받기',
 
     TOAST_ACCOUNT_NOT_AVAILABLE: '현재 이 계좌는 유효한 계좌가 아닙니다\n유효한 계좌만 송금할 수 있습니다',

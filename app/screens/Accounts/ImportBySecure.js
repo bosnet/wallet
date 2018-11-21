@@ -139,7 +139,7 @@ class ImportBySecure extends React.Component {
           }}
         />
         <ScrollView
-          contentContainerStyle={[styles.defaultLayout, styles.alignCenter]}
+          contentContainerStyle={[styles.alignCenter]}
           showsVerticalScrollIndicator={false}
         >
           <Text style={[styles.layoutHead, styles.headText]}>
@@ -177,35 +177,36 @@ class ImportBySecure extends React.Component {
               ]}
             />
           </View>
-          <BottomButton
-            actions={[
-              {
-                text: Strings.BUTTON_NEXT,
-                callback: () => {
-                  this.validateInput();
-
-                  const text = this.input.getWrappedInstance().getText();
-                  const address = checkSecretKey(text);
-
-                  if (!address) return;
-
-                  if (accounts.map(e => e.address).indexOf(address) >= 0) {
-                    ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
-                    return;
-                  }
-
-                  doAction(NavAction.pushScreen(
-                    NavAction.Screens.SET_PASSWORD,
-                    {
-                      getSecureKey: () => this.input.getWrappedInstance().getText(),
-                    },
-                  ));
-                },
-              },
-            ]}
-            inactive={!buttonActive}
-          />
         </ScrollView>
+        <View style={styles.filler} />
+        <BottomButton
+          actions={[
+            {
+              text: Strings.BUTTON_NEXT,
+              callback: () => {
+                this.validateInput();
+
+                const text = this.input.getWrappedInstance().getText();
+                const address = checkSecretKey(text);
+
+                if (!address) return;
+
+                if (accounts.map(e => e.address).indexOf(address) >= 0) {
+                  ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
+                  return;
+                }
+
+                doAction(NavAction.pushScreen(
+                  NavAction.Screens.SET_PASSWORD,
+                  {
+                    getSecureKey: () => this.input.getWrappedInstance().getText(),
+                  },
+                ));
+              },
+            },
+          ]}
+          inactive={!buttonActive}
+        />
         <AndroidBackHandler
           action={NavAction.resetScreen(NavAction.Screens.HOME)}
         />

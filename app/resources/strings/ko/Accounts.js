@@ -47,13 +47,13 @@ const Accounts = {
     IMPORT_RK_LABEL: '복구키',
     PASSWORD_LABEL: '비밀번호',
 
-    PLACEHOLDER_SECURE: 'S로 시작하는 보안키 입력',
+    PLACEHOLDER_SECURE: '보안키 입력',
     HELPER_DEFAULT_SECURE: 'S로 시작하는 보안키를 입력해 주세요',
     HELPER_ERROR_NO_SECURE: '보안키를 입력하세요',
     HELPER_ERROR_NOT_VALID: '보안키가 올바르지 않습니다',
     TOAST_SS_NOT_VALID: '보안키가 올바르지 않습니다',
 
-    PLACEHOLDER_RESTORE: 'B로 시작하는 복구키 입력',
+    PLACEHOLDER_RESTORE: '복구키 입력',
     HELPER_DEFAULT_RESTORE: 'B로 시작하는 복구키를 입력해 주세요',
     HELPER_ERROR_NO_RESTORE: '복구키를 입력하세요',
     HELPER_ERROR_NOT_VALID_RESTORE: '복구키 또는 비밀번호를 다시 확인해 주세요',
@@ -203,6 +203,13 @@ const Accounts = {
     MESSAGE: '정말 계좌를 삭제하시겠습니까?',
 
     BUTTON_TEXT_OK: '확인',
+  },
+  SelectAccountCreation: {
+    TITLE: '계좌생성 방법 선택',
+    BACK_BUTTON: '닫기',
+
+    SELECT_NORMAL: '계좌 주소 만들기',
+    SELECT_TESTNET: '테스트넷에서 계좌 주소 만들기',
   },
 };
 

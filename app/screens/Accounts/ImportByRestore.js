@@ -298,6 +298,7 @@ class ImportByRestore extends React.Component {
             color={passHelperColor}
             noStar
           />
+          <View style={styles.filler} />
           <View style={styles.footer}>
             <NotiPanel
               texts={[

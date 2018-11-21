@@ -43,6 +43,7 @@ const Navigation = {
     INAPP_BROWSER: 'InAppBrowser',
     SERVICE_AGREEMENT: 'ServiceAgreement',
     TUTORIAL: 'Tutorial',
+    SELECT_ACCOUNT_CREATION: 'SelectAccountCreation',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',

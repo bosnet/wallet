@@ -77,7 +77,7 @@ class App extends React.Component {
               {
                 text: Strings.ALERT_BUTTON_UPDATE,
                 onPress: () => {
-                  Linking.openURL('market://details?id=com.boswallet');
+                  Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
                 },
               },
               {
@@ -97,7 +97,7 @@ class App extends React.Component {
               {
                 text: Strings.ALERT_BUTTON_UPDATE,
                 onPress: () => {
-                  Linking.openURL('market://details?id=com.boswallet');
+                  Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
                 },
               },
               {

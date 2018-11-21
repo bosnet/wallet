@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ScrollView, View, Alert,
+  ScrollView, View, Alert, Text,
   ToastAndroid, BackHandler,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ import { Theme, AppStatusBar } from '../../components/StatusBar';
 import { HomeToolbar } from '../../components/Toolbar';
 import { LoadingPanel } from '../../components/Panel';
 import { ItemList } from '../../components/List';
-import { BalanceArea } from '../../components/Text';
+import { BalanceArea, HeadText } from '../../components/Text';
 import AndroidBackHandler from '../../AndroidBackHandler';
 
 class HomeScreen extends React.Component {
@@ -222,6 +222,9 @@ class HomeScreen extends React.Component {
     const { isLoaded, isLoading, totalBalance, list } = this.state;
     const { updateFlag, updateFlags, isVisible } = this.props;
 
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Home;
+    
     if (!isLoading && updateFlags[NavAction.Screens.HOME]) { // Need Update
       this.loadAccounts();
     }
@@ -231,6 +234,13 @@ class HomeScreen extends React.Component {
         <AppStatusBar theme={Theme.WHITE} />
         <HomeToolbar />
         <View style={[styles.container]}>
+          <View style={{ marginTop: -20, marginBottom: -40 }}>
+            <Text
+              style={[styles.headText, { fontSize: 14 }]}
+            >
+              {Strings.CAUTION}
+            </Text>
+          </View>
           {this.renderLoadingPanel()}
           <BalanceArea
             label="TOTAL BALANCE"

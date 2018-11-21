@@ -23,6 +23,7 @@ import {
   ImportByRestore,
   ImportBySecure,
   Agreement,
+  SelectAccountCreation,
 } from './screens/Accounts';
 
 import {
@@ -92,6 +93,7 @@ const router = {
   InAppBrowser: { screen: InAppBrowser },
   ServiceAgreement: { screen: ServiceAgreement },
   Tutorial: { screen: Tutorial },
+  SelectAccountCreation: { screen: SelectAccountCreation },
 };
 
 export default router;

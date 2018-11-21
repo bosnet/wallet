@@ -127,6 +127,7 @@ class AddressBook extends React.Component {
             onPress={() => {
               this.resetAllItem();
             }}
+            style={{ alignSelf: 'stretch' }}
           >
             <View>
               <AddressPanel

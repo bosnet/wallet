@@ -4,6 +4,7 @@ import ImportByRestore from './ImportByRestore';
 import ImportBySecure from './ImportBySecure';
 import Agreement from './Agreement';
 import AccountCreated from './AccountCreated';
+import SelectAccountCreation from './SelectAccountCreation';
 
 export {
   AccountCreated,
@@ -12,4 +13,5 @@ export {
   ImportByRestore,
   ImportBySecure,
   Agreement,
+  SelectAccountCreation,
 };

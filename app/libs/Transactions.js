@@ -39,7 +39,7 @@ const makeFullISOString = (str) => {
 };
 
 export const retrieveAccount = address => (
-  fetch(`${SEREVER_ADDR}/v1/accounts/${address}`, {
+  fetch(`${SEREVER_ADDR}/api/v1/accounts/${address}`, {
     method: 'GET',
     timeout: 3000,
     headers: {
@@ -83,7 +83,7 @@ export const retrieveAccount = address => (
 
 export const retrieveOperations = (txHash, date, fee) => {
 
-  return fetch(`${SEREVER_ADDR}/v1/transactions/${txHash}/operations`, {
+  return fetch(`${SEREVER_ADDR}/api/v1/transactions/${txHash}/operations`, {
     method: 'GET',
     timeout: 3000,
     headers: {
@@ -112,7 +112,7 @@ export const retrieveOperations = (txHash, date, fee) => {
 };
 
 export const retrieveTransactions = (address, limit) => {
-  return fetch(`${SEREVER_ADDR}/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
+  return fetch(`${SEREVER_ADDR}/api/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -193,7 +193,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
 
   // console.log(JSON.stringify(body));
 
-  return fetch(`${SEREVER_ADDR}/v1/transactions`, {
+  return fetch(`${SEREVER_ADDR}/api/v1/transactions`, {
     method: 'POST',
     timeout: 1000,
     headers: {

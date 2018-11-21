@@ -58,7 +58,7 @@ const Settings = {
     TOAST_MODIFY_ADDRESS: 'Can not edit Public Address',
 
     LABEL_ADDRESS: 'Public Address',
-    PLACEHOLDER_ADDRESS: 'Enter Public Address start with letter \'G\'',
+    PLACEHOLDER_ADDRESS: 'Enter Public Address',
     HELPER_ADDRESS: 'Please enter Public Address start with letter \'G\' and\nits length is 56 letters long',
     HELPER_ERROR_NO_ADDRESS: 'Please enter put Public Address',
     HELPER_ERROR_ADDRESS_NOT_VALID: 'Incorrect Public Address',
