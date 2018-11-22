@@ -33,12 +33,14 @@ class HomeScreen extends React.Component {
       isLoading: false,
       timer: null,
       counter: 60,
-      totalBalance: '',
+      totalBalance: NaN,
     };
 
     this.buildAccountList = this.buildAccountList.bind(this);
     this.renderAccountList = this.renderAccountList.bind(this);
     this.loadAccounts = this.loadAccounts.bind(this);
+
+    this.redraw = this.redraw.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +48,7 @@ class HomeScreen extends React.Component {
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
 
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.HOME));
-    this.loadAccounts();
+    // this.loadAccounts();
   }
 
   componentWillUnmount() {
@@ -56,6 +58,12 @@ class HomeScreen extends React.Component {
     doAction(AccountsAction.removeUpdateFlag(NavAction.Screens.HOME));
   }
 
+  redraw() {
+    this.setState({
+      isLoaded: true,
+    });
+  }
+
   loadAccounts() {
     const { showModal, accounts, doAction, navigation, settings } = this.props;
     const { isLoading, isLoaded, list, totalBalance } = this.state;
@@ -63,7 +71,7 @@ class HomeScreen extends React.Component {
     const HomeStrings = strings[settings.language].Home;
 
     if (!navigation.isFocused()) return null;
-
+    console.log('this.loadAccounts');
     let errorFlag = false;
 
     this.setState({
@@ -97,55 +105,36 @@ class HomeScreen extends React.Component {
             });
           })
           .catch(() => {
+            if (isLoaded) {
+              ToastAndroid.show(Strings.ALERT_NO_RESPONSE, ToastAndroid.SHORT);
+
+              this.setState({
+                isLoading: false,
+              });
+            }
+
             return ({
               ...account,
               index,
               balance: NaN,
+              noRes: true,
             });
           })
       )),
     )
-      .catch((e) => {
-        // console.log(e);
-        errorFlag = true;
-
-        if (isLoaded) {
-          ToastAndroid.show('서버와의 응답이 없습니다', ToastAndroid.SHORT);
-
-          this.setState({
-            isLoading: false,
-          });
-          return;
-        }
-
-        Alert.alert(
-          Strings.ALERT_GENERAL_TITLE,
-          Strings.ALERT_NETWORK_MESSGAE,
-          [
-            {
-              text: Strings.ALERT_BUTTON_RETRY,
-              onPress: () => {
-                this.loadAccounts();
-              },
-            },
-            {
-              text: Strings.ALERT_BUTTON_QUIT,
-              onPress: () => {
-                BackHandler.exitApp();
-              },
-            },
-          ],
-          { cancelable: false },
-        );
-      })
       .then((results) => {
         let total = 0;
 
         let nanFlag = false;
+        let noResFlag = false;
 
         results.forEach((account) => {
           if (isNaN(account.balance)) {
             nanFlag = true;
+          }
+
+          if (account.noRes) {
+            noResFlag = true;
           }
 
           if (!nanFlag) {
@@ -162,6 +151,8 @@ class HomeScreen extends React.Component {
           totalBalance: total.toFixed(7),
           isLoading: false,
         });
+
+        if (noResFlag) throw Error('NO Response');
       })
       // .catch(() => {
       //   this.setState({
@@ -169,6 +160,45 @@ class HomeScreen extends React.Component {
       //     totalBalance: lastTotalBalance,
       //   });
       // })
+      .catch((e) => {
+        // console.log(e);
+        errorFlag = true;
+
+        if (isLoaded) return null;
+
+        Alert.alert(
+          Strings.ALERT_GENERAL_TITLE,
+          Strings.ALERT_NETWORK_MESSGAE,
+          [
+            {
+              text: Strings.ALERT_BUTTON_RETRY,
+              onPress: () => {
+                // if(this.LoadingPanel.getWrappedInstance().reset();
+                this.loadAccounts();
+              },
+            },
+            {
+              text: USE_TESTNET ? Strings.ALERT_BUTTON_IGNORE : Strings.ALERT_BUTTON_QUIT,
+              onPress: () => {
+                if (USE_TESTNET) {
+                  SplashScreen.hide();
+                  this.setState({
+                    isLoading: false,
+                    isLoaded: true,
+                    totalBalance: NaN,
+                  });
+                  doAction(AccountsAction.unsetUpdateFlag(NavAction.Screens.HOME));
+
+                  errorFlag = false;
+                } else {
+                  BackHandler.exitApp();
+                }
+              },
+            },
+          ],
+          { cancelable: false },
+        );
+      })
       .then((results) => {
         if (!errorFlag) {
           SplashScreen.hide();
@@ -251,7 +281,9 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <AppStatusBar theme={Theme.WHITE} />
-        <HomeToolbar />
+        <HomeToolbar
+          redrawCallback={this.redraw}
+        />
         <View style={[styles.container]}>
           {
               USE_TESTNET && (

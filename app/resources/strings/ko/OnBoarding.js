@@ -7,10 +7,13 @@ const OnBoarding = {
     ALERT_NETWORK_MESSGAE: '네트워크 연결에 실패하였습니다\n확인 후 다시 시도해 주세요',
     ALERT_OTHER_ERROR_MESSAGE: '앗! 문제가 발생했어요 잠시 후 다시 시도해 주세요',
 
+    ALERT_NO_RESPONSE: '서버의 응답이 없습니다',
+
     ALERT_BUTTON_UPDATE: '업데이트',
     ALERT_BUTTON_LATER: '나중에',
     ALERT_BUTTON_RETRY: '재시도',
     ALERT_BUTTON_QUIT: '종료',
+    ALERT_BUTTON_IGNORE: '무시',
   },
 
   Walkthrough: {

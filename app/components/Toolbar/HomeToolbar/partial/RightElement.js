@@ -11,7 +11,7 @@ import IconAdd from '../../../../resources/images/icon-add.png';
 import IconIn from '../../../../resources/images/icon-in.png';
 import IconSettings from '../../../../resources/images/icon-setting.png';
 
-const RightElement = ({ onPress }) => (
+const RightElement = ({ onPress, redrawCallback }) => (
   <View style={styles.toolbarElement}>
     <View style={styles.actionGroup}>
       <TouchableOpacity
@@ -32,7 +32,9 @@ const RightElement = ({ onPress }) => (
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.actionIcon}
-        onPress={onPress(NavAction.pushScreen(NavAction.Screens.SETTINGS))}
+        onPress={onPress(NavAction.pushScreen(NavAction.Screens.SETTINGS, {
+          redrawCallback,
+        }))}
       >
         <Image style={styles.Icon} source={IconSettings} />
       </TouchableOpacity>

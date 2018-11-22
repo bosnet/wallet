@@ -23,7 +23,7 @@ class Agreement extends React.Component {
       angelbotFlag: navigation.getParam('angelbotFlag', null),
     };
 
-    console.log(this.state.angelbotFlag);
+    // console.log(this.state.angelbotFlag);
 
     this.onPressBottom = this.onPressBottom.bind(this);
     this.activateButton = this.activateButton.bind(this);

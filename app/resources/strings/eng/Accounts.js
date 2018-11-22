@@ -36,6 +36,7 @@ const Accounts = {
     TOAST_DUPLICATED_ADDRESS: 'This Public Address registered already',
     TOAST_ADDRESS_NOT_VALID: 'Incorrect Public Address',
     TOAST_SS_NOT_VALID: 'Secret Seed is invalid',
+    TOAST_ANGELBOT_FAILED: 'Account creation failed, please try again.',
   },
   ImportAccount: {
     TITLE: 'Import account',

@@ -10,7 +10,7 @@ import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBa
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 
 import { ItemList } from '../../components/List';
-import { Navigation as NavAction } from '../../actions';
+import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
 import strings from '../../resources/strings';
 import AndroidBackHandler from '../../AndroidBackHandler';
 import { USE_TESTNET } from '../../config/AppConfig';
@@ -24,6 +24,13 @@ class SettingsScreen extends React.Component {
     this.state = {
       settings,
     };
+  }
+
+  componentWillUnmount() {
+    const { navigation } = this.props;
+
+    const callback = navigation.getParam('redrawCallback', null);
+    if (callback) callback();
   }
 
   render() {
@@ -122,6 +129,8 @@ const mapStateToProps = state => ({
   settings: state.settings,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  doAction: action => dispatch(action),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

@@ -37,6 +37,7 @@ const Accounts = {
     TOAST_DUPLICATED_ADDRESS: '이미 등록된 공개 주소 입니다',
     TOAST_ADDRESS_NOT_VALID: '공개 주소가 올바르지 않습니다',
     TOAST_SS_NOT_VALID: '보안키가 올바르지 않습니다',
+    TOAST_ANGELBOT_FAILED: '테스트넷에서 계좌 생성이 실패하였습니다',
   },
   ImportAccount: {
     TITLE: '계좌 가져오기',

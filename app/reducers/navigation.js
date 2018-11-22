@@ -14,7 +14,7 @@ function navigation(state = initialNavState, action) {
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.navigate({
           routeName: action.routeName,
-          key: action.key,
+          key: `${action.key}`,
           params: action.params,
         }),
         state,

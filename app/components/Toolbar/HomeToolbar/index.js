@@ -4,10 +4,12 @@ import { View } from 'react-native';
 import { LeftElement, RightElement } from './partial';
 import styles from '../styles';
 
-const HomeToolbar = () => (
+const HomeToolbar = ({ redrawCallback }) => (
   <View style={styles.toolbarHome}>
     <LeftElement />
-    <RightElement />
+    <RightElement
+      redrawCallback={redrawCallback}
+    />
   </View>
 );
 

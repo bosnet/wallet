@@ -91,17 +91,17 @@ const Settings = {
     LABEL_SEBAK_ENDPOINT: 'SEBAK Endpoint URL',
     PLACEHOLDER_SEBAK_ENDPOINT: 'SEBAK Endpoint URL 입력',
     HELPER_SEBAK_DEFAULT: 'SEBAK Endpoint URL을 입력해 주세요',
-    HELPER_SEBAK_NOT_VALID: '유효하지 않은 URL입니다',
+    HELPER_SEBAK_NOT_VALID: 'SEBAK Endpoint URL을 입력해 주세요',
 
     LABEL_NID: 'Network ID',
     PLACEHOLDER_NID: 'Network ID 입력',
     HELPER_NID_DEFAULT: 'Network ID를 입력해 주세요',
-    HELPER_NID_NOT_VALID: '유효하지 않은 ID입니다',
+    HELPER_NID_NOT_VALID: 'Network ID를 입력해 주세요',
 
     LABEL_ANGELBOT: 'Angelbot URL',
     PLACEHOLDER_ANGELBOT: 'Angelbot URL 입력',
     HELPER_ANGELBOT_DEFAULT: 'Angelbot URL을 입력해 주세요',
-    HELPER_ANGELBOT_NOT_VALID: '유효하지 않은 URL입니다',
+    HELPER_ANGELBOT_NOT_VALID: 'Angelbot URL을 입력해 주세요',
 
     BUTTON_TEXT: '확인',
   },
