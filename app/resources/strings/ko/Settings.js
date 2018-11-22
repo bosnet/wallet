@@ -6,6 +6,7 @@ const Settings = {
   ADDRESSBOOK: '주소록',
   SORT_ACCOUNTS: '계좌 순서',
   LANGUAGE: '언어',
+  SEBAK_ENDPOINT: 'SEBAK Endpoint 설정',
 
   SECTION2_TITLE: '정보',
   FAQ: 'FAQ',
@@ -82,6 +83,27 @@ const Settings = {
     LABEL_FIREBASE: '파이어베이스',
     TEXT_FIREBASE: '비정상 종료 되었을 때 오류 정보를 서버로 자동 전송하며 서비스 개선에 참여합니다',
     NOTI_FIREBASE: '전송정보 : Device, OS 버전, App 버전, 오류관련 내용',
+  },
+  SetSebakEndpoint: {
+    TITLE: 'SEBAK Endpoint 설정',
+    BACK_BUTTON: '닫기',
+
+    LABEL_SEBAK_ENDPOINT: 'SEBAK Endpoint URL',
+    PLACEHOLDER_SEBAK_ENDPOINT: 'SEBAK Endpoint URL 입력',
+    HELPER_SEBAK_DEFAULT: 'SEBAK Endpoint URL을 입력해 주세요',
+    HELPER_SEBAK_NOT_VALID: '유효하지 않은 URL입니다',
+
+    LABEL_NID: 'Network ID',
+    PLACEHOLDER_NID: 'Network ID 입력',
+    HELPER_NID_DEFAULT: 'Network ID를 입력해 주세요',
+    HELPER_NID_NOT_VALID: '유효하지 않은 ID입니다',
+
+    LABEL_ANGELBOT: 'Angelbot URL',
+    PLACEHOLDER_ANGELBOT: 'Angelbot URL 입력',
+    HELPER_ANGELBOT_DEFAULT: 'Angelbot URL을 입력해 주세요',
+    HELPER_ANGELBOT_NOT_VALID: '유효하지 않은 URL입니다',
+
+    BUTTON_TEXT: '확인',
   },
 };
 

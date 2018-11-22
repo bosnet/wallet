@@ -13,6 +13,7 @@ import { ItemList } from '../../components/List';
 import { Navigation as NavAction } from '../../actions';
 import strings from '../../resources/strings';
 import AndroidBackHandler from '../../AndroidBackHandler';
+import { USE_TESTNET } from '../../config/AppConfig';
 
 class SettingsScreen extends React.Component {
   constructor(props) {
@@ -62,6 +63,12 @@ class SettingsScreen extends React.Component {
                       value: Strings.CURRENT_LANGUAGE,
                       action: NavAction.pushScreen(NavAction.Screens.SELECT_LANGUAGE),
                     },
+                    USE_TESTNET
+                      ? {
+                        text: Strings.SEBAK_ENDPOINT,
+                        action: NavAction.pushScreen(NavAction.Screens.SET_SEBAK_ENDPOINT),
+                      }
+                      : null,
                   ],
                 },
                 {

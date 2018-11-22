@@ -4,6 +4,7 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Navigation as NavAction } from '../../../../actions';
+import { USE_TESTNET } from '../../../../config/AppConfig';
 
 import styles from '../../styles';
 import IconAdd from '../../../../resources/images/icon-add.png';
@@ -15,7 +16,11 @@ const RightElement = ({ onPress }) => (
     <View style={styles.actionGroup}>
       <TouchableOpacity
         style={styles.actionIcon}
-        onPress={onPress(NavAction.pushScreen(NavAction.Screens.AGREEMENT))}
+        onPress={
+          USE_TESTNET
+            ? onPress(NavAction.pushScreen(NavAction.Screens.SELECT_ACCOUNT_CREATION))
+            : onPress(NavAction.pushScreen(NavAction.Screens.AGREEMENT))
+        }
       >
         <Image style={styles.Icon} source={IconAdd} />
       </TouchableOpacity>

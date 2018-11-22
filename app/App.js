@@ -10,6 +10,9 @@ import strings from './resources/strings';
 
 import AppStorage from './libs/AppStorage';
 import FirebaseControl from './libs/FirebaseControl';
+
+import { USE_TESTNET } from './config/AppConfig';
+
 import AppReducer from './reducers';
 import { AppNavigator, middleware } from './AppNavigator';
 
@@ -51,9 +54,13 @@ class App extends React.Component {
     const language = (settings && settings.language) ? settings.language : 'ko';
     const Strings = strings[language].OnBoarding.SplashScreen;
 
-    return fetch('https://raw.githubusercontent.com/bosnet/wallet/master/Version.txt', {
+    const versionURL = USE_TESTNET
+      ? 'https://raw.githubusercontent.com/bosnet/wallet/master/Version_Testnet.txt'
+      : 'https://raw.githubusercontent.com/bosnet/wallet/master/Version.txt';
+
+    return fetch(versionURL, {
       method: 'GET',
-      timeout: 3000,
+      timeout: 5000,
       headers: {
         Accept: 'text/plain',
       },
@@ -77,7 +84,8 @@ class App extends React.Component {
               {
                 text: Strings.ALERT_BUTTON_UPDATE,
                 onPress: () => {
-                  Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
+                  if (USE_TESTNET) Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
+                  else Linking.openURL('market://details?id=org.blockchainos.wallet.android.mainnet');
                 },
               },
               {
@@ -97,7 +105,8 @@ class App extends React.Component {
               {
                 text: Strings.ALERT_BUTTON_UPDATE,
                 onPress: () => {
-                  Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
+                  if (USE_TESTNET) Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
+                  else Linking.openURL('market://details?id=org.blockchainos.wallet.android.mainnet');
                 },
               },
               {
@@ -182,4 +191,5 @@ class App extends React.Component {
   }
 }
 
+export { store };
 export default App;

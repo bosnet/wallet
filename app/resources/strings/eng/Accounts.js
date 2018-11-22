@@ -53,7 +53,7 @@ const Accounts = {
     TOAST_SS_NOT_VALID: 'Secret Seed is invalid',
 
     PLACEHOLDER_RESTORE: 'Enter Recovery Key',
-    HELPER_DEFAULT_RESTORE: 'enter your recovery yey start with letter \'B\'',
+    HELPER_DEFAULT_RESTORE: 'Enter your recovery key start with letter \'B\'',
     HELPER_ERROR_NO_RESTORE: 'Recovery Key is needed to import your account',
     HELPER_ERROR_NOT_VALID_RESTORE: 'Please check Recovery key or password again',
     TOAST_RK_NOT_VALID: 'Please check Recovery key or password again',
@@ -66,10 +66,10 @@ const Accounts = {
     TOAST_DUPLICATED_ADDRESS: 'This account setted up already',
 
     NOTICE1_RK: 'Password belongs to you only',
-    NOTICE2_RK: 'Secret Seed belongs to you only\nYou can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Recovery Key\' menu',
+    NOTICE2_RK: 'You can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Recovery Key\' menu',
     NOTICE1_SS: 'Secret Seed belongs to you only',
     NOTICE2: 'Secret Seed belongs to you only\nYou can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Recovery Key\' menu',
-    NOTICE2_SS: 'Secret Seed belongs to you only\n You can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Secret Seed\' menu',
+    NOTICE2_SS: 'You can not import your account when you lose the Secret Seed\nSo please use \'Import account using with the Secret Seed\' menu',
 
     BUTTON_TEXT: 'OK',
     BUTTON_NEXT: 'Next',

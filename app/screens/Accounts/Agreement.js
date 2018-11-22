@@ -16,12 +16,14 @@ class Agreement extends React.Component {
   constructor(props) {
     super(props);
 
-    const { settings } = this.props;
+    const { navigation } = this.props;
 
     this.state = {
-      settings,
       isAllChecked: false,
+      angelbotFlag: navigation.getParam('angelbotFlag', null),
     };
+
+    console.log(this.state.angelbotFlag);
 
     this.onPressBottom = this.onPressBottom.bind(this);
     this.activateButton = this.activateButton.bind(this);
@@ -55,7 +57,7 @@ class Agreement extends React.Component {
   }
 
   render() {
-    const { isAllChecked } = this.state;
+    const { isAllChecked, angelbotFlag } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.Precaution;
 
@@ -111,7 +113,12 @@ class Agreement extends React.Component {
               actions={[
                 {
                   text: Strings.BUTTON_TEXT,
-                  action: NavAction.pushScreen(NavAction.Screens.SET_PASSWORD),
+                  action: NavAction.pushScreen(
+                    NavAction.Screens.SET_PASSWORD,
+                    {
+                      angelbotFlag,
+                    },
+                  ),
                 },
               ]}
               inactive={!isAllChecked}
@@ -135,7 +142,5 @@ const mapStateToProps = state => ({
   settings: state.settings,
 });
 
-const mapDispatchToProps = dispatch => ({});
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Agreement);
+export default connect(mapStateToProps)(Agreement);

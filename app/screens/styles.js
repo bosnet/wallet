@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     color: colors.layoutHeadText,
     lineHeight: 26,
     marginBottom: 40,
+    marginHorizontal: 20,
     textAlign: 'center',
   },
   filler: {

@@ -1,8 +1,9 @@
 import sebakjs from 'sebakjs-util';
 import fetch from 'react-native-fetch-polyfill';
 
+import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
-
+import { USE_TESTNET } from '../config/AppConfig';
 
 import { SEREVER_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
 
@@ -38,54 +39,63 @@ const makeFullISOString = (str) => {
   return str.slice(0, str.length - 1) + '000000' + str.slice(str.length - 1 + Math.abs(0));
 };
 
-export const retrieveAccount = address => (
-  fetch(`${SEREVER_ADDR}/api/v1/accounts/${address}`, {
-    method: 'GET',
-    timeout: 3000,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(response => response.json())
-    .then((data) => {
-      // console.log(JSON.stringify(data));
-      if (data.status === 404) {
-        return {
-          status: 404,
-          balance: 0,
-        };
-      }
+export const retrieveAccount = (address) => {
+  const url = USE_TESTNET && store.getState().settings.sebakURL
+    ? store.getState().settings.sebakURL
+    : SEREVER_ADDR;
 
-      if (!data.status) {
-        return {
-          status: 200,
-          ...data,
-          balance: Number(data.balance) / BOS_GON_RATE,
-        };
-      }
-
-
-      if (data.status === 500) {
-        return {
-          status: 500,
-        };
-      }
-
-      if (data.status === 429) {
-        return {
-          status: 429,
-        };
-      }
+  return (
+    fetch(`${url}/api/v1/accounts/${address}`, {
+      method: 'GET',
+      timeout: 5000,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     })
-);
+      .then(response => response.json())
+      .then((data) => {
+        // console.log(JSON.stringify(data));
+        if (data.status === 404) {
+          return {
+            status: 404,
+            balance: 0,
+          };
+        }
+
+        if (!data.status) {
+          return {
+            status: 200,
+            ...data,
+            balance: Number(data.balance) / BOS_GON_RATE,
+          };
+        }
+
+
+        if (data.status === 500) {
+          return {
+            status: 500,
+          };
+        }
+
+        if (data.status === 429) {
+          return {
+            status: 429,
+          };
+        }
+      })
+  );
+}
 
 
 export const retrieveOperations = (txHash, date, fee) => {
+  const url = USE_TESTNET && store.getState().settings.sebakURL
+    ? store.getState().settings.sebakURL
+    : SEREVER_ADDR;
 
-  return fetch(`${SEREVER_ADDR}/api/v1/transactions/${txHash}/operations`, {
+  return fetch(`${url}/api/v1/transactions/${txHash}/operations`, {
     method: 'GET',
-    timeout: 3000,
+    timeout: 5000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -112,7 +122,11 @@ export const retrieveOperations = (txHash, date, fee) => {
 };
 
 export const retrieveTransactions = (address, limit) => {
-  return fetch(`${SEREVER_ADDR}/api/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
+  const url = USE_TESTNET && store.getState().settings.sebakURL
+    ? store.getState().settings.sebakURL
+    : SEREVER_ADDR;
+
+  return fetch(`${url}/api/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -151,6 +165,15 @@ export const retrieveTransactions = (address, limit) => {
 };
 
 export const makeTransaction = (source, password, target, amount, type, lastSequenceId) => {
+
+  const url = USE_TESTNET && store.getState().settings.sebakURL
+    ? store.getState().settings.sebakURL
+    : SEREVER_ADDR;
+
+  const nid = USE_TESTNET && store.getState().settings.networkId
+    ? store.getState().settings.networkId
+    : NETWORK_ID;
+
   let HType = 'payment';
   if (type === 'create') HType = 'create-account';
 
@@ -186,16 +209,16 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   const secretKey = decryptWallet(password, source.secretSeed);
 
   const hash = sebakjs.hash(RDPData);
-  const sig = sebakjs.sign(hash, NETWORK_ID, secretKey);
+  const sig = sebakjs.sign(hash, nid, secretKey);
 
   body.H.hash = hash;
   body.H.signature = sig;
 
   // console.log(JSON.stringify(body));
 
-  return fetch(`${SEREVER_ADDR}/api/v1/transactions`, {
+  return fetch(`${url}/api/v1/transactions`, {
     method: 'POST',
-    timeout: 1000,
+    timeout: 5000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

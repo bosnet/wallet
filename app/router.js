@@ -14,6 +14,7 @@ import {
   SelectLanguage,
   InAppBrowser,
   ServiceAgreement,
+  SetSebakEndpoint,
 } from './screens/Settings';
 
 import {
@@ -94,6 +95,7 @@ const router = {
   ServiceAgreement: { screen: ServiceAgreement },
   Tutorial: { screen: Tutorial },
   SelectAccountCreation: { screen: SelectAccountCreation },
+  SetSebakEndpoint: { screen: SetSebakEndpoint },
 };
 
 export default router;

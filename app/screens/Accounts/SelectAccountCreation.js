@@ -32,15 +32,20 @@ const SelectAccountCreation = ({ settings }) => {
       />
       <View style={styles.centerLayout}>
         <LongButton
-          text={Strings.SELECT_SS}
-          action={NavAction.pushScreen(NavAction.Screens.IMPORT_BY_SECURE)}
+          text={Strings.SELECT_NORMAL}
+          action={NavAction.pushScreen(NavAction.Screens.AGREEMENT)}
           borderColor={colors.transparent}
         />
         <LongButton
-          text={Strings.SELECT_RK}
+          text={Strings.SELECT_TESTNET}
           backgroundColor={colors.buttonWhite}
           textColor={colors.buttonTextPurple}
-          action={NavAction.pushScreen(NavAction.Screens.IMPORT_BY_RESTORE)}
+          action={NavAction.pushScreen(
+            NavAction.Screens.AGREEMENT,
+            {
+              angelbotFlag: true,
+            },
+          )}
         />
       </View>
       <AndroidBackHandler />

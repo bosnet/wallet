@@ -6,6 +6,7 @@ const Settings = {
   ADDRESSBOOK: 'Contacts',
   SORT_ACCOUNTS: 'Account ordering',
   LANGUAGE: 'Language',
+  SEBAK_ENDPOINT: 'SEBAK Endpoint setting',
 
   SECTION2_TITLE: 'Information',
   FAQ: 'FAQ',
@@ -82,6 +83,27 @@ const Settings = {
     LABEL_FIREBASE: 'Firebase',
     TEXT_FIREBASE: 'Error information will be sent to the server automatically when the service ends abnormally, and be used in service improvement',
     NOTI_FIREBASE: 'Transfer information : device, os version, app version, error related contents',
+  },
+  SetSebakEndpoint: {
+    TITLE: 'SEBAK Endpoint setting',
+    BACK_BUTTON: 'Close',
+
+    LABEL_SEBAK_ENDPOINT: 'SEBAK Endpoint URL',
+    PLACEHOLDER_SEBAK_ENDPOINT: 'Enter SEBAK Endpoint URL',
+    HELPER_SEBAK_DEFAULT: 'Please enter SEBAK Endpoint URL',
+    HELPER_SEBAK_NOT_VALID: 'URL is invalid',
+
+    LABEL_NID: 'Network ID',
+    PLACEHOLDER_NID: 'Enter Network ID',
+    HELPER_NID_DEFAULT: 'Please enter Network ID',
+    HELPER_NID_NOT_VALID: 'ID is invalid',
+
+    LABEL_ANGELBOT: 'Angelbot URL',
+    PLACEHOLDER_ANGELBOT: 'Enter Angelbot URL',
+    HELPER_ANGELBOT_DEFAULT: 'Please enter Angelbot URL',
+    HELPER_ANGELBOT_NOT_VALID: 'URL is invalid',
+
+    BUTTON_TEXT: 'OK',
   },
 };
 

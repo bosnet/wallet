@@ -1,9 +1,13 @@
 
 import { Settings } from '../actions';
+import { SEREVER_ADDR, ANGELBOT_ADDR, NETWORK_ID } from '../config/transactionConfig';
 
 const initialState = {
   language: Settings.LANGUAGE_KO,
   useFirebase: true,
+  sebakURL: SEREVER_ADDR,
+  networkId: NETWORK_ID,
+  angelbotURL: ANGELBOT_ADDR,
 };
 
 function settingsAction(state = initialState, action) {
@@ -15,6 +19,13 @@ function settingsAction(state = initialState, action) {
       };
     case Settings.SET_FIREBASE:
       return { ...state, useFirebase: action.value };
+    case Settings.SET_SEBAK_CONFIG:
+      return {
+        ...state,
+        sebakURL: action.sebakURL,
+        networkId: action.NID,
+        angelbotURL: action.angelURL,
+      };
     default:
       return state;
   }

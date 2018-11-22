@@ -44,6 +44,7 @@
     "react-native-firebase": "4.3.8",
     "react-native-keyboard": "^2.0.1",
     "react-native-level-fs": "^3.0.0",
+    "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-modal": "^6.5.0",
     "react-native-os": "^1.0.1",
     "react-native-qrcode": "^0.2.7",

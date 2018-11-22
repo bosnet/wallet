@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -19,7 +20,14 @@ import { NotiPanel } from '../../components/Panel';
 import { InputPassword } from '../../components/Input';
 import { colors } from '../../resources';
 
-import { createAccountAsync, createRestoreKeyAsync, createRestoreKey, changeRestoreKey } from '../../libs/KeyGenerator';
+import {
+  createAccountAsync,
+  createRestoreKeyAsync,
+  createRestoreKey,
+  changeRestoreKey,
+  createValidAccount,
+} from '../../libs/KeyGenerator';
+
 import AppStorage from '../../libs/AppStorage';
 
 const validate = (text) => {
@@ -63,12 +71,15 @@ class SetPassword extends React.Component {
 
     const { navigation } = this.props;
     const mode = navigation.getParam('mode', MODE_CREATE);
+    const angelbotFlag = navigation.getParam('angelbotFlag', null);
 
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.SetPassword;
 
     this.state = {
       mode,
+      angelbotFlag,
+      spinnerVisible: false,
       input1: {
         notiText: Strings.HELPER_DEFAULT,
         notiColor: colors.transparent,
@@ -191,7 +202,7 @@ class SetPassword extends React.Component {
 
   callbackBottomButton() {
     const { onAlertOk, addAccount, changePassword, navigation, accountList } = this.props;
-    const { mode, input2 } = this.state;
+    const { mode, angelbotFlag, input2 } = this.state;
 
     const password1 = this.input1.getWrappedInstance().getText();
     const password2 = this.input2.getWrappedInstance().getText();
@@ -221,6 +232,53 @@ class SetPassword extends React.Component {
     }
 
     const getSecureKey = navigation.getParam('getSecureKey');
+    if (angelbotFlag) {
+      this.setState({
+        spinnerVisible: true,
+      });
+      createValidAccount(this.input1.getWrappedInstance().getText())
+        .then((account) => {
+          addAccount({
+            name: account.name,
+            address: account.address,
+            secretSeed: account.secretSeed,
+          });
+
+          AppStorage.saveAccountAsync(accountList)
+            .then(() => {
+              this.setState({
+                spinnerVisible: false,
+              });
+              Alert.alert(
+                Strings.ALERT_PASSWORD_SET_TITLE,
+                Strings.ALERT_PASSWORD_SET_MESSAGE,
+                [{
+                  text: Strings.BUTTON_TEXT,
+                  onPress: () => {
+                    onAlertOk(
+                      NavAction.pushScreen(
+                        NavAction.Screens.ACCOUNT_CREATED,
+                        {
+                          name: account.name,
+                          key: account.secretSeed,
+                        },
+                      ),
+                    );
+                  },
+                }],
+                { cancelable: false },
+              );
+            });
+        })
+        .catch((e) => {
+          ToastAndroid.show('AngelBot Account Creation Failed', ToastAndroid.SHORT);
+          this.setState({
+            spinnerVisible: false,
+          });
+        });
+      return;
+    }
+
     if (mode === MODE_CREATE) {
       if (!getSecureKey) {
         createAccountAsync(this.input1.getWrappedInstance().getText())
@@ -372,12 +430,22 @@ class SetPassword extends React.Component {
   }
 
   render() {
-    const { input1, input2, buttonActive, mode } = this.state;
+    const { input1, input2, buttonActive, mode, spinnerVisible } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.SetPassword;
 
     return (
       <View style={styles.container}>
+        <Spinner
+          visible={spinnerVisible}
+          overlayColor={'rgba(103, 122, 203, 0.6)'}
+          textContent={'Loading...'}
+          textStyle={{
+            fontSize: 12,
+            color: '#ffffff',
+            fontFamily: 'SpoqaHanSans-Regular',
+          }}
+        />
         <AppStatusBar theme={StatusBarTheme.PURPLE} />
         <DefaultToolbar
           theme={DefaultToolbarTheme.PURPLE}

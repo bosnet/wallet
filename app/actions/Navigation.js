@@ -44,6 +44,7 @@ const Navigation = {
     SERVICE_AGREEMENT: 'ServiceAgreement',
     TUTORIAL: 'Tutorial',
     SELECT_ACCOUNT_CREATION: 'SelectAccountCreation',
+    SET_SEBAK_ENDPOINT: 'SetSebakEndpoint',
   },
   NAV_PUSH: 'NAV_PUSH',
   NAV_POP: 'NAV_POP',
@@ -68,7 +69,7 @@ Navigation.popScreen = (count = 1) => ({
 Navigation.resetScreen = (screenName, params) => ({
   type: Navigation.NAV_RESET,
   routeName: screenName,
-  key: screenName,
+  key: `${screenName}${new Date().getTime}`,
   params,
 });
 

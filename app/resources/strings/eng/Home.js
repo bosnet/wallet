@@ -5,7 +5,7 @@ const Home = {
 
   TOAST_ON_DELAY: 'Loading... Please wait a minute',
 
-  CAUTION: 'Testnet Wallet is ONLY for ‘testing’.\nDo not transfer from Tokennet or Mainnet to\nTestnet. BOScoin and Fees will disappear.',
+  CAUTION: 'Testnet Wallet is ONLY for ‘testing’.\nDo not transfer from Tokennet or Mainnet to Testnet. BOScoin and Fees will disappear.',
 
   WALLET_SYNC: 'Network on synchronizing',
   WALLET_SECOND: 'sec',

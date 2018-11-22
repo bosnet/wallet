@@ -7,6 +7,10 @@ import { types } from '../../resources';
 
 const SectionItem = ({ item, index, section }) => {
   let result = null;
+  if (item === null) {
+    return null;
+  }
+
   const data = section.data[index];
   switch (item.type) {
     case types.ListItem.TEXT:

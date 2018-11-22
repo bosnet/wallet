@@ -19,6 +19,7 @@ import { LoadingPanel } from '../../components/Panel';
 import { ItemList } from '../../components/List';
 import { BalanceArea, HeadText } from '../../components/Text';
 import AndroidBackHandler from '../../AndroidBackHandler';
+import { USE_TESTNET } from '../../config/AppConfig';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class HomeScreen extends React.Component {
 
   loadAccounts() {
     const { showModal, accounts, doAction, navigation, settings } = this.props;
-    const { isLoading, list, totalBalance } = this.state;
+    const { isLoading, isLoaded, list, totalBalance } = this.state;
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
     const HomeStrings = strings[settings.language].Home;
 
@@ -95,11 +96,28 @@ class HomeScreen extends React.Component {
               balance: data.balance,
             });
           })
+          .catch(() => {
+            return ({
+              ...account,
+              index,
+              balance: NaN,
+            });
+          })
       )),
     )
       .catch((e) => {
         // console.log(e);
         errorFlag = true;
+
+        if (isLoaded) {
+          ToastAndroid.show('서버와의 응답이 없습니다', ToastAndroid.SHORT);
+
+          this.setState({
+            isLoading: false,
+          });
+          return;
+        }
+
         Alert.alert(
           Strings.ALERT_GENERAL_TITLE,
           Strings.ALERT_NETWORK_MESSGAE,
@@ -145,12 +163,12 @@ class HomeScreen extends React.Component {
           isLoading: false,
         });
       })
-      .catch(() => {
-        this.setState({
-          list: lastList,
-          totalBalance: lastTotalBalance,
-        });
-      })
+      // .catch(() => {
+      //   this.setState({
+      //     list: lastList,
+      //     totalBalance: lastTotalBalance,
+      //   });
+      // })
       .then((results) => {
         if (!errorFlag) {
           SplashScreen.hide();
@@ -226,6 +244,7 @@ class HomeScreen extends React.Component {
     const Strings = strings[settings.language].Home;
     
     if (!isLoading && updateFlags[NavAction.Screens.HOME]) { // Need Update
+
       this.loadAccounts();
     }
 
@@ -234,13 +253,23 @@ class HomeScreen extends React.Component {
         <AppStatusBar theme={Theme.WHITE} />
         <HomeToolbar />
         <View style={[styles.container]}>
-          <View style={{ marginTop: -20, marginBottom: -40 }}>
-            <Text
-              style={[styles.headText, { fontSize: 14 }]}
-            >
-              {Strings.CAUTION}
-            </Text>
-          </View>
+          {
+              USE_TESTNET && (
+                <View
+                  style={{
+                    marginTop: -20,
+                    marginBottom: -40,
+                    marginHorizontal: 10,
+                  }}
+                >
+                  <Text
+                    style={[styles.headText, { fontSize: 14, lineHeight: 20 }]}
+                  >
+                    {Strings.CAUTION}
+                  </Text>
+                </View>
+              )
+          }
           {this.renderLoadingPanel()}
           <BalanceArea
             label="TOTAL BALANCE"

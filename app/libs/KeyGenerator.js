@@ -3,6 +3,11 @@ import crypto from 'crypto';
 import BaseX from 'base-x';
 
 import Base from 'stellar-base';
+import fetch from 'react-native-fetch-polyfill';
+
+import { store } from '../App';
+import { ANGELBOT_ADDR } from '../config/transactionConfig';
+import { USE_TESTNET } from '../config/AppConfig';
 import AppStorage from './AppStorage';
 
 const B58 = BaseX('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
@@ -199,6 +204,56 @@ const changeRestoreKey = async (account, prevPassword, password) => {
   return result;
 };
 
+const createValidAccount = async (password) => {
+  const keypair = sebakjs.generate();
+
+  const publicKey = keypair.address;
+  const secretKey = keypair.seed;
+  // SecretSeed 설정
+  const secretSeed = encryptWallet(password, secretKey);
+
+  const url = USE_TESTNET && store.getState().settings.angelbotURL
+    ? store.getState().settings.angelbotURL
+    : ANGELBOT_ADDR;
+
+  return fetch(`${url}/account/${keypair.address}?balance=100000000`, {
+    method: 'GET',
+    timeout: 60000,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .then((result) => {
+      if (!result.status) { // Success
+        return AppStorage.loadAccountsAsync().then((accounts) => {
+          let counter = 1;
+
+          // Account Name 자동 설정
+          let accountName = `Account ${counter}`;
+          if (accounts && accounts.length > 0) {
+            while (accounts.findIndex(checkName(`Account ${counter}`)) > -1) {
+              counter += 1;
+              accountName = `Account ${counter}`;
+            }
+          }
+
+          const account = {
+            name: accountName,
+            address: publicKey,
+            secretSeed,
+          };
+
+          return account;
+        });
+      }
+    })
+    .catch((e) => {
+      throw Error("AngelBot Account Creation Failed");
+    });
+};
+
 export {
   validatePassword,
   validateSecretKey,
@@ -212,4 +267,5 @@ export {
   checkPublicKey,
   decryptWallet,
   encryptWallet,
+  createValidAccount,
 };
