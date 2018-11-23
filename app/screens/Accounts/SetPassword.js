@@ -271,7 +271,7 @@ class SetPassword extends React.Component {
             });
         })
         .catch((e) => {
-          ToastAndroid.show('AngelBot Account Creation Failed', ToastAndroid.SHORT);
+          ToastAndroid.show(Strings.TOAST_ANGELBOT_FAILED, ToastAndroid.SHORT);
           this.setState({
             spinnerVisible: false,
           });

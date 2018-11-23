@@ -8,10 +8,9 @@ const Transactions = {
 
     TOAST_ON_DELAY: 'Loading... Please wait a minute',
 
-    INVALID_ACCOUNT_NOTI: 'You need a minimum balance of\n0.1 BOS to make your account valid\nPlease deposit minimum balance of\n0.1 BOS to activate your account',
+    INVALID_ACCOUNT_NOTI: 'You need a minimum balance of\n0.1 BOS to make your account valid.\nPlease deposit minimum balance of\n0.1 BOS to activate your account.',
     INVALID_ACCOUNT_BUTTON: 'Receive 0.1 BOS',
 
-    
     TOAST_ACCOUNT_NOT_AVAILABLE: 'This account is not valid. Please activate your account\n(minimum balance of 0.1 BOS)',
   },
   SendBalance: {
@@ -21,17 +20,17 @@ const Transactions = {
     WITHDRAWABLE_LABEL: 'Withdrawal available',
     BALANCE_INPUT_LABEL: 'Amount',
     BALANCE_INPUT_PLACEHOLDER: '0.0000000',
-    HELPER_BALANCE_DEFAULT: 'Please enter transferred amount',
-    HELPER_BALANCE_ERROR_NO_INPUT: 'Please enter transferred amount',
-    HELPER_BALANCE_ERROR_NOT_VALID: 'Amount is invalid',
-    HELPER_BALANCE_ERROR_RANGE: 'Please enter transferred amount less than withdrawal available',
-    HELPER_BALANCE_ERROR_DOT_RANGE: 'You can enter up to 7 decimal place',
+    HELPER_BALANCE_DEFAULT: 'Please enter transferred amount.',
+    HELPER_BALANCE_ERROR_NO_INPUT: 'Please enter transferred amount.',
+    HELPER_BALANCE_ERROR_NOT_VALID: 'Amount is invalid.',
+    HELPER_BALANCE_ERROR_RANGE: 'Please enter transferred amount less than withdrawal available.',
+    HELPER_BALANCE_ERROR_DOT_RANGE: 'You can enter up to 7 decimal place.',
 
     ADDRESS_INPUT_LABEL: 'Enter Public Address',
     ADDRESS_INPUT_PLACEHOLDER: 'Enter Public Address',
-    HELPER_ADDRESS_DEFAULT: 'Enter Public Address',
-    HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address',
-    HELPER_ADDRESS_ERROR_NOT_VALID: 'This Public Address is invalid',
+    HELPER_ADDRESS_DEFAULT: 'Enter Public Address.',
+    HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address.',
+    HELPER_ADDRESS_ERROR_NOT_VALID: 'This Public Address is invalid.',
 
     LABEL_FEE: 'Transaction fee',
 
@@ -68,7 +67,7 @@ const Transactions = {
   },
   BeforeTransaction: {
     TITLE: 'Transfer details',
-    HEAD_TEXT: 'Please check transfer details below',
+    HEAD_TEXT: 'Please check transfer details below.',
     LABEL_RECEIVER: 'Received account\'s Public Address',
     LABEL_AMOUNT: 'Amount',
     LABEL_FEE: 'Transaction fee',
@@ -113,9 +112,9 @@ const Transactions = {
       BUTTON_TEXT_SELECT: 'Select',
       INPUT_PLACEHOLDER: 'Enter Public Address',
 
-      HELPER_ADDRESS_DEFAULT: 'Please enter Public Address start with letter \'G\' and\nits length is 56 letters long',
-      HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address',
-      HELPER_ADDRESS_ERROR_NOT_VALID: 'Incorrect Public Address',
+      HELPER_ADDRESS_DEFAULT: 'Please enter Public Address start with letter \'G\' and its length is 56 letters long.',
+      HELPER_ADDRESS_ERROR_NO_INPUT: 'Enter Public Address.',
+      HELPER_ADDRESS_ERROR_NOT_VALID: 'Incorrect Public Address.',
 
       LABEL_PUBLIC_ADDRESS: 'Public Address',
       LABEL_RECENT_SENT: 'Latest transfer record',
@@ -127,8 +126,8 @@ const Transactions = {
   CreateTransaction: {
     TITLE: 'Transaction completed',
 
-    HEAD_TEXT_TRANSACTION_OK: 'Transaction is created',
-    HEAD_TEXT_TRANSACTION_FAIL: 'You transaction request has been failed\nPlease try again',
+    HEAD_TEXT_TRANSACTION_OK: 'Transaction is created.',
+    HEAD_TEXT_TRANSACTION_FAIL: 'You transaction request has been failed.\nPlease try again.',
 
     BUTTON_TEXT_OK: 'OK',
     BUTTON_TEXT_ADD: 'Add contact',

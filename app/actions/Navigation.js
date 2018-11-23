@@ -54,12 +54,16 @@ const Navigation = {
   NAV_RESET_TO_CONTACTS: 'NAV_RESET_TO_CONTACTS',
 };
 
-Navigation.pushScreen = (screenName, params) => ({
-  type: Navigation.NAV_PUSH,
-  routeName: screenName,
-  key: screenName,
-  params,
-});
+Navigation.pushScreen = (screenName, params) => {
+  const key = (screenName === Navigation.Screens.QR_SCAN) ? `${screenName}${new Date().getMilliseconds()}` : screenName;
+
+  return ({
+    type: Navigation.NAV_PUSH,
+    routeName: screenName,
+    key,
+    params,
+  });
+};
 
 Navigation.popScreen = (count = 1) => ({
   type: Navigation.NAV_POP,

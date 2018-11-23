@@ -55,9 +55,11 @@ class QRScan extends React.Component {
             
             return (
               <View
-                style={{ flex: 1 }}
+                style={styles.defaultLayout}
               >
-                <Text style={[styles.layoutHead, styles.headText]}>
+                <Text
+                  style={[styles.headText]}
+                >
                   {Strings.HEAD_TEXT}
                 </Text>
                 <View style={styles.centerLayout}>

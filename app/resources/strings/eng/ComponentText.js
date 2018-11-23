@@ -1,11 +1,11 @@
 const ComponentText = {
   InputPassword: {
     PLACEHOLDER: 'Enter password',
-    HELP: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
-    NOTI_DEFAULT: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters',
-    ERROR_NODATA: 'Enter your password',
-    ERROR_RANGE: 'Wrong password, please check again',
-    ERROR_MATCH: 'Please enter password again',
+    HELP: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters.',
+    NOTI_DEFAULT: 'Password phrase must be longer than 8 letters include English upper & lower case, numbers and special characters.',
+    ERROR_NODATA: 'Enter your password.',
+    ERROR_RANGE: 'Wrong password, please check again.',
+    ERROR_MATCH: 'Please enter password again.',
   },
 
   ADDRESS_PANEL_TITLE: 'Saved Public Address',

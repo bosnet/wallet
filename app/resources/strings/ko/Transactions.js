@@ -8,7 +8,7 @@ const Transactions = {
 
     TOAST_ON_DELAY: '로딩중... 잠시 후에 다시 시도해 주세요',
 
-    INVALID_ACCOUNT_NOTI: '이 계좌를 유효한 계좌로 만들기 위해\n최소 잔액(0.1 BOS)이 있어야 합니다\n공개 주소로 최소 잔액 0.1 BOS를 받으세요',
+    INVALID_ACCOUNT_NOTI: '이 계좌를 유효한 계좌로 만들기 위해\n최소 잔액(0.1 BOS)이 있어야 합니다.\n공개 주소로 최소 잔액 0.1 BOS를 받으세요.',
     INVALID_ACCOUNT_BUTTON: '0.1 BOS 받기',
 
     TOAST_ACCOUNT_NOT_AVAILABLE: '현재 이 계좌는 유효한 계좌가 아닙니다\n유효한 계좌만 송금할 수 있습니다',
@@ -20,17 +20,17 @@ const Transactions = {
     WITHDRAWABLE_LABEL: '출금 가능 금액',
     BALANCE_INPUT_LABEL: '보낼 금액',
     BALANCE_INPUT_PLACEHOLDER: '0.0000000',
-    HELPER_BALANCE_DEFAULT: '보낼 금액을 입력하세요\n소수점 이하 7자리까지 입력 가능합니다',
-    HELPER_BALANCE_ERROR_NO_INPUT: '보낼 금액을 입력하세요',
-    HELPER_BALANCE_ERROR_NOT_VALID: '유효하지 않은 금액입니다',
-    HELPER_BALANCE_ERROR_RANGE: '출금 가능 금액보다 적은 금액을 입력해 주세요',
-    HELPER_BALANCE_ERROR_DOT_RANGE: '소수점 이하 7자리까지 입력가능합니다',
+    HELPER_BALANCE_DEFAULT: '보낼 금액을 입력하세요.\n소수점 이하 7자리까지 입력 가능합니다.',
+    HELPER_BALANCE_ERROR_NO_INPUT: '보낼 금액을 입력하세요.',
+    HELPER_BALANCE_ERROR_NOT_VALID: '유효하지 않은 금액입니다.',
+    HELPER_BALANCE_ERROR_RANGE: '출금 가능 금액보다 적은 금액을 입력해 주세요.',
+    HELPER_BALANCE_ERROR_DOT_RANGE: '소수점 이하 7자리까지 입력가능합니다.',
 
     ADDRESS_INPUT_LABEL: '받는 계좌 공개 주소',
     ADDRESS_INPUT_PLACEHOLDER: '공개 주소 입력',
-    HELPER_ADDRESS_DEFAULT: '공개 주소를 입력하세요',
-    HELPER_ADDRESS_ERROR_NO_INPUT: '공개 주소를 입력하세요',
-    HELPER_ADDRESS_ERROR_NOT_VALID: '이 공개 주소로는 입금이 불가능 합니다',
+    HELPER_ADDRESS_DEFAULT: '공개 주소를 입력하세요.',
+    HELPER_ADDRESS_ERROR_NO_INPUT: '공개 주소를 입력하세요.',
+    HELPER_ADDRESS_ERROR_NOT_VALID: '이 공개 주소로는 입금이 불가능 합니다.',
 
     TOAST_NO_ADDRESS: '받는 계좌를 선택해 주세요',
 
@@ -69,7 +69,7 @@ const Transactions = {
   },
   BeforeTransaction: {
     TITLE: '송금 내역 확인',
-    HEAD_TEXT: '아래의 송금내역이 맞는지 확인해 주세요',
+    HEAD_TEXT: '아래의 송금내역이 맞는지 확인해 주세요.',
     LABEL_RECEIVER: '받는 계좌 공개 주소',
     LABEL_AMOUNT: '보낼 금액',
     LABEL_FEE: '수수료',
@@ -114,9 +114,9 @@ const Transactions = {
       BUTTON_TEXT_SELECT: '선택',
       INPUT_PLACEHOLDER: '공개 주소 입력',
 
-      HELPER_ADDRESS_DEFAULT: 'G로 시작하는 공개 주소 56자를 입력하세요',
-      HELPER_ADDRESS_ERROR_NO_INPUT: '공개 주소를 입력하세요',
-      HELPER_ADDRESS_ERROR_NOT_VALID: '공개 주소가 올바르지 않습니다',
+      HELPER_ADDRESS_DEFAULT: 'G로 시작하는 공개 주소 56자를 입력하세요.',
+      HELPER_ADDRESS_ERROR_NO_INPUT: '공개 주소를 입력하세요.',
+      HELPER_ADDRESS_ERROR_NOT_VALID: '공개 주소가 올바르지 않습니다.',
 
       LABEL_PUBLIC_ADDRESS: '공개 주소',
       LABEL_RECENT_SENT: '최근 송금 내역',
@@ -128,8 +128,8 @@ const Transactions = {
   CreateTransaction: {
     TITLE: '송금 요청 생성',
 
-    HEAD_TEXT_TRANSACTION_OK: '트랜잭션이 생성되었습니다',
-    HEAD_TEXT_TRANSACTION_FAIL: '트랜잭션 생성이 실패했습니다\n잠시 후 다시 시도해 주시기 바랍니다',
+    HEAD_TEXT_TRANSACTION_OK: '트랜잭션이 생성되었습니다.',
+    HEAD_TEXT_TRANSACTION_FAIL: '트랜잭션 생성이 실패했습니다.\n잠시 후 다시 시도해 주시기 바랍니다.',
 
     BUTTON_TEXT_OK: '확인',
     BUTTON_TEXT_ADD: '주소록 추가',

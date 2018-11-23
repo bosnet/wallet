@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginBottom: 40,
     marginHorizontal: 20,
+    alignSelf: 'stretch',
     textAlign: 'center',
   },
   filler: {

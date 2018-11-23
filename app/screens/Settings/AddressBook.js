@@ -120,7 +120,7 @@ class AddressBook extends React.Component {
           }}
         />
         <ScrollView
-          contentContainerStyle={styles.alignCenter}
+          contentContainerStyle={[styles.alignCenter]}
           showsVerticalScrollIndicator={false}
         >
           <TouchableWithoutFeedback
@@ -129,7 +129,7 @@ class AddressBook extends React.Component {
             }}
             style={{ alignSelf: 'stretch' }}
           >
-            <View>
+            <View style={{ alignSelf: 'stretch' }}>
               <AddressPanel
                 count={addressBook.length}
               />

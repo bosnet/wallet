@@ -43,7 +43,7 @@ function navigation(state = initialNavState, action) {
           actions: [
             NavigationActions.navigate({
               routeName: action.routeName,
-              key: action.key,
+              key: `${action.key}${new Date().getMilliseconds()}`,
               params: action.params,
             }),
           ],
