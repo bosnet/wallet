@@ -6,7 +6,7 @@ BOScoin Wallet for SEBAK
 ```sh
 $ npm install -g react-native-cli
 
-$ https://github.com/owlchain/wallet.git
+$ git clone https://github.com/owlchain/wallet.git
 $ cd wallet
 $ npm install
 ```
