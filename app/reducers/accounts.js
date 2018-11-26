@@ -71,6 +71,7 @@ function accountsAction(state = initialState, action) {
     case Navigation.NAV_BACK:
     case Navigation.NAV_RESET:
     case Navigation.NAV_RESET_TO_LIST:
+    case Navigation.NAV_RESET_TO_CONTACTS:
     case Accounts.SET_UPDATE_FLAG:
       // console.log('SET_UPDATE_FLAG');
       state.updateFlags[Navigation.Screens.HOME] = true;

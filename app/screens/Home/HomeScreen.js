@@ -48,7 +48,7 @@ class HomeScreen extends React.Component {
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
 
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.HOME));
-    // this.loadAccounts();
+    this.loadAccounts();
   }
 
   componentWillUnmount() {
@@ -66,11 +66,10 @@ class HomeScreen extends React.Component {
 
   loadAccounts() {
     const { showModal, accounts, doAction, navigation, settings } = this.props;
-    const { list, totalBalance } = this.state;
+    const { list, totalBalance, isLoaded } = this.state;
     const Strings = strings[settings.language].OnBoarding.SplashScreen;
 
-    if (!navigation.isFocused()) return null;
-    // console.log('this.loadAccounts');
+    if (!navigation.isFocused() && isLoaded) return null;
     let errorFlag = false;
 
     this.setState({
@@ -149,118 +148,6 @@ class HomeScreen extends React.Component {
           });
         }
       });
-
-    // 계정 정보 로드
-    // return Promise.all(
-    //   accounts.map((account, index) => (
-    //     retrieveAccount(account.address)
-    //       .then((data) => {
-    //         if (data.status === 429) {
-    //           ToastAndroid.show(HomeStrings.TOAST_ON_DELAY, ToastAndroid.SHORT);
-    //         }
-
-    //         return ({
-    //           ...account,
-    //           index,
-    //           balance: data.balance,
-    //         });
-    //       })
-    //       .catch(() => {
-    //         if (isLoaded) {
-    //           ToastAndroid.show(Strings.ALERT_NO_RESPONSE, ToastAndroid.SHORT);
-
-    //           this.setState({
-    //             isLoading: false,
-    //           });
-    //         }
-
-    //         return ({
-    //           ...account,
-    //           index,
-    //           balance: NaN,
-    //           noRes: true,
-    //         });
-    //       })
-    //   )),
-    // )
-    //   .then((results) => {
-    //     let total = 0;
-
-    //     let nanFlag = false;
-    //     let noResFlag = false;
-
-    //     results.forEach((account) => {
-    //       if (isNaN(account.balance)) {
-    //         nanFlag = true;
-    //       }
-
-    //       if (account.noRes) {
-    //         noResFlag = true;
-    //       }
-
-    //       if (!nanFlag) {
-    //         if (account.balance) total += account.balance;
-    //       }
-    //     });
-
-    //     if (nanFlag) {
-    //       total = NaN;
-    //     }
-
-    //     this.setState({
-    //       list: results,
-    //       totalBalance: total.toFixed(7),
-    //       isLoading: false,
-    //     });
-
-    //     if (noResFlag) throw Error('NO Response');
-    //   })
-    //   .catch((e) => {
-    //     errorFlag = true;
-
-    //     if (isLoaded) return null;
-
-    //     Alert.alert(
-    //       Strings.ALERT_GENERAL_TITLE,
-    //       Strings.ALERT_NETWORK_MESSGAE,
-    //       [
-    //         {
-    //           text: Strings.ALERT_BUTTON_RETRY,
-    //           onPress: () => {
-    //             this.loadAccounts();
-    //           },
-    //         },
-    //         {
-    //           text: USE_TESTNET ? Strings.ALERT_BUTTON_IGNORE : Strings.ALERT_BUTTON_QUIT,
-    //           onPress: () => {
-    //             if (USE_TESTNET) {
-    //               SplashScreen.hide();
-    //               this.setState({
-    //                 isLoading: false,
-    //                 isLoaded: true,
-    //                 totalBalance: NaN,
-    //               });
-    //               doAction(AccountsAction.unsetUpdateFlag(NavAction.Screens.HOME));
-
-    //               errorFlag = false;
-    //             } else {
-    //               BackHandler.exitApp();
-    //             }
-    //           },
-    //         },
-    //       ],
-    //       { cancelable: false },
-    //     );
-    //   })
-    //   .then((results) => {
-    //     if (!errorFlag) {
-    //       SplashScreen.hide();
-  
-    //       this.setState({
-    //         isLoaded: true,
-    //       });
-    //     }
-    //   });
   }
 
   buildAccountList() {
@@ -325,9 +212,8 @@ class HomeScreen extends React.Component {
 
     const { settings } = this.props;
     const Strings = strings[settings.language].Home;
-    
-    if (!isLoading && updateFlags[NavAction.Screens.HOME]) { // Need Update
 
+    if (!isLoading && updateFlags[NavAction.Screens.HOME]) { // Need Update
       this.loadAccounts();
     }
 

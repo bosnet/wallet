@@ -5,7 +5,7 @@ import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
 import { USE_TESTNET } from '../config/AppConfig';
 
-import { TESTNET_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
+import { TESTNET_ADDR, MAINNET_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
 
 const makeRLPData = (type, body) => {
 
@@ -40,9 +40,11 @@ const makeFullISOString = (str) => {
 };
 
 export const retrieveAccounts = (accounts) => {
-  const url = USE_TESTNET && store.getState().settings.sebakURL
+  let url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
     : TESTNET_ADDR;
+
+  if (!USE_TESTNET) url = MAINNET_ADDR;
 
   const addressArray = accounts.map(e => e.address);
 
@@ -93,9 +95,11 @@ export const retrieveAccounts = (accounts) => {
 };
 
 export const retrieveAccount = (address) => {
-  const url = USE_TESTNET && store.getState().settings.sebakURL
+  let url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
     : TESTNET_ADDR;
+
+  if (!USE_TESTNET) url = MAINNET_ADDR;
 
   return (
     fetch(`${url}/api/v1/accounts/${address}`, {
@@ -142,9 +146,11 @@ export const retrieveAccount = (address) => {
 
 
 export const retrieveOperations = (txHash, date, fee) => {
-  const url = USE_TESTNET && store.getState().settings.sebakURL
+  let url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
     : TESTNET_ADDR;
+
+  if (!USE_TESTNET) url = MAINNET_ADDR;
 
   return fetch(`${url}/api/v1/transactions/${txHash}/operations`, {
     method: 'GET',
@@ -175,9 +181,11 @@ export const retrieveOperations = (txHash, date, fee) => {
 };
 
 export const retrieveTransactions = (address, limit) => {
-  const url = USE_TESTNET && store.getState().settings.sebakURL
+  let url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
     : TESTNET_ADDR;
+
+  if (!USE_TESTNET) url = MAINNET_ADDR;
 
   return fetch(`${url}/api/v1/accounts/${address}/operations?limit=${limit}&reverse=true`, {
     method: 'GET',
@@ -247,9 +255,11 @@ export const retrieveTransactions = (address, limit) => {
 
 export const makeTransaction = (source, password, target, amount, type, lastSequenceId) => {
 
-  const url = USE_TESTNET && store.getState().settings.sebakURL
+  let url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
     : TESTNET_ADDR;
+
+  if (!USE_TESTNET) url = MAINNET_ADDR;
 
   const nid = USE_TESTNET && store.getState().settings.networkId
     ? store.getState().settings.networkId

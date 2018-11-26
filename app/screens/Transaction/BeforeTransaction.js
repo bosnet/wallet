@@ -44,6 +44,7 @@ class BeforeTransaction extends React.Component {
           account,
           option: 'callback',
           callback: this.doTransaction,
+          next: null,
         },
       ),
     );

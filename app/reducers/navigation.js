@@ -79,11 +79,11 @@ function navigation(state = initialNavState, action) {
           actions: [
             NavigationActions.navigate({
               routeName: Navigation.Screens.HOME,
-              key: Navigation.Screens.HOME,
+              key: `${Navigation.Screens.HOME}${new Date().getMilliseconds()}`,
             }),
             NavigationActions.navigate({
               routeName: Navigation.Screens.ADDRESSBOOK,
-              key: Navigation.Screens.ADDRESSBOOK,
+              key: `${Navigation.Screens.ADDRESSBOOK}${new Date().getMilliseconds()}`,
               params: action.params,
             }),
           ],

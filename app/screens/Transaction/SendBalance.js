@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ToastAndroid, Keyboard } from 'react-native';
+import { View, Text, ToastAndroid, Keyboard, ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import styles from '../styles';
@@ -267,7 +267,10 @@ class SendBalance extends React.Component {
             },
           }}
         />
-        <View style={styles.defaultLayout}>
+        <ScrollView
+          contentContainerStyle={styles.alignCenter}
+          showsVerticalScrollIndicator={false}
+        >
           <WithdrawablePanel
             title={Strings.WITHDRAWABLE_LABEL}
             amount={maxSendable}
@@ -312,18 +315,17 @@ class SendBalance extends React.Component {
             color={addressNotiColor}
             noStar
           />
-
-          <View style={styles.filler} />
-          <BottomButton
-            actions={[
-              {
-                text: Strings.BUTTON_TEXT_OK,
-                callback: this.bottomButtonCallback,
-              },
-            ]}
-            inactive={!buttonActive}
-          />
-        </View>
+        </ScrollView>
+        <View style={styles.filler} />
+        <BottomButton
+          actions={[
+            {
+              text: Strings.BUTTON_TEXT_OK,
+              callback: this.bottomButtonCallback,
+            },
+          ]}
+          inactive={!buttonActive}
+        />
         <AndroidBackHandler />
       </View>
     );

@@ -61,6 +61,7 @@ class ConfirmRemove extends React.Component {
                   account,
                   backFrom: NavAction.Screens.CONFIRM_REMOVE,
                   option: 'removeAccount',
+                  next: null,
                 },
               ),
             },
