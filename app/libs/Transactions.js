@@ -201,7 +201,7 @@ export const retrieveTransactions = (address, limit) => {
         target: e.target,
         source: e.source,
         type: e.type,
-        amount: Number(e.body.amount / 1000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
+        amount: Number(e.body.amount / 10000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
       }));
 
       return records;
