@@ -63,7 +63,7 @@ class AddressItem extends React.Component {
         ref={(c) => { this.pager = c; }}
         initialPage={page}
         scrollEnabled={false}
-        style={styles.addressItem}
+        style={[styles.addressItem]}
       >
         <View key="1">
           <TouchableOpacity

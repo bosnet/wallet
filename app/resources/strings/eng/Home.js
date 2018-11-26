@@ -9,7 +9,7 @@ const Home = {
 
   WALLET_SYNC: 'Network on synchronizing',
   WALLET_SECOND: 'sec',
-  WALLET_EMPTY: 'Accounts not register yet',
+  WALLET_EMPTY: 'Accounts not register yet.',
 };
 
 export default Home;

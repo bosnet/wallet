@@ -1,11 +1,11 @@
 
 import { Settings } from '../actions';
-import { SEREVER_ADDR, ANGELBOT_ADDR, NETWORK_ID } from '../config/transactionConfig';
+import { TESTNET_ADDR, ANGELBOT_ADDR, NETWORK_ID } from '../config/transactionConfig';
 
 const initialState = {
   language: Settings.LANGUAGE_KO,
   useFirebase: true,
-  sebakURL: SEREVER_ADDR,
+  sebakURL: TESTNET_ADDR,
   networkId: NETWORK_ID,
   angelbotURL: ANGELBOT_ADDR,
 };

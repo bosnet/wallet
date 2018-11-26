@@ -126,10 +126,19 @@ class TransactionList extends React.Component {
         });
       });
 
-    retrieveTransactions(account.address, 5)
+    retrieveTransactions(account.address, 100)
       .then((results) => {
+
+        if (results.status === 404) {
+          return;
+        }
+
+        if (results.status === 429) {
+          ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+          return;
+        }
+
         const data = [];
-        
         results.forEach((result) => {
           const object = {
             type: types.ListItem.TRANSACTION,
@@ -153,7 +162,7 @@ class TransactionList extends React.Component {
             }
 
             object.address = result.target;
-            object.amount = (-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+            object.amount = Number(-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
             object.textColor = colors.itemTextRed;
           }
 
@@ -170,7 +179,7 @@ class TransactionList extends React.Component {
 
             object.address = result.source;
             object.textColor = colors.itemTextBlue;
-            object.amount = (result.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+            object.amount = result.amount;
           }
 
           data.push(object);
@@ -192,7 +201,11 @@ class TransactionList extends React.Component {
     if (!isLoaded) return null;
 
     return (
-      <View>
+      <View
+        style={{
+          alignContent: 'center',
+        }}
+      >
         <Text
           style={[
             styles.layoutHead,
@@ -206,12 +219,20 @@ class TransactionList extends React.Component {
         >
           {Strings.INVALID_ACCOUNT_NOTI}
         </Text>
-        <LongButton
-          text={Strings.INVALID_ACCOUNT_BUTTON}
-          backgroundColor={colors.buttonWhite}
-          textColor={colors.buttonTextPurple}
-          action={NavAction.pushScreen(NavAction.Screens.RECEIVE_BALANCE, { account })}
-        />
+        <View
+          style={{
+            alignItems: 'center',
+            marginHorizontal: 10,
+          }}
+        >
+          <LongButton
+            text={Strings.INVALID_ACCOUNT_BUTTON}
+            backgroundColor={colors.buttonWhite}
+            textColor={colors.buttonTextPurple}
+            action={NavAction.pushScreen(NavAction.Screens.RECEIVE_BALANCE, { account })}
+          />
+
+        </View>
       </View>
     );
   }
@@ -297,6 +318,8 @@ class TransactionList extends React.Component {
           <View
             style={{
               flex: 1,
+              alignSelf: 'stretch',
+              // marginBottom: 10,
             }}
           >
             { !isValid ? this.renderNotValid() : this.renderTransactionList(transactions)}

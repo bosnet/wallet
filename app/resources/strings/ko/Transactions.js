@@ -40,7 +40,7 @@ const Transactions = {
   },
   SelectWithdraw: {
     TITLE: '출금 계좌 선택',
-    NOTI_NO_ADDRESS: '유효한 출금 계좌가 없습니다',
+    NOTI_NO_ADDRESS: '유효한 출금 계좌가 없습니다.',
     BACK_BUTTON: '취소',
     BUTTON_TEXT_OK: '선택',
   },
@@ -98,13 +98,13 @@ const Transactions = {
 
     // TAB 1
     MyAccounts: {
-      NOTI_NO_ADDRESS: '나의 계좌가 없습니다',
+      NOTI_NO_ADDRESS: '나의 계좌가 없습니다.',
       BUTTON_TEXT_SELECT: '선택',
     },
 
     // TAB 2
     AddressBook: {
-      NOTI_NO_ADDRESS: '아직 등록된 주소가 없습니다',
+      NOTI_NO_ADDRESS: '아직 등록된 주소가 없습니다.',
       BUTTON_TEXT_SELECT: '선택',
     },
 

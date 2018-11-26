@@ -71,9 +71,24 @@ class ModifyAddress extends React.Component {
   onNavigateWithResult(key) {
     this.inputAddress.getWrappedInstance().setText(key.toString())
       .then(() => {
+        const { settings } = this.props;
+        const Strings = strings[settings.language].Settings.ModifyAddress;
+
         const addressText = this.inputAddress.getWrappedInstance().getText();
         const name = this.inputName.getWrappedInstance().getText();
-        
+
+        if (!checkPublicKey(addressText)) {
+          this.setState({
+            addressNotiText: Strings.HELPER_ERROR_ADDRESS_NOT_VALID,
+            addressNotiColor: colors.alertTextRed,
+          });
+        } else {
+          this.setState({
+            addressNotiText: Strings.HELPER_ADDRESS,
+            addressNotiColor: colors.transparent,
+          });
+        }
+
         this.setState({
           buttonActive: (name.length > 0 && addressText.length > 0),
         });

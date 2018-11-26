@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 9,
   },
   addressItem: {
-    marginLeft: -5,
+    marginLeft: -24,
     minHeight: 120,
   },
   accountName: {

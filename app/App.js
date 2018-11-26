@@ -123,26 +123,49 @@ class App extends React.Component {
         }
       })
       .catch((error) => {
-        Alert.alert(
-          Strings.ALERT_GENERAL_TITLE,
-          Strings.ALERT_OTHER_ERROR_MESSAGE,
-          [
-            // {
-            //   text: Strings.ALERT_BUTTON_RETRY,
-            //   onPress: () => {
-            //     this.checkAppVersion(accounts, addressBook, settings, recents);
-            //     // this.runApp(accounts, addressBook, settings, recents);
-            //   },
-            // },
-            {
-              text: Strings.ALERT_BUTTON_QUIT,
-              onPress: () => {
-                BackHandler.exitApp();
+        if (error.message === 'Network request failed') {
+          Alert.alert(
+            Strings.ALERT_GENERAL_TITLE,
+            Strings.ALERT_NETWORK_MESSGAE,
+            [
+              {
+                text: Strings.ALERT_BUTTON_RETRY,
+                onPress: () => {
+                  this.checkAppVersion(accounts, addressBook, settings, recents);
+                  // this.runApp(accounts, addressBook, settings, recents);
+                },
               },
-            },
-          ],
-          { cancelable: false },
-        );
+              {
+                text: Strings.ALERT_BUTTON_QUIT,
+                onPress: () => {
+                  BackHandler.exitApp();
+                },
+              },
+            ],
+            { cancelable: false },
+          );
+        } else {
+          Alert.alert(
+            Strings.ALERT_GENERAL_TITLE,
+            Strings.ALERT_OTHER_ERROR_MESSAGE,
+            [
+              // {
+              //   text: Strings.ALERT_BUTTON_RETRY,
+              //   onPress: () => {
+              //     this.checkAppVersion(accounts, addressBook, settings, recents);
+              //     // this.runApp(accounts, addressBook, settings, recents);
+              //   },
+              // },
+              {
+                text: Strings.ALERT_BUTTON_QUIT,
+                onPress: () => {
+                  BackHandler.exitApp();
+                },
+              },
+            ],
+            { cancelable: false },
+          );
+        }
       });
   }
 

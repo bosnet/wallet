@@ -5,7 +5,7 @@ import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
 import { USE_TESTNET } from '../config/AppConfig';
 
-import { SEREVER_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
+import { TESTNET_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
 
 const makeRLPData = (type, body) => {
 
@@ -39,10 +39,63 @@ const makeFullISOString = (str) => {
   return str.slice(0, str.length - 1) + '000000' + str.slice(str.length - 1 + Math.abs(0));
 };
 
+export const retrieveAccounts = (accounts) => {
+  const url = USE_TESTNET && store.getState().settings.sebakURL
+    ? store.getState().settings.sebakURL
+    : TESTNET_ADDR;
+
+  const addressArray = accounts.map(e => e.address);
+
+  return fetch(`${url}/api/v1/accounts`, {
+    method: 'POST',
+    timeout: 5000,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(addressArray),
+  })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.status) return [];
+
+      const results = data._embedded.records;
+
+      const returns = [];
+
+      accounts.forEach((account, index) => {
+        if (results) {
+          const i = results.map(e => e.address).indexOf(account.address);
+          if (i > -1) {
+            returns.push({
+              ...account,
+              index,
+              balance: results[i].balance / BOS_GON_RATE,
+            });
+          } else {
+            returns.push({
+              ...account,
+              index,
+              balance: 0,
+            });
+          }
+        } else {
+          returns.push({
+            ...account,
+            index,
+            balance: 0,
+          });
+        }
+      });
+
+      return returns;
+    });
+};
+
 export const retrieveAccount = (address) => {
   const url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
-    : SEREVER_ADDR;
+    : TESTNET_ADDR;
 
   return (
     fetch(`${url}/api/v1/accounts/${address}`, {
@@ -85,13 +138,13 @@ export const retrieveAccount = (address) => {
         }
       })
   );
-}
+};
 
 
 export const retrieveOperations = (txHash, date, fee) => {
   const url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
-    : SEREVER_ADDR;
+    : TESTNET_ADDR;
 
   return fetch(`${url}/api/v1/transactions/${txHash}/operations`, {
     method: 'GET',
@@ -124,9 +177,9 @@ export const retrieveOperations = (txHash, date, fee) => {
 export const retrieveTransactions = (address, limit) => {
   const url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
-    : SEREVER_ADDR;
+    : TESTNET_ADDR;
 
-  return fetch(`${url}/api/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
+  return fetch(`${url}/api/v1/accounts/${address}/operations?limit=${limit}&reverse=true`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -135,40 +188,68 @@ export const retrieveTransactions = (address, limit) => {
   })
     .then(response => response.json())
     .then((data) => {
-      const promises = [];
-
-
-      if (data.status === 429) {
-        return {
-          status: 429,
-        };
+      // console.log(data);
+      if (data.status) {
+        return data;
       }
 
-      const { records } = data._embedded;
+      let { records } = data._embedded;
+      records = records.map(e => ({
+        date: e.confirmed,
+        txHash: e.tx_hash,
+        fee: 0.001,
+        target: e.target,
+        source: e.source,
+        type: e.type,
+        amount: Number(e.body.amount / 1000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
+      }));
 
-      if (!records) return [];
-
-      records.forEach((item) => {
-        promises.push(retrieveOperations(item.hash, item.created, item.fee));
-      });
-
-      return Promise.all(promises);
-    })
-    .then((results) => {
-      const returnArray = [];
-      results.forEach((result) => {
-        returnArray.push(result);
-      });
-
-      return returnArray;
+      return records;
     });
+
+  // return fetch(`${url}/api/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
+  //   method: 'GET',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
+  //   .then(response => response.json())
+  //   .then((data) => {
+  //     const promises = [];
+
+
+  //     if (data.status === 429) {
+  //       return {
+  //         status: 429,
+  //       };
+  //     }
+
+  //     const { records } = data._embedded;
+
+  //     if (!records) return [];
+
+  //     records.forEach((item) => {
+  //       promises.push(retrieveOperations(item.hash, item.created, item.fee));
+  //     });
+
+  //     return Promise.all(promises);
+  //   })
+  //   .then((results) => {
+  //     const returnArray = [];
+  //     results.forEach((result) => {
+  //       returnArray.push(result);
+  //     });
+
+  //     return returnArray;
+  //   });
 };
 
 export const makeTransaction = (source, password, target, amount, type, lastSequenceId) => {
 
   const url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
-    : SEREVER_ADDR;
+    : TESTNET_ADDR;
 
   const nid = USE_TESTNET && store.getState().settings.networkId
     ? store.getState().settings.networkId

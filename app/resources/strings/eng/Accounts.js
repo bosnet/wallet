@@ -54,9 +54,9 @@ const Accounts = {
     TOAST_SS_NOT_VALID: 'Secret Seed is invalid',
 
     PLACEHOLDER_RESTORE: 'Enter Recovery Key',
-    HELPER_DEFAULT_RESTORE: 'Enter your recovery key start with letter \'B\'',
-    HELPER_ERROR_NO_RESTORE: 'Recovery Key is needed to import your account',
-    HELPER_ERROR_NOT_VALID_RESTORE: 'Please check Recovery key or password again',
+    HELPER_DEFAULT_RESTORE: 'Enter your recovery key start with letter \'B\'.',
+    HELPER_ERROR_NO_RESTORE: 'Recovery Key is needed to import your account.',
+    HELPER_ERROR_NOT_VALID_RESTORE: 'Please check Recovery key or password again.',
     TOAST_RK_NOT_VALID: 'Please check Recovery key or password again',
 
     PLACEHOLDER_RES_PASSWORD: 'Enter current password',

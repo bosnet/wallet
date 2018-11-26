@@ -77,7 +77,7 @@ class SelectableList extends React.Component {
         style={{
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: 100,
+          marginTop: 50,
         }}
       >
         <AlertPanel

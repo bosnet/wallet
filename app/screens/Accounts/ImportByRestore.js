@@ -44,8 +44,13 @@ const validate = (text) => {
     return false;
   }
 
-  // 문자, 숫자 유무
-  if (!text.match(/[a-zA-Z]/)) {
+  // 소문자 유무
+  if (!text.match(/[a-z]/)) {
+    return false;
+  }
+
+  // 대문자 유무
+  if (!text.match(/[A-Z]/)) {
     return false;
   }
 

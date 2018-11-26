@@ -55,9 +55,9 @@ const Accounts = {
     TOAST_SS_NOT_VALID: '보안키가 올바르지 않습니다',
 
     PLACEHOLDER_RESTORE: '복구키 입력',
-    HELPER_DEFAULT_RESTORE: 'B로 시작하는 복구키를 입력해 주세요',
-    HELPER_ERROR_NO_RESTORE: '복구키를 입력하세요',
-    HELPER_ERROR_NOT_VALID_RESTORE: '복구키 또는 비밀번호를 다시 확인해 주세요',
+    HELPER_DEFAULT_RESTORE: 'B로 시작하는 복구키를 입력해 주세요.',
+    HELPER_ERROR_NO_RESTORE: '복구키를 입력하세요.',
+    HELPER_ERROR_NOT_VALID_RESTORE: '복구키 또는 비밀번호를 다시 확인해 주세요.',
     TOAST_RK_NOT_VALID: '복구키 또는 비밀번호를 다시 확인해 주세요',
 
     PLACEHOLDER_RES_PASSWORD: '이 계좌의 비밀번호 입력',
@@ -127,8 +127,8 @@ const Accounts = {
     NOTICE2: '비밀번호 변경 완료 후 새로운 복구키를 안전한 곳에 저장해주시기 바랍니다.',
 
 
-    NOTICE_CHANGE1: '비밀번호를 변경하게 되면, 기존의 복구키는 사용하실 수 없습니다',
-    NOTICE_CHANGE2: '비밀번호 변경 완료 후 새로운 복구키를 안전한 곳에 저장해주시기 바랍니다',
+    NOTICE_CHANGE1: '비밀번호를 변경하게 되면, 기존의 복구키는 사용하실 수 없습니다.',
+    NOTICE_CHANGE2: '비밀번호 변경 완료 후 새로운 복구키를 안전한 곳에 저장해주시기 바랍니다.',
 
     BUTTON_TEXT_OK: '확인',
     BUTTON_TEXT_NEXT: '다음',

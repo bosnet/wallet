@@ -11,6 +11,7 @@ import { Navigation as NavAction } from '../../actions';
 import imgFace from '../../resources/images/img_face.png';
 import strings from '../../resources/strings';
 import AndroidBackHandler from '../../AndroidBackHandler';
+import { colors } from '../../resources';
 
 class QRScan extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class QRScan extends React.Component {
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.WHITE} />
         <RNCamera
-          style={[styles.container, styles.noToolbar, { backgroundColor: '#999999' }]}
+          style={[styles.defaultLayout, styles.noToolbar, { backgroundColor: '#999999' }]}
           barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
           onBarCodeRead={(result) => {
             if (!isScanned && result.type === RNCamera.Constants.BarCodeType.qr) {
@@ -55,7 +56,9 @@ class QRScan extends React.Component {
             
             return (
               <View
-                style={styles.defaultLayout}
+                style={{
+                  backgroundColor: colors.transparent,
+                }}
               >
                 <Text
                   style={[styles.headText]}

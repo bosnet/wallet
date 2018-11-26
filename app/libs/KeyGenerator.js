@@ -192,7 +192,7 @@ const createRestoreKey = async (secretKey, password) => {
 
 const changeRestoreKey = async (account, prevPassword, password) => {
   // const secretKey = AES.decrypt(, prevPassword);
-  const secretKey = decryptWallet(password, account.secretSeed);
+  const secretKey = decryptWallet(prevPassword, account.secretSeed);
 
   const secretSeed = encryptWallet(password, secretKey);
 

@@ -82,7 +82,7 @@ const Settings = {
     HEAD_TEXT: '이 정보는 서비스 품질 향상을 위해서만 사용되며, 참여를 원치 않을 경우 거부하실 수 있습니다.',
     LABEL_FIREBASE: '파이어베이스',
     TEXT_FIREBASE: '비정상 종료 되었을 때 오류 정보를 서버로 자동 전송하며 서비스 개선에 참여합니다.',
-    NOTI_FIREBASE: '전송정보 : Device, OS 버전, App 버전, 오류관련 내용',
+    NOTI_FIREBASE: '전송정보 : Device, OS 버전, App 버전, 오류관련 내용.',
   },
   SetSebakEndpoint: {
     TITLE: 'SEBAK Endpoint 설정',

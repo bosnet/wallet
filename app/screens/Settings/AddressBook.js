@@ -79,6 +79,9 @@ class AddressBook extends React.Component {
     const Strings = strings[settings.language].Settings.AddressBook;
 
     return (
+      // <View
+      //   style={{ marginLeft: -24 }}
+      // >
       <ItemList
         listType={types.ListType.FLAT}
         listData={{
@@ -88,6 +91,7 @@ class AddressBook extends React.Component {
           Strings.NOTI_NO_ADDRESS
         }
       />
+      // </View>
     );
   }
 

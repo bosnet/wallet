@@ -38,7 +38,7 @@ const Transactions = {
   },
   SelectWithdraw: {
     TITLE: 'Withdrawal account',
-    NOTI_NO_ADDRESS: 'There are no valid withdrawal accounts',
+    NOTI_NO_ADDRESS: 'There are no valid withdrawal accounts.',
     BACK_BUTTON: 'Cancel',
     BUTTON_TEXT_OK: 'Select',
   },
@@ -96,13 +96,13 @@ const Transactions = {
 
     // TAB 1
     MyAccounts: {
-      NOTI_NO_ADDRESS: 'My account is nonexistent',
+      NOTI_NO_ADDRESS: 'My account is nonexistent.',
       BUTTON_TEXT_SELECT: 'Select',
     },
 
     // TAB 2
     AddressBook: {
-      NOTI_NO_ADDRESS: 'Accounts not register yet',
+      NOTI_NO_ADDRESS: 'Accounts not register yet.',
       BUTTON_TEXT_SELECT: 'Select',
     },
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
-import { SEREVER_ADDR, ANGELBOT_ADDR, NETWORK_ID } from '../../config/transactionConfig';
+import { TESTNET_ADDR, ANGELBOT_ADDR, NETWORK_ID } from '../../config/transactionConfig';
 
 import { Theme as StatusBarTheme, AppStatusBar } from '../../components/StatusBar';
 import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
@@ -43,7 +43,7 @@ class SetSebakEndpoint extends React.Component {
   componentDidMount() {
     const { settings } = this.props;
 
-    this.sebak.getWrappedInstance().setText(settings.sebakURL ? settings.sebakURL : SEREVER_ADDR);
+    this.sebak.getWrappedInstance().setText(settings.sebakURL ? settings.sebakURL : TESTNET_ADDR);
     this.nid.getWrappedInstance().setText(settings.networkId ? settings.networkId : NETWORK_ID);
     this.angelbot.getWrappedInstance().setText(settings.angelbotURL ? settings.angelbotURL : ANGELBOT_ADDR);
   }

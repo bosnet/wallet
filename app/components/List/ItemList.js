@@ -37,8 +37,8 @@ const ItemList = ({ listType, listData, noDataText, onScrollEndDrag }) => {
           <View
             style={{
               flexDirection: 'row',
-              marginTop: 50,
               paddingRight: 30,
+              marginTop: 20,
               justifyContent: 'center',
               alignItems: 'stretch',
               alignSelf: 'center',

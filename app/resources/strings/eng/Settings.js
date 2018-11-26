@@ -82,7 +82,7 @@ const Settings = {
     HEAD_TEXT: 'This information is only used to improve the quality of the service. You can opt out if you do not want to participate.',
     LABEL_FIREBASE: 'Firebase',
     TEXT_FIREBASE: 'Error information will be sent to the server automatically when the service ends abnormally, and be used in service improvement.',
-    NOTI_FIREBASE: 'Transfer information : device, os version, app version, error related contents',
+    NOTI_FIREBASE: 'Transfer information : device, os version, app version, error related contents.',
   },
   SetSebakEndpoint: {
     TITLE: 'SEBAK Endpoint setting',
