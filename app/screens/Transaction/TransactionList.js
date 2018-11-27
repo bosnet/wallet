@@ -16,10 +16,14 @@ import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 import { BalancePanel } from '../../components/Panel';
 import { PanelButton, LongButton } from '../../components/Button';
 import { Navigation as NavAction, Accounts as AccountsAction } from '../../actions';
-import { retrieveAccount, retrieveTransactions } from '../../libs/Transactions';
+import { retrieveAccount, retrieveTransactions, retrieveMoreTx } from '../../libs/Transactions';
 import { ItemList } from '../../components/List';
 import AndroidBackHandler from '../../AndroidBackHandler';
-
+import { USE_TESTNET } from '../../config/AppConfig';
+import {
+  TESTNET_ADDR,
+  MAINNET_ADDR,
+} from '../../config/transactionConfig';
 
 const formatDate = (rawDate) => {
   const d = new Date(rawDate);
@@ -58,11 +62,13 @@ class TransactionList extends React.Component {
       transactions: [],
       isValid: false,
       page: 0,
+      prev: null,
     };
 
     this.renderNotValid = this.renderNotValid.bind(this);
     this.updateAccountData = this.updateAccountData.bind(this);
     this.renderTransactionList = this.renderTransactionList.bind(this);
+    this.updateMore = this.updateMore.bind(this);
   }
 
   componentDidMount() {
@@ -126,7 +132,7 @@ class TransactionList extends React.Component {
         });
       });
 
-    retrieveTransactions(account.address, 100)
+    retrieveTransactions(account.address, 10)
       .then((results) => {
 
         if (results.status === 404) {
@@ -139,7 +145,8 @@ class TransactionList extends React.Component {
         }
 
         const data = [];
-        results.forEach((result) => {
+        const { records, prev } = results;
+        records.forEach((result) => {
           const object = {
             type: types.ListItem.TRANSACTION,
             date: formatDate(result.date),
@@ -189,6 +196,78 @@ class TransactionList extends React.Component {
           transactions: data,
           isLoading: false,
           isLoaded: true,
+          prev,
+        });
+      });
+  }
+
+  updateMore() {
+    const { prev } = this.state;
+    retrieveMoreTx(prev)
+      .then((results) => {
+        const { account, transactions } = this.state;
+        const { accounts, addressBook } = this.props;
+        const { settings } = this.props;
+        const Strings = strings[settings.language].Transactions.TransactionList;
+
+        const data = [...transactions];
+        const { records, nextPrev } = results;
+
+        if (records && records.length > 0) {
+          records.forEach((result) => {
+            const object = {
+              type: types.ListItem.TRANSACTION,
+              date: formatDate(result.date),
+              txHash: result.txHash,
+              fee: result.fee,
+            };
+            if (result.source === account.address) { // 출금
+              const index = addressBook.map(e => e.address).indexOf(result.target);
+  
+              if (index >= 0) {
+                object.name = addressBook[index].name;
+              } else {
+                const accIndex = accounts.map(e => e.address).indexOf(result.target);
+  
+                if (accIndex >= 0) {
+                  object.name = accounts[accIndex].name;
+                } else {
+                  object.name = '';
+                }
+              }
+  
+              object.address = result.target;
+              object.amount = Number(-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+              object.textColor = colors.itemTextRed;
+            }
+  
+            if (result.target === account.address) { // 입금
+              if (result.type === 'create-account') {
+                object.title = Strings.LABEL_CREATED;
+              }
+              const index = addressBook.map(e => e.address).indexOf(result.source);
+              if (index >= 0) {
+                object.name = addressBook[index].name;
+              } else {
+                object.name = '';
+              }
+  
+              object.address = result.source;
+              object.textColor = colors.itemTextBlue;
+              object.amount = result.amount;
+            }
+            data.push(object);
+          });
+  
+          this.setState({
+            transactions: data,
+            prev: nextPrev,
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          prev: null,
         });
       });
   }
@@ -252,8 +331,11 @@ class TransactionList extends React.Component {
             const layoutMeasurement = event.nativeEvent.layoutMeasurement.height;
             const contentSize = event.nativeEvent.contentSize.height;
 
-            if (layoutMeasurement + contentOffset >= contentSize) {
+            // console.log(contentOffset, layoutMeasurement, contentSize);
+
+            if (layoutMeasurement + contentOffset >= contentSize - contentOffset / 2) {
               // console.log("end");
+              this.updateMore();
             }
           }}
         />

@@ -40,7 +40,7 @@ const validate = (text) => {
   }
 
   // 길이 확인
-  if (text.length < 8 || text.length > 16) {
+  if (text.length < 8) {
     return false;
   }
 

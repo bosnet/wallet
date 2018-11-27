@@ -5,7 +5,13 @@ import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
 import { USE_TESTNET } from '../config/AppConfig';
 
-import { TESTNET_ADDR, MAINNET_ADDR, NETWORK_ID, BOS_GON_RATE } from '../config/transactionConfig';
+import {
+  TESTNET_ADDR,
+  MAINNET_ADDR,
+  NETWORK_ID,
+  MAINNET_NETWORK_ID,
+  BOS_GON_RATE,
+} from '../config/transactionConfig';
 
 const makeRLPData = (type, body) => {
 
@@ -212,45 +218,55 @@ export const retrieveTransactions = (address, limit) => {
         amount: Number(e.body.amount / 10000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
       }));
 
-      return records;
+      const prev = data._links.prev.href;
+
+      return { records, prev };
     });
+};
 
-  // return fetch(`${url}/api/v1/accounts/${address}/transactions?limit=${limit}&reverse=true`, {
-  //   method: 'GET',
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
-  //   .then(response => response.json())
-  //   .then((data) => {
-  //     const promises = [];
+export const retrieveMoreTx = (prev) => {
+  if (!prev) throw Error("no More");
 
+  let url = USE_TESTNET && store.getState().settings.sebakURL
+    ? store.getState().settings.sebakURL
+    : TESTNET_ADDR;
 
-  //     if (data.status === 429) {
-  //       return {
-  //         status: 429,
-  //       };
-  //     }
+  if (!USE_TESTNET) url = MAINNET_ADDR;
 
-  //     const { records } = data._embedded;
+  return fetch(`${url}${prev}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then((data) => {
+      // console.log(data);
+      if (data.status) {
+        return [];
+      }
 
-  //     if (!records) return [];
+      let { records } = data._embedded;
 
-  //     records.forEach((item) => {
-  //       promises.push(retrieveOperations(item.hash, item.created, item.fee));
-  //     });
+      if (records && records.length > 0) {
+        records = records.map(e => ({
+          date: e.confirmed,
+          txHash: e.tx_hash,
+          fee: 0.001,
+          target: e.target,
+          source: e.source,
+          type: e.type,
+          amount: Number(e.body.amount / 10000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
+        }));
 
-  //     return Promise.all(promises);
-  //   })
-  //   .then((results) => {
-  //     const returnArray = [];
-  //     results.forEach((result) => {
-  //       returnArray.push(result);
-  //     });
+        const nextPrev = data._links.prev.href;
 
-  //     return returnArray;
-  //   });
+        return { records, nextPrev };
+      }
+
+      return [];
+    });
 };
 
 export const makeTransaction = (source, password, target, amount, type, lastSequenceId) => {
@@ -261,9 +277,11 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
 
   if (!USE_TESTNET) url = MAINNET_ADDR;
 
-  const nid = USE_TESTNET && store.getState().settings.networkId
+  let nid = USE_TESTNET && store.getState().settings.networkId
     ? store.getState().settings.networkId
     : NETWORK_ID;
+
+  if (!USE_TESTNET) nid = MAINNET_NETWORK_ID;
 
   let HType = 'payment';
   if (type === 'create') HType = 'create-account';

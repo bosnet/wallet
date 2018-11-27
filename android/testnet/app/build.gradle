@@ -101,7 +101,7 @@ android {
         applicationId "org.blockchainos.wallet.android.testnet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        versionCode 6
         versionName "0.1.0.RC2"
         ndk {
             abiFilters "armeabi-v7a", "x86"

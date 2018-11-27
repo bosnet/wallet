@@ -67,9 +67,9 @@ const Accounts = {
     TOAST_DUPLICATED_ADDRESS: 'This account setted up already',
 
     NOTICE1_RK: 'Password belongs to you only.',
-    NOTICE2_RK: 'You can not import your account when you lose the Secret Seed. So please use \'Import account using with the Secret Key\' menu.',
+    NOTICE2_RK: 'You can not import your account when you lose the Recovery Key. So please use \'Import account using with the Secret Key\' menu.',
     NOTICE1_SS: 'Secret Seed belongs to you only',
-    NOTICE2: 'You can not import your account when you lose the Secret Seed. So please use \'Import account using with the Secret Key\' menu',
+    NOTICE2: 'You can not import your account when you lose the Recovery Key. So please use \'Import account using with the Secret Key\' menu',
     NOTICE2_SS: 'You can not import your account when you lose the Secret Seed. So please use \'Import account using with the Recovery Key\' menu',
 
     BUTTON_TEXT: 'OK',
