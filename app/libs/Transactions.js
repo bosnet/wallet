@@ -78,7 +78,7 @@ export const retrieveAccounts = (accounts) => {
             returns.push({
               ...account,
               index,
-              balance: results[i].balance / BOS_GON_RATE,
+              balance: Number(results[i].balance / BOS_GON_RATE).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
             });
           } else {
             returns.push({
