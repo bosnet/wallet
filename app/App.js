@@ -5,6 +5,7 @@ import {
   View, Alert, BackHandler, Linking,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import BigNumber from 'bignumber.js';
 
 import strings from './resources/strings';
 
@@ -29,6 +30,8 @@ class App extends React.Component {
     this.state = {
       isLoaded: false,
     };
+    
+    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
   }
 
   componentDidMount() {

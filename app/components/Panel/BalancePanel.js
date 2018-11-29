@@ -4,6 +4,7 @@ import {
   View, Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 
 import styles from './styles';
 import strings from '../../resources/strings';
@@ -15,7 +16,7 @@ const BalancePanel = ({ text, settings }) => {
     <View style={styles.balancePanel}>
       <Text style={styles.balancePanelTitle}>BALANCE</Text>
       <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.balanceText}>{!isNaN(text) ? text : Strings.ON_DELAYING}</Text>
+        <Text style={styles.balanceText}>{!isNaN(text) ? new BigNumber(text).toFormat(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : Strings.ON_DELAYING}</Text>
         <Text style={styles.balanceUnit}>{!isNaN(text) ? 'BOS' : ''}</Text>
       </View>
     </View>

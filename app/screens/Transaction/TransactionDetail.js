@@ -67,13 +67,23 @@ class TransactionDetail extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_RECEIVED_AMOUNT}
-            text={item.amount}
+            text={
+              new BigNumber(item.amount)
+                .toFormat(7)
+                .replace(/[0]+$/, '')
+                .replace(/[.]+$/, '')
+            }
             type={types.TextArea.BALACNE}
             underline={false}
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={item.amount}
+            text={
+              new BigNumber(item.amount)
+                .toFormat(7)
+                .replace(/[0]+$/, '')
+                .replace(/[.]+$/, '')
+            }
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -108,7 +118,14 @@ class TransactionDetail extends React.Component {
         />
         <TextArea
           label={Strings.LABEL_SEND_AMOUNT}
-          text={new BigNumber(0).minus(item.amount).minus(item.fee).toString()}
+          text={
+            new BigNumber(0)
+              .minus(item.amount)
+              .minus(item.fee)
+              .toFormat(7)
+              .replace(/[0]+$/, '')
+              .replace(/[.]+$/, '')
+            }
           type={types.TextArea.BALACNE}
           underline={false}
         />
@@ -120,7 +137,13 @@ class TransactionDetail extends React.Component {
         />
         <TextArea
           label={Strings.LABEL_TOTAL}
-          text={new BigNumber(0).minus(item.amount).toString()}
+          text={
+            new BigNumber(0)
+              .minus(item.amount)
+              .toFormat(7)
+              .replace(/[0]+$/, '')
+              .replace(/[.]+$/, '')
+          }
           type={types.TextArea.BALACNE}
           underline={false}
         />

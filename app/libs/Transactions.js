@@ -1,6 +1,7 @@
 import sebakjs from 'sebakjs-util';
 import fetch from 'react-native-fetch-polyfill';
 import BigNumber from 'bignumber.js';
+import RNFS from 'react-native-fs';
 
 import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
@@ -185,7 +186,7 @@ export const retrieveOperations = (txHash, date, fee) => {
         fee: 0.001,
       };
 
-      console.log(JSON.stringify(data));
+      // console.log(JSON.stringify(data));
 
       return returnData;
     });
@@ -207,7 +208,7 @@ export const retrieveTransactions = (address, limit) => {
   })
     .then(response => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data.status) {
         return data;
       }
@@ -246,7 +247,7 @@ export const retrieveMoreTx = (prev) => {
   })
     .then(response => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data.status) {
         return [];
       }
@@ -310,7 +311,7 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
           },
           B: {
             target,
-            amount: (amount * BOS_GON_RATE).toFixed(0), // 소수점 오차떄문에 Fixed 후 replace으로 변경 필요
+            amount: new BigNumber(amount).multipliedBy(BOS_GON_RATE).toString(),
             // linked: '',
           },
         },
@@ -328,7 +329,18 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   body.H.hash = hash;
   body.H.signature = sig;
 
-  // console.log(JSON.stringify(body));
+  // File Logging
+  const path = `${RNFS.ExternalStorageDirectoryPath}/wallet_${new Date().getDate()}-${new Date().getHours()}${new Date().getMinutes()}.txt`;
+
+  // write the file
+  RNFS.appendFile(path, `\n\n${new Date().toLocaleString()}: Request Transaction!\n`, 'utf8')
+    .then(RNFS.appendFile(path, JSON.stringify(body), 'utf8'))
+    .then((success) => {
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+
 
   return fetch(`${url}/api/v1/transactions`, {
     method: 'POST',
@@ -345,7 +357,14 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
       return response.json();
     })
     .then((res) => {
-      // console.log(JSON.stringify(res));
+      RNFS.appendFile(path, `\n\n${new Date().toLocaleString()}: Transaction Response\n`, 'utf8')
+        .then(RNFS.appendFile(path, JSON.stringify(res), 'utf8'))
+        .then((success) => {
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+
 
       if (res.status !== 'submitted') {
         return ({

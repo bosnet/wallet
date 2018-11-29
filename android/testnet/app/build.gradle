@@ -166,6 +166,7 @@ dependencies {
     }
     implementation project(':react-native-appstore-version-checker')
     implementation project(':react-native-device-info')
+    implementation project(':react-native-fs')
 }
 
 // Run this once to be able to run the application with BUCK

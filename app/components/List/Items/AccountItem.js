@@ -4,6 +4,7 @@ import {
   Text, Image, View, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import { colors } from '../../../resources';
@@ -63,7 +64,7 @@ const AccountItem = ({
         </Text>
       </View>
       <View style={styles.accountItemContent}>
-        <Text style={styles.accountBalance}>{ !isNaN(account.balance) ? account.balance : Strings.ON_DELAYING}</Text>
+        <Text style={styles.accountBalance}>{ !isNaN(account.balance) ? new BigNumber(account.balance).toFormat(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : Strings.ON_DELAYING}</Text>
         <Text style={styles.accountUnit}>{ !isNaN(account.balance) ? 'BOS' : ''}</Text>
       </View>
     </TouchableOpacity>

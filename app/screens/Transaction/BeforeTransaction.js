@@ -204,7 +204,12 @@ class BeforeTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_AMOUNT}
-            text={amount}
+            text={
+              new BigNumber(amount)
+                .toFormat(7)
+                .replace(/[0]+$/, '')
+                .replace(/[.]+$/, '')
+            }
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -216,7 +221,13 @@ class BeforeTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={new BigNumber(amount).plus(fee).toString()}
+            text={
+              new BigNumber(amount)
+                .plus(fee)
+                .toFormat(7)
+                .replace(/[0]+$/, '')
+                .replace(/[.]+$/, '')
+            }
             type={types.TextArea.BALACNE}
             underline={false}
           />

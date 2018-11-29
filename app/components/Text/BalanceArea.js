@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 
 import styles from './styles';
 import { colors } from '../../resources';
@@ -38,7 +39,7 @@ const BalanceArea = ({
         </Text>
       </View>
       <View style={styles.balanceContentArea}>
-        <Text style={[styles.balanceAmount, { color: textColor }]}>{!isNaN(text) ? text : Strings.ON_DELAYING}</Text>
+        <Text style={[styles.balanceAmount, { color: textColor }]}>{!isNaN(text) ? new BigNumber(text).toFormat(7) : Strings.ON_DELAYING}</Text>
         <Text style={[styles.balanceUnit, { color: textColor }]}>{!isNaN(text) ? 'BOS' : ''}</Text>
       </View>
     </View>

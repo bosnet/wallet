@@ -4,6 +4,7 @@ import android.app.Application;
 
 import org.blockchainos.wallet.android.testnet.NativeFunctions.NativeFunctionsPackage;
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.masteratul.RNAppstoreVersionCheckerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+            new RNFSPackage(),
             new RNDeviceInfo(),
             new RNAppstoreVersionCheckerPackage(),
               new SplashScreenReactPackage(),

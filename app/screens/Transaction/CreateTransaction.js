@@ -97,7 +97,7 @@ class CreateTransaction extends React.Component {
           actions={[
             {
               text: Strings.BUTTON_TEXT_OK,
-              action: NavAction.resetToList(data.account),
+              action: NavAction.resetScreen(NavAction.Screens.HOME),
             },
           ]}
         />
@@ -110,12 +110,12 @@ class CreateTransaction extends React.Component {
           actions={[
             {
               text: Strings.BUTTON_TEXT_OK,
-              callback: this.callbackOkButton,
+              action: NavAction.resetScreen(NavAction.Screens.HOME),
             },
             {
               text: Strings.BUTTON_TEXT_ADD,
               callback: () => {
-                doAction(NavAction.resetToContacts());
+                doAction(NavAction.resetScreen(NavAction.Screens.HOME));
                 doAction(NavAction.pushScreen(
                   NavAction.Screens.MODIFY_ADDRESS,
                   {
@@ -137,7 +137,7 @@ class CreateTransaction extends React.Component {
         actions={[
           {
             text: Strings.BUTTON_TEXT_OK,
-            action: NavAction.resetToList(data.account),
+            action: NavAction.resetScreen(NavAction.Screens.HOME),
           },
         ]}
       />
@@ -173,7 +173,12 @@ class CreateTransaction extends React.Component {
           />
           <TextArea
             label={(data.status === 200) ? Strings.LABEL_AMOUNT : Strings.LABEL_FAILED_AMOUNT}
-            text={data.amount}
+            text={
+              new BigNumber(data.amount)
+                .toFormat(7)
+                .replace(/[0]+$/, '')
+                .replace(/[.]+$/, '')
+            }
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -185,7 +190,15 @@ class CreateTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={(data.status === 200) ? new BigNumber(data.amount).plus(data.fee).toString() : 0}
+            text={
+              (data.status === 200)
+                ? new BigNumber(data.amount)
+                  .plus(data.fee)
+                  .toFormat(7)
+                  .replace(/[0]+$/, '')
+                  .replace(/[.]+$/, '')
+                : 0
+              }
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -193,7 +206,7 @@ class CreateTransaction extends React.Component {
         </ScrollView>
         {this.renderButtons()}
         <AndroidBackHandler
-          action={NavAction.resetToList(data.account)}
+          action={NavAction.resetScreen(NavAction.Screens.HOME)}
         />
       </View>
     );

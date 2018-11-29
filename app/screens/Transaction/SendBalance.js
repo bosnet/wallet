@@ -172,9 +172,7 @@ class SendBalance extends React.Component {
       });
       return false;
     }
-    console.log(new BigNumber(text).toString())
-    console.log(new BigNumber(maxSendable).toString())
-    console.log(new BigNumber(text).minus(maxSendable).plus('0.001').toString())
+    
     if (new BigNumber(text).minus(maxSendable).plus('0.001').gt('0')) {
       this.setState({
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_RANGE,

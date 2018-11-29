@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import { colors } from '../../../resources';
@@ -32,7 +33,7 @@ const TransactionItem = ({ item, textColor, doAction }) => (
     </Text>
     <View style={styles.transactionAccountArea}>
       <Text style={[styles.transactionAmount, { color: textColor }]}>
-        {item.amount}
+        {new BigNumber(item.amount).toFormat(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
       </Text>
       <Text style={[styles.transactionUnit]}>
         BOS

@@ -4,6 +4,7 @@ import {
   TouchableOpacity, View,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 
 import { colors, types } from '../../../resources';
 import styles from '../styles';
@@ -66,7 +67,12 @@ class SelectableAccountItem extends React.Component {
           />
           <TextArea
             label={Strings.WITHDRAWAL_ITEM_LABEL}
-            text={balance}
+            text={
+              new BigNumber(balance)
+                .toFormat(7)
+                .replace(/[0]+$/, '')
+                .replace(/[.]+$/, '')
+            }
             type={types.TextArea.BALACNE}
             underline={false}
           />
