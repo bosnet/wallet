@@ -45,7 +45,7 @@ const Settings = {
   },
   ModifyAddress: {
     TITLE_ADD: 'Add Public Address',
-    TITLE_MODIFY: 'Change contact information',
+    TITLE_MODIFY: 'Edit',
     BACK_BUTTON: 'Close',
 
     LABEL_NAME: 'Name',

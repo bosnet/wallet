@@ -303,6 +303,9 @@ class AuthChangePassword extends React.Component {
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.AuthChangePassword;
 
+    let noti = Strings.NOTICE1;
+    if ( mode === MODE_SECURE_KEY ) noti = Strings.NOTICE1_SS;
+
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.PURPLE} />
@@ -339,7 +342,7 @@ class AuthChangePassword extends React.Component {
         <View style={styles.footer}>
           <NotiPanel
             texts={[
-              next === NavAction.Screens.SET_PASSWORD ? Strings.NOTICE_CHANGE1 : Strings.NOTICE1,
+              next === NavAction.Screens.SET_PASSWORD ? Strings.NOTICE_CHANGE1 : noti,
               next === NavAction.Screens.SET_PASSWORD ? Strings.NOTICE_CHANGE2 : null,
             ]}
           />

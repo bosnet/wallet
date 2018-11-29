@@ -122,7 +122,8 @@ const Accounts = {
     ALERT_BUTTON_OK: 'OK',
 
     BACK_KEY_TEXT: 'Cancel',
-    NOTICE1: 'Password belongs to you only',
+    NOTICE1: 'Password belongs to you only.',
+    NOTICE1_SS: 'Secret Seed belongs to you only.',
     NOTICE2: 'You can find new Recovery Key in settings',
 
     NOTICE_CHANGE1: 'Changing the password will remove the existing Recovery Key.',

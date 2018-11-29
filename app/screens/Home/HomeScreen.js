@@ -33,7 +33,7 @@ class HomeScreen extends React.Component {
       isLoading: false,
       timer: null,
       counter: 60,
-      totalBalance: NaN,
+      totalBalance: '',
     };
 
     this.buildAccountList = this.buildAccountList.bind(this);

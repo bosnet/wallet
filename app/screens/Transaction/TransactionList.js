@@ -61,9 +61,11 @@ class TransactionList extends React.Component {
       account,
       transactions: [],
       isValid: false,
-      page: 0,
       prev: null,
+      next: null,
     };
+
+    this.interval = null;
 
     this.renderNotValid = this.renderNotValid.bind(this);
     this.updateAccountData = this.updateAccountData.bind(this);
@@ -72,7 +74,128 @@ class TransactionList extends React.Component {
   }
 
   componentDidMount() {
-    const { updateFlags, doAction } = this.props;
+    const { navigation, doAction, accounts } = this.props;
+    const { settings } = this.props;
+    const Strings = strings[settings.language].Transactions.TransactionList;
+
+    this.interval = setInterval(() => {
+      const { account, next } = this.state;
+    
+      if (!navigation.isFocused()) return;
+
+      const { isLoaded } = this.state;
+
+      if (!isLoaded) {
+        this.updateAccountData();
+      } else {
+        retrieveAccount(account.address)
+          .then((data) => {
+            const index = accounts.map(e => e.address).indexOf(account.address);
+    
+            const storedData = accounts[index];
+            storedData.index = index;
+    
+            if (data.status === 429) {
+              ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+              this.setState({
+                isLoaded: false,
+              });
+              storedData.balance = NaN;
+            }
+    
+            if (data.status !== 404) {
+              this.setState({
+                isValid: true,
+              });
+              storedData.balance = data.balance;
+            } 
+            
+            if (!data.status) {
+              this.setState({
+                isValid: false,
+              });
+              storedData.balance = data.balance;
+            }
+    
+            this.setState({
+              account: storedData,
+            });
+          })
+          .catch(() => {
+            this.setState({
+              isLoaded: false,
+            });
+            storedData.balance = NaN;
+          });
+
+        retrieveMoreTx(next)
+          .then((results) => {
+            // console.log(results);
+            const { account, transactions } = this.state;
+            const { accounts, addressBook } = this.props;
+            const { settings } = this.props;
+            const Strings = strings[settings.language].Transactions.TransactionList;
+
+            const data = [...transactions];
+            const { records, nextMore } = results;
+
+            if (records && records.length > 0) {
+              records.forEach((result) => {
+                const object = {
+                  type: types.ListItem.TRANSACTION,
+                  date: formatDate(result.date),
+                  txHash: result.txHash,
+                  fee: result.fee,
+                };
+                if (result.source === account.address) { // 출금
+                  const index = addressBook.map(e => e.address).indexOf(result.target);
+
+                  if (index >= 0) {
+                    object.name = addressBook[index].name;
+                  } else {
+                    const accIndex = accounts.map(e => e.address).indexOf(result.target);
+
+                    if (accIndex >= 0) {
+                      object.name = accounts[accIndex].name;
+                    } else {
+                      object.name = '';
+                    }
+                  }
+
+                  object.address = result.target;
+                  object.amount = Number(-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+                  object.textColor = colors.itemTextRed;
+                }
+
+                if (result.target === account.address) { // 입금
+                  if (result.type === 'create-account') {
+                    object.title = Strings.LABEL_CREATED;
+                  }
+                  const index = addressBook.map(e => e.address).indexOf(result.source);
+                  if (index >= 0) {
+                    object.name = addressBook[index].name;
+                  } else {
+                    object.name = '';
+                  }
+
+                  object.address = result.source;
+                  object.textColor = colors.itemTextBlue;
+                  object.amount = result.amount;
+                }
+                data.unshift(object);
+              });
+
+              this.setState({
+                transactions: data,
+                next: nextMore,
+              });
+            }
+          })
+          .catch((e) => {
+
+          });
+      }
+    }, 3000);
 
     doAction(AccountsAction.addUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
   }
@@ -80,6 +203,8 @@ class TransactionList extends React.Component {
   componentWillUnmount() {
     const { updateFlags, doAction } = this.props;
     doAction(AccountsAction.removeUpdateFlag(NavAction.Screens.TRANSACTION_LIST));
+
+    clearInterval(this.interval);
   }
 
   updateAccountData(updateFlag) {
@@ -88,6 +213,8 @@ class TransactionList extends React.Component {
 
     const { settings } = this.props;
     const Strings = strings[settings.language].Transactions.TransactionList;
+
+    // console.log("updateAccountData");
 
     if (!navigation.isFocused()) return;
 
@@ -104,6 +231,9 @@ class TransactionList extends React.Component {
         const index = accounts.map(e => e.address).indexOf(account.address);
 
         const storedData = accounts[index];
+
+        if (!storedData) return;
+
         storedData.index = index;
 
         if (data.status === 429) {
@@ -119,10 +249,11 @@ class TransactionList extends React.Component {
             isValid: true,
           });
           storedData.balance = data.balance;
-        } else {
+        } 
+        
+        if (!data.status) {
           this.setState({
             isValid: false,
-            isLoaded: true,
           });
           storedData.balance = data.balance;
         }
@@ -130,6 +261,12 @@ class TransactionList extends React.Component {
         this.setState({
           account: storedData,
         });
+      })
+      .catch(() => {
+        this.setState({
+          isLoaded: false,
+        });
+        storedData.balance = NaN;
       });
 
     retrieveTransactions(account.address, 10)
@@ -145,7 +282,7 @@ class TransactionList extends React.Component {
         }
 
         const data = [];
-        const { records, prev } = results;
+        const { records, prev, next } = results;
         records.forEach((result) => {
           const object = {
             type: types.ListItem.TRANSACTION,
@@ -181,7 +318,13 @@ class TransactionList extends React.Component {
             if (index >= 0) {
               object.name = addressBook[index].name;
             } else {
-              object.name = '';
+              const accIndex = accounts.map(e => e.address).indexOf(result.source);
+
+              if (accIndex >= 0) {
+                object.name = accounts[accIndex].name;
+              } else {
+                object.name = '';
+              }
             }
 
             object.address = result.source;
@@ -197,7 +340,13 @@ class TransactionList extends React.Component {
           isLoading: false,
           isLoaded: true,
           prev,
+          next,
         });
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });    
       });
   }
 

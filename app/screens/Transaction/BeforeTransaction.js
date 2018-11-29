@@ -27,6 +27,7 @@ class BeforeTransaction extends React.Component {
       target: navigation.getParam('target', null),
       amount,
       fee: TRANSACTION_FEE,
+      isRequested: false,
     };
 
     this.doTransaction = this.doTransaction.bind(this);
@@ -51,10 +52,15 @@ class BeforeTransaction extends React.Component {
   }
 
   doTransaction(password) {
-    const { account } = this.state;
+    const { account, isRequested } = this.state;
     const { target, amount, fee } = this.state;
     const { doAction } = this.props;
 
+    if (isRequested) return;
+
+    this.setState({
+      isRequested: true,
+    });
 
     new retrieveAccount(account.address)
       .then((accountData) => {

@@ -30,6 +30,7 @@ const ItemList = ({ listType, listData, noDataText, onScrollEndDrag }) => {
               renderItem={FlatItem}
               keyExtractor={(item, index) => index.toString()}
               onScrollEndDrag={onScrollEndDrag}
+              overScrollMode="always"
             />
           );
         }

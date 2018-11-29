@@ -219,14 +219,13 @@ export const retrieveTransactions = (address, limit) => {
       }));
 
       const prev = data._links.prev.href;
+      const next = data._links.next.href;
 
-      return { records, prev };
+      return { records, prev, next };
     });
 };
 
 export const retrieveMoreTx = (prev) => {
-  if (!prev) throw Error("no More");
-
   let url = USE_TESTNET && store.getState().settings.sebakURL
     ? store.getState().settings.sebakURL
     : TESTNET_ADDR;
@@ -261,8 +260,9 @@ export const retrieveMoreTx = (prev) => {
         }));
 
         const nextPrev = data._links.prev.href;
+        const nextMore = data._links.next.href;
 
-        return { records, nextPrev };
+        return { records, nextPrev, nextMore };
       }
 
       return [];
