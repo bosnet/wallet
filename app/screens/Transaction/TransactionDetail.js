@@ -9,6 +9,7 @@ import {
   Clipboard,
 } from 'react-native';
 import { connect } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import { types } from '../../resources';
@@ -66,13 +67,13 @@ class TransactionDetail extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_RECEIVED_AMOUNT}
-            text={Number(item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+            text={item.amount}
             type={types.TextArea.BALACNE}
             underline={false}
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={Number(item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+            text={item.amount}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -107,7 +108,7 @@ class TransactionDetail extends React.Component {
         />
         <TextArea
           label={Strings.LABEL_SEND_AMOUNT}
-          text={Number(-(item.amount) - (item.fee)).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+          text={new BigNumber(0).minus(item.amount).minus(item.fee).toString()}
           type={types.TextArea.BALACNE}
           underline={false}
         />
@@ -119,7 +120,7 @@ class TransactionDetail extends React.Component {
         />
         <TextArea
           label={Strings.LABEL_TOTAL}
-          text={Number(-item.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+          text={new BigNumber(0).minus(item.amount).toString()}
           type={types.TextArea.BALACNE}
           underline={false}
         />

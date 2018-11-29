@@ -48,6 +48,7 @@
 		6480DA9D563147B7A044B72D /* libUdpSockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E9A2B20F194074B6DA2F2B /* libUdpSockets.a */; };
 		F1028D53A538426CB86695F7 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4BA63617A3E46F2B2D5017C /* libRNDeviceInfo.a */; };
 		CEB578848A78492FA82DA2DE /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 579234FE3E2F4F82A7D757AC /* libRNDeviceInfo-tvOS.a */; };
+		353ECD775D314448A88E58E2 /* libRNReactLogging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3A802D6FB074A62ABAFB268 /* libRNReactLogging.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -373,6 +374,8 @@
 		686D2618C2884A03AA50B489 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A4BA63617A3E46F2B2D5017C /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		579234FE3E2F4F82A7D757AC /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		337D3C20809E4D08BEFE0CF2 /* RNReactLogging.xcodeproj */ = {isa = PBXFileReference; name = "RNReactLogging.xcodeproj"; path = "../node_modules/react-native-file-log/ios/RNReactLogging.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		B3A802D6FB074A62ABAFB268 /* libRNReactLogging.a */ = {isa = PBXFileReference; name = "libRNReactLogging.a"; path = "libRNReactLogging.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,6 +413,7 @@
 				53BBB49FA01E441290EBDB38 /* libTcpSockets.a in Frameworks */,
 				6480DA9D563147B7A044B72D /* libUdpSockets.a in Frameworks */,
 				F1028D53A538426CB86695F7 /* libRNDeviceInfo.a in Frameworks */,
+				353ECD775D314448A88E58E2 /* libRNReactLogging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +611,7 @@
 				142DDB68ED16472BA977550B /* TcpSockets.xcodeproj */,
 				67A5E95AA9C444548D80B0EA /* UdpSockets.xcodeproj */,
 				686D2618C2884A03AA50B489 /* RNDeviceInfo.xcodeproj */,
+				337D3C20809E4D08BEFE0CF2 /* RNReactLogging.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1244,6 +1249,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1256,6 +1262,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Debug;
@@ -1287,6 +1294,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1299,6 +1307,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Release;
@@ -1329,6 +1338,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Debug;
@@ -1358,6 +1368,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Release;
@@ -1398,6 +1409,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1410,6 +1422,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Debug;
@@ -1450,6 +1463,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1462,6 +1476,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Release;
@@ -1501,6 +1516,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1513,6 +1529,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Debug;
@@ -1552,6 +1569,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1564,6 +1582,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-tcp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-file-log\ios",
 				);
 			};
 			name = Release;

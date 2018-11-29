@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ToastAndroid, Keyboard, ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -171,8 +172,10 @@ class SendBalance extends React.Component {
       });
       return false;
     }
-
-    if (parseFloat(text) > Number(maxSendable) - 0.001) {
+    console.log(new BigNumber(text).toString())
+    console.log(new BigNumber(maxSendable).toString())
+    console.log(new BigNumber(text).minus(maxSendable).plus('0.001').toString())
+    if (new BigNumber(text).minus(maxSendable).plus('0.001').gt('0')) {
       this.setState({
         balanceNotiText: Strings.HELPER_BALANCE_ERROR_RANGE,
         balanceNotiColor: colors.alertTextRed,

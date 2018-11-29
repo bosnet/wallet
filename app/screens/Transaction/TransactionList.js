@@ -6,6 +6,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import { connect } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import { colors, types } from '../../resources';
@@ -94,27 +95,23 @@ class TransactionList extends React.Component {
     
             const storedData = accounts[index];
             storedData.index = index;
-    
-            if (data.status === 429) {
+        
+            if (data.status === 200) {
+              this.setState({
+                isValid: true,
+              });
+              storedData.balance = data.balance;
+            } else if (data.status === 404) {
+              this.setState({
+                isValid: false,
+              });
+              storedData.balance = data.balance;
+            } else {
               ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
               this.setState({
                 isLoaded: false,
               });
               storedData.balance = NaN;
-            }
-    
-            if (data.status !== 404) {
-              this.setState({
-                isValid: true,
-              });
-              storedData.balance = data.balance;
-            } 
-            
-            if (!data.status) {
-              this.setState({
-                isValid: false,
-              });
-              storedData.balance = data.balance;
             }
     
             this.setState({
@@ -163,7 +160,7 @@ class TransactionList extends React.Component {
                   }
 
                   object.address = result.target;
-                  object.amount = Number(-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+                  object.amount = new BigNumber(0).minus(result.amount).minus(result.fee).toString();
                   object.textColor = colors.itemTextRed;
                 }
 
@@ -236,26 +233,23 @@ class TransactionList extends React.Component {
 
         storedData.index = index;
 
-        if (data.status === 429) {
+        if (data.status === 200) {
+          this.setState({
+            isValid: true,
+          });
+          storedData.balance = data.balance;
+        } else if (data.status === 404) {
+          this.setState({
+            isValid: false,
+            isLoaded: true,
+          });
+          storedData.balance = data.balance;
+        } else {
           ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
           this.setState({
             isLoaded: false,
           });
           storedData.balance = NaN;
-        }
-
-        if (data.status !== 404) {
-          this.setState({
-            isValid: true,
-          });
-          storedData.balance = data.balance;
-        } 
-        
-        if (!data.status) {
-          this.setState({
-            isValid: false,
-          });
-          storedData.balance = data.balance;
         }
 
         this.setState({
@@ -306,7 +300,7 @@ class TransactionList extends React.Component {
             }
 
             object.address = result.target;
-            object.amount = Number(-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+            object.amount = new BigNumber(0).minus(result.amount).minus(result.fee).toString();
             object.textColor = colors.itemTextRed;
           }
 
@@ -386,7 +380,7 @@ class TransactionList extends React.Component {
               }
   
               object.address = result.target;
-              object.amount = Number(-result.amount - result.fee).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '');
+              object.amount = new BigNumber(0).minus(result.amount).minus(result.fee).toString();
               object.textColor = colors.itemTextRed;
             }
   

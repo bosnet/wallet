@@ -66,7 +66,7 @@ class SelectableAccountItem extends React.Component {
           />
           <TextArea
             label={Strings.WITHDRAWAL_ITEM_LABEL}
-            text={(balance > 0) ? Number(balance).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : 0}
+            text={balance}
             type={types.TextArea.BALACNE}
             underline={false}
           />

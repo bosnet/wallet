@@ -84,7 +84,7 @@ class SettingsScreen extends React.Component {
                     {
                       text: Strings.FAQ,
                       type: types.ListItem.EX_LINK,
-                      value: 'https://boscoin.io/faq/',
+                      value: 'https://boscoin.io/wallet/',
                     },
                     {
                       text: Strings.WARNING,

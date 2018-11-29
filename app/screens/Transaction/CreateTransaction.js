@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -172,7 +173,7 @@ class CreateTransaction extends React.Component {
           />
           <TextArea
             label={(data.status === 200) ? Strings.LABEL_AMOUNT : Strings.LABEL_FAILED_AMOUNT}
-            text={data.amount ? Number(data.amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : 0}
+            text={data.amount}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -184,7 +185,7 @@ class CreateTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={(data.status === 200) ? (Number(data.amount) + Number(data.fee)).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '') : 0}
+            text={(data.status === 200) ? new BigNumber(data.amount).plus(data.fee).toString() : 0}
             type={types.TextArea.BALACNE}
             underline={false}
           />

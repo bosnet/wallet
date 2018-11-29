@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -203,7 +204,7 @@ class BeforeTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_AMOUNT}
-            text={Number(amount).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+            text={amount}
             type={types.TextArea.BALACNE}
             underline={false}
           />
@@ -215,7 +216,7 @@ class BeforeTransaction extends React.Component {
           />
           <TextArea
             label={Strings.LABEL_TOTAL}
-            text={(Number(amount) + Number(fee)).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, '')}
+            text={new BigNumber(amount).plus(fee).toString()}
             type={types.TextArea.BALACNE}
             underline={false}
           />

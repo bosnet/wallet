@@ -1,5 +1,6 @@
 import sebakjs from 'sebakjs-util';
 import fetch from 'react-native-fetch-polyfill';
+import BigNumber from 'bignumber.js';
 
 import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
@@ -78,7 +79,11 @@ export const retrieveAccounts = (accounts) => {
             returns.push({
               ...account,
               index,
-              balance: Number(results[i].balance / BOS_GON_RATE).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
+              balance: new BigNumber(results[i].balance)
+                .div(BOS_GON_RATE).toString(),
+                // .toFixed(7)
+                // .replace(/[0]+$/, '')
+                // .replace(/[.]+$/, ''),
             });
           } else {
             returns.push({
@@ -130,7 +135,7 @@ export const retrieveAccount = (address) => {
           return {
             status: 200,
             ...data,
-            balance: Number(data.balance) / BOS_GON_RATE,
+            balance: new BigNumber(data.balance).div(BOS_GON_RATE).toString(),
           };
         }
 
@@ -173,14 +178,14 @@ export const retrieveOperations = (txHash, date, fee) => {
       const returnData = {
         source: records.source,
         target: records.body.target,
-        amount: Number((records.body.amount) / BOS_GON_RATE),
+        amount: new BigNumber(records.body.amount).div(BOS_GON_RATE).toString(),
         type: records.type,
         txHash,
         date,
-        fee: fee / BOS_GON_RATE,
+        fee: 0.001,
       };
 
-      // console.log(JSON.stringify(data));
+      console.log(JSON.stringify(data));
 
       return returnData;
     });
@@ -202,7 +207,7 @@ export const retrieveTransactions = (address, limit) => {
   })
     .then(response => response.json())
     .then((data) => {
-      // console.log(data);
+      console.log(data);
       if (data.status) {
         return data;
       }
@@ -215,7 +220,7 @@ export const retrieveTransactions = (address, limit) => {
         target: e.target,
         source: e.source,
         type: e.type,
-        amount: Number(e.body.amount / 10000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
+        amount: new BigNumber(e.body.amount).div(BOS_GON_RATE).toString(),
       }));
 
       const prev = data._links.prev.href;
@@ -241,7 +246,7 @@ export const retrieveMoreTx = (prev) => {
   })
     .then(response => response.json())
     .then((data) => {
-      // console.log(data);
+      console.log(data);
       if (data.status) {
         return [];
       }
@@ -256,7 +261,7 @@ export const retrieveMoreTx = (prev) => {
           target: e.target,
           source: e.source,
           type: e.type,
-          amount: Number(e.body.amount / 10000000).toFixed(7).replace(/[0]+$/, '').replace(/[.]+$/, ''),
+          amount: new BigNumber(e.body.amount).div(10000000).toString(),
         }));
 
         const nextPrev = data._links.prev.href;
@@ -354,8 +359,8 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
         status: 200,
         transactionId: res.hash,
         source: res.message.source,
-        fee: Number(res.message.fee) / BOS_GON_RATE,
-        amount: Number(res.message.operations[0].B.amount) / BOS_GON_RATE,
+        fee: 0.001,
+        amount: new BigNumber(res.message.operations[0].B.amount).div(BOS_GON_RATE).toString(),
         target: res.message.operations[0].B.target,
       });
     });

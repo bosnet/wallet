@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import BigNumber from 'bignumber.js';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -80,19 +81,16 @@ class HomeScreen extends React.Component {
     // 튜토리얼 표시
     if (!accounts || accounts.length === 0) showModal();
 
-    const lastList = list;
-    const lastTotalBalance = totalBalance;
-
     this.setState({
       list: accounts,
     });
 
     retrieveAccounts(accounts)
       .then((results) => {
-        let total = 0;
+        let total = new BigNumber(0);
 
         results.forEach((e) => {
-          total += Number(e.balance);
+          total = total.plus(e.balance);
         });
 
         this.setState({
