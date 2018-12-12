@@ -1,7 +1,6 @@
 import sebakjs from 'sebakjs-util';
 import fetch from 'react-native-fetch-polyfill';
 import BigNumber from 'bignumber.js';
-import RNFS from 'react-native-fs';
 
 import { store } from '../App';
 import { decryptWallet } from './KeyGenerator';
@@ -329,19 +328,6 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
   body.H.hash = hash;
   body.H.signature = sig;
 
-  // File Logging
-  const path = `${RNFS.ExternalStorageDirectoryPath}/wallet_${new Date().getDate()}-${new Date().getHours()}${new Date().getMinutes()}.txt`;
-
-  // write the file
-  RNFS.appendFile(path, `\n\n${new Date().toLocaleString()}: Request Transaction!\n`, 'utf8')
-    .then(RNFS.appendFile(path, JSON.stringify(body), 'utf8'))
-    .then((success) => {
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-
-
   return fetch(`${url}/api/v1/transactions`, {
     method: 'POST',
     timeout: 5000,
@@ -357,15 +343,6 @@ export const makeTransaction = (source, password, target, amount, type, lastSequ
       return response.json();
     })
     .then((res) => {
-      RNFS.appendFile(path, `\n\n${new Date().toLocaleString()}: Transaction Response\n`, 'utf8')
-        .then(RNFS.appendFile(path, JSON.stringify(res), 'utf8'))
-        .then((success) => {
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-
-
       if (res.status !== 'submitted') {
         return ({
           status: res.status,

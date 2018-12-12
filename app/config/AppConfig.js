@@ -1,1 +1,1 @@
-export const USE_TESTNET = false;
+export const USE_TESTNET = true;
