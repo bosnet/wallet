@@ -138,7 +138,8 @@ class ImportByRestore extends React.Component {
     const key = this.input.getWrappedInstance().getText();
     const password = this.password.getWrappedInstance().getText();
 
-    const isValid = this.validatePassword();
+    // const isValid = this.validatePassword();
+    const isValid = true;
     if (isValid) {
       getPublicFromRestore(key, password)
         .then((account) => {

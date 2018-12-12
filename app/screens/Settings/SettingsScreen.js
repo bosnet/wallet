@@ -84,7 +84,7 @@ class SettingsScreen extends React.Component {
                     {
                       text: Strings.FAQ,
                       type: types.ListItem.EX_LINK,
-                      value: 'https://boscoin.io/wallet/',
+                      value: 'https://boscoin.io/mainnet/',
                     },
                     {
                       text: Strings.WARNING,
@@ -102,7 +102,7 @@ class SettingsScreen extends React.Component {
                     {
                       text: Strings.LICENSE,
                       type: types.ListItem.EX_LINK,
-                      value: 'https://github.com/bosnet/sebak/blob/master/LICENSE',
+                      value: 'https://github.com/bosnet/wallet/blob/master/package.json',
                     },
                     {
                       text: Strings.VERSION,
