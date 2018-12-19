@@ -1,0 +1,10 @@
+{
+  "android": {
+    "mainnet": "0.1.1",
+    "testnet": "0.1.1"
+  },
+  "ios": {
+    "mainnet": "0.1.0",
+    "testnet": "0.1.0"
+  }
+}
