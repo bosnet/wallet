@@ -9,13 +9,14 @@ $ npm install -g react-native-cli
 $ git clone https://github.com/owlchain/wallet.git
 $ cd wallet
 $ npm install
+$ ./node_modules/.bin/rn-nodeify --hack --install
 
-#testnet build
+#for testnet build
 sh build.sh testnet
-
-#mainnet build
+#for mainnet build
 sh build.sh mainnet
 
+#Debug Build
 react-native run-android
 ```
 

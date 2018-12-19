@@ -122,6 +122,15 @@ class ImportByRestore extends React.Component {
   onNavigateWithResult(key) {
     this.input.getWrappedInstance().setText(key.toString()).then(() => {
       this.validateRestoreKey();
+
+      const text = this.input.getWrappedInstance().getText();
+      const password = this.password.getWrappedInstance().getText();
+      
+      if (text.length > 0 && password.length > 0) {
+        this.setState({ buttonActive: true });
+      } else {
+        this.setState({ buttonActive: false });
+      }
     });
   }
 
@@ -138,8 +147,7 @@ class ImportByRestore extends React.Component {
     const key = this.input.getWrappedInstance().getText();
     const password = this.password.getWrappedInstance().getText();
 
-    // const isValid = this.validatePassword();
-    const isValid = true;
+    const isValid = this.validatePassword();
     if (isValid) {
       getPublicFromRestore(key, password)
         .then((account) => {
@@ -214,8 +222,8 @@ class ImportByRestore extends React.Component {
         passHelperColor: colors.alertTextRed,
       });
     } else {
-      result = validate(password);
-
+      // result = validate(password);
+      result = true;
       if (result) {
         this.setState({
           passHelperText: Strings.HELPER_DEFAULT_RES_PASSWORD,

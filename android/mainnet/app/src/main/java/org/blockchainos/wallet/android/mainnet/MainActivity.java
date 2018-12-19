@@ -26,6 +26,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "BOScoin Wallet";
+        return "boscoin_wallet";
     }
 }
