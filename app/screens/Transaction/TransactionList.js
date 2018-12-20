@@ -4,9 +4,11 @@ import {
   Text,
   ScrollView,
   ToastAndroid,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import BigNumber from 'bignumber.js';
+import Toast from 'react-native-simple-toast';
 
 import styles from '../styles';
 import { colors, types } from '../../resources';
@@ -107,7 +109,12 @@ class TransactionList extends React.Component {
               });
               storedData.balance = data.balance;
             } else {
-              ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+              if (Platform.OS === 'ios') {
+                Toast.show(Strings.TOAST_ON_DELAY, Toast.SHORT);
+              } else {
+                ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+              }
+              
               this.setState({
                 isLoaded: false,
               });
@@ -245,7 +252,12 @@ class TransactionList extends React.Component {
           });
           storedData.balance = data.balance;
         } else {
-          ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+          if (Platform.OS === 'ios') {
+            Toast.show(Strings.TOAST_ON_DELAY, Toast.SHORT);
+          } else {
+            ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+          }
+
           this.setState({
             isLoaded: false,
           });
@@ -271,7 +283,12 @@ class TransactionList extends React.Component {
         }
 
         if (results.status === 429) {
-          ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+          
+          if (Platform.OS === 'ios') {
+            Toast.show(Strings.TOAST_ON_DELAY, Toast.SHORT);
+          } else {
+            ToastAndroid.show(Strings.TOAST_ON_DELAY, ToastAndroid.SHORT);
+          }
           return;
         }
 
@@ -528,7 +545,11 @@ class TransactionList extends React.Component {
                 text: Strings.BUTTON_SEND,
                 onPress: () => {
                   if (account.balance <= 0) {
-                    ToastAndroid.show(Strings.TOAST_ACCOUNT_NOT_AVAILABLE, ToastAndroid.SHORT);
+                    if (Platform.OS === 'ios') {
+                      Toast.show(Strings.TOAST_ACCOUNT_NOT_AVAILABLE, Toast.SHORT);
+                    } else {
+                      ToastAndroid.show(Strings.TOAST_ACCOUNT_NOT_AVAILABLE, ToastAndroid.SHORT);
+                    }
                     // return;
                   }
                   pushScreen(NavAction.Screens.SEND_BALANCE, { account })

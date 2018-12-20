@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, ToastAndroid } from 'react-native';
+import { View, Text, Image, ToastAndroid, Platform } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 import styles from '../styles';
@@ -12,6 +12,7 @@ import imgFace from '../../resources/images/img_face.png';
 import strings from '../../resources/strings';
 import AndroidBackHandler from '../../AndroidBackHandler';
 import { colors } from '../../resources';
+import { DefaultToolbar, DefaultToolbarTheme } from '../../components/Toolbar';
 
 class QRScan extends React.Component {
   constructor(props) {
@@ -34,8 +35,21 @@ class QRScan extends React.Component {
     return (
       <View style={styles.container}>
         <AppStatusBar theme={StatusBarTheme.WHITE} />
+        {
+          Platform.OS === 'ios' && 
+          ( <DefaultToolbar
+            theme={DefaultToolbarTheme.WHITE}
+            data={{
+              right: {
+                actionText: Strings.BACK_BUTTON,
+                action: NavAction.popScreen(),
+              },
+            }}
+          />
+          )
+        }
         <RNCamera
-          style={[styles.defaultLayout, styles.noToolbar, { backgroundColor: '#999999' }]}
+          style={[styles.defaultLayout, styles.noToolbar ,{ backgroundColor: '#999999' }]}
           barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
           onBarCodeRead={(result) => {
             if (!isScanned && result.type === RNCamera.Constants.BarCodeType.qr) {

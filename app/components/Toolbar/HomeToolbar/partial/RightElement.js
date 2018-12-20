@@ -28,7 +28,10 @@ const RightElement = ({ onPress, redrawCallback }) => (
         style={styles.actionIcon}
         onPress={onPress(NavAction.pushScreen(NavAction.Screens.SELECT_IMPORT_TYPE))}
       >
-        <Image style={styles.IconIn} source={IconIn} />
+        <Image
+          style={styles.IconIn}
+          source={IconIn}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.actionIcon}

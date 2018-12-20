@@ -6,8 +6,11 @@ import {
   Image,
   Linking,
   ToastAndroid,
+  Platform,
   Clipboard,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import { connect } from 'react-redux';
 import BigNumber from 'bignumber.js';
 
@@ -47,7 +50,12 @@ class TransactionDetail extends React.Component {
           >
             <TouchableOpacity
               onPress={() => {
-                ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+                if (Platform.OS === 'ios') {
+                  Toast.show(Strings.TOAST_CLIPBOARD, Toast.SHORT);
+                } else {
+                  ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+                }
+          
                 Clipboard.setString(item.address);
               }}
             >
@@ -98,7 +106,11 @@ class TransactionDetail extends React.Component {
         >
           <TouchableOpacity
             onPress={() => {
-              ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+              if (Platform.OS === 'ios') {
+                Toast.show(Strings.TOAST_CLIPBOARD, Toast.SHORT);
+              } else {
+                ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+              }
               Clipboard.setString(item.address);
             }}
           >

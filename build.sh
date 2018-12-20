@@ -1,4 +1,13 @@
 
+#!/bin/bash
+    echo Usage:
+    echo '\tbuild [args]'
+    echo 
+    echo args: \(Default is testnet\)
+    echo '\ttestnet\t\tbuild testnet'
+    echo '\tmainnet\t\tbuild mainnet'
+    exit -1
+
 if [ -z $1 ]; then
     SUBDIR="testnet"
 elif [ $1 = 'testnet' ]; then
@@ -12,6 +21,7 @@ else
     echo args: \(Default is testnet\)
     echo '\ttestnet\t\tbuild testnet'
     echo '\tmainnet\t\tbuild mainnet'
+    exit -1
 fi
 
 echo Delete Existing Files...
@@ -22,7 +32,7 @@ done
 
 echo Copying $SUBDIR Files...
 cp -rf ./android/$SUBDIR/. ./android/
-# xcopy %cd%\android\%subdir% %cd%\android /s /e /q >nul
+cp -rf ./ios/$SUBDIR/. ./ios/
 echo DONE
 echo
 echo If you want to run Debug mode :

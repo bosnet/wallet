@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, View, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
+import firebase from 'react-native-firebase';
 
 import styles from '../styles';
 import { types } from '../../resources';

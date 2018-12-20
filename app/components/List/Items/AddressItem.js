@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import {
   Alert,
   ViewPagerAndroid, View, TouchableOpacity,
-  Clipboard, ToastAndroid,
+  Clipboard, ToastAndroid, Platform,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import PropTypes from 'prop-types';
 
 import styles from '../styles';
@@ -104,7 +106,11 @@ class AddressItem extends React.Component {
               icon={iconCopy}
               label={Strings.LABEL_COPY}
               callback={() => {
-                ToastAndroid.show(Strings.TOAST_COPY_ADDRESS, ToastAndroid.SHORT);
+                if (Platform.OS === 'ios') {
+                  Toast.show(Strings.TOAST_COPY_ADDRESS, Toast.SHORT)
+                } else {
+                  ToastAndroid.show(Strings.TOAST_COPY_ADDRESS, ToastAndroid.SHORT);
+                }
                 Clipboard.setString(address.address);
               }}
             />

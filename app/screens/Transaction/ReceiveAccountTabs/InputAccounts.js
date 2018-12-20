@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, ScrollView, ToastAndroid, Platform } from 'react-native';
 import { connect } from 'react-redux';
-
+import Toast from 'react-native-simple-toast';
 import styles from '../../styles';
 import { colors, types } from '../../../resources';
 import strings from '../../../resources/strings';
@@ -114,7 +114,11 @@ class InputAccounts extends React.Component {
       callback(item.address);
     } else {
       if (text.length === 0) {
-        ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
+        if (Platform.OS === 'ios') {
+          Toast.show(Strings.TOAST_NO_ADDRESS, Toast.SHORT);
+        } else {
+          ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
+        }
 
         this.setState({
           addressNotiText: Strings.HELPER_ADDRESS_ERROR_NO_INPUT,

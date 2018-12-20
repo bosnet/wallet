@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   ScrollView, View, Alert,
-  ToastAndroid, BackHandler,
+  Platform,
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -89,7 +89,7 @@ class Tutorial extends React.Component {
         <View
           style={{
             position: 'absolute',
-            top: 0,
+            top: Platform.OS === 'ios' ? 30 : 0,
             left: 0,
             bottom: 0,
             right: 0,

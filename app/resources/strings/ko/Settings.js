@@ -75,6 +75,7 @@ const Settings = {
   },
   QRScan: {
     HEAD_TEXT: 'QRcode를 사각형 안에 비춰 주세요',
+    BACK_BUTTON: '닫기',
   },
   ServiceAgreement: {
     TITLE: '서비스개선 참여',

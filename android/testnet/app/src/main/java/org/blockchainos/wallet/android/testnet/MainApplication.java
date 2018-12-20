@@ -2,17 +2,18 @@ package org.blockchainos.wallet.android.testnet;
 
 import android.app.Application;
 
-import org.blockchainos.wallet.android.testnet.NativeFunctions.NativeFunctionsPackage;
 import com.facebook.react.ReactApplication;
-import com.rnfs.RNFSPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.masteratul.RNAppstoreVersionCheckerPackage;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.horcrux.svg.SvgPackage;
 import io.invertase.firebase.RNFirebasePackage;
-import org.reactnative.camera.RNCameraPackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
+
+import org.blockchainos.wallet.android.testnet.NativeFunctions.NativeFunctionsPackage;
+import org.reactnative.camera.RNCameraPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -32,23 +33,22 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-              new MainReactPackage(),
-            new RNFSPackage(),
+          new MainReactPackage(),
+            new SvgPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseCrashlyticsPackage(),
             new RNDeviceInfo(),
-            new RNAppstoreVersionCheckerPackage(),
-              new SplashScreenReactPackage(),
-              new RNCameraPackage(),
-              new RNFirebasePackage(),
-              new RandomBytesPackage(),
-              new RNFirebaseCrashlyticsPackage(),
-              new NativeFunctionsPackage()
-//              new RNFirebaseAnalyticsPackage()
+            new RNGestureHandlerPackage(),
+            new RandomBytesPackage(),
+            new RNCameraPackage(),
+            new SplashScreenReactPackage(),
+            new NativeFunctionsPackage()
       );
     }
 
     @Override
     protected String getJSMainModuleName() {
-      return "app/index.android";
+      return "index";
     }
   };
 

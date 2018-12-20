@@ -4,9 +4,11 @@ import {
   Text,
   Clipboard,
   ToastAndroid,
+  Platform,
   Share,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -90,7 +92,11 @@ class ReceiveBalance extends React.Component {
               text: Strings.BUTTON_TEXT_COPY,
               callback: () => {
                 if (account && account.address) {
-                  ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+                  if (Platform.OS === 'ios') {
+                    Toast.show(Strings.TOAST_CLIPBOARD, Toast.SHORT);
+                  } else {
+                    ToastAndroid.show(Strings.TOAST_CLIPBOARD, ToastAndroid.SHORT);
+                  }
                   Clipboard.setString(account.address);
                 }
               },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 import { colors } from '../../resources';
@@ -20,12 +20,30 @@ const StatusBarStyle = {
   },
 };
 
-const AppStatusBar = ({ theme }) => (
-  <StatusBar
-    backgroundColor={StatusBarStyle[theme].backgroundColor}
-    barStyle={StatusBarStyle[theme].barStyle}
-  />
-);
+const AppStatusBar = ({ theme }) => {
+  if (Platform.OS === 'ios') {
+    return (
+      <View
+        style={{
+          height: 30,
+          backgroundColor: StatusBarStyle[theme].backgroundColor,
+        }}
+      >
+          <StatusBar
+            backgroundColor={StatusBarStyle[theme].backgroundColor}
+            barStyle={StatusBarStyle[theme].barStyle}
+          />
+      </View>
+    )
+  } 
+
+  return (
+    <StatusBar
+      backgroundColor={StatusBarStyle[theme].backgroundColor}
+      barStyle={StatusBarStyle[theme].barStyle}
+    />
+  )
+};
 
 AppStatusBar.propTypes = {
   theme: PropTypes.string.isRequired,

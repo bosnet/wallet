@@ -1,6 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, ToastAndroid, Keyboard } from 'react-native';
+import {
+  View, Text, ScrollView,
+  ToastAndroid, Keyboard, Platform,
+} from 'react-native';
 import { connect } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -192,7 +196,12 @@ class ImportBySecure extends React.Component {
                 if (!address) return;
 
                 if (accounts.map(e => e.address).indexOf(address) >= 0) {
-                  ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
+                  if (Platform.OS === 'ios') {
+                    Toast.show(Strings.TOAST_DUPLICATED_ADDRESS, Toast.SHORT);
+                  } else {
+                    ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
+                  }
+                  
                   return;
                 }
 

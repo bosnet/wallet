@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import {
-  View, Alert, BackHandler, Linking,
+  View, Alert, BackHandler, Linking, Platform,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import BigNumber from 'bignumber.js';
@@ -30,12 +30,13 @@ class App extends React.Component {
     this.state = {
       isLoaded: false,
     };
-    
+    console.log("constructor")
     BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
   }
 
   componentDidMount() {
     // AsyncStorage.clear();
+    console.log("Mount")
     Promise.all([
       AppStorage.loadAccountsAsync(),
       AppStorage.loadSettingsAsync(),
@@ -57,9 +58,7 @@ class App extends React.Component {
     const language = (settings && settings.language) ? settings.language : 'ko';
     const Strings = strings[language].OnBoarding.SplashScreen;
 
-    const versionURL = USE_TESTNET
-      ? 'https://raw.githubusercontent.com/bosnet/wallet/master/Version_Testnet.txt'
-      : 'https://raw.githubusercontent.com/bosnet/wallet/master/Version.txt';
+    let versionURL = 'https://raw.githubusercontent.com/bosnet/wallet/master/NewestVersion'
 
     return fetch(versionURL, {
       method: 'GET',
@@ -70,7 +69,14 @@ class App extends React.Component {
     })
       .then(response => response.text())
       .then((appVersion) => {
-        const latest = appVersion.replace(/\n/g, '').split('.');
+        let ver = null;
+        let latest = null;
+
+        ver = JSON.parse(appVersion);
+
+        if (USE_TESTNET) latest = ver[Platform.OS].testnet.replace(/\n/g, '').split('.');
+        else latest = ver[Platform.OS].mainnet.replace(/\n/g, '').split('.');
+        
         if (latest.length !== 3) throw Error('Wrong VersionCode');
 
         const VERSION = DeviceInfo.getVersion();
@@ -87,8 +93,13 @@ class App extends React.Component {
               {
                 text: Strings.ALERT_BUTTON_UPDATE,
                 onPress: () => {
-                  if (USE_TESTNET) Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
-                  else Linking.openURL('market://details?id=org.blockchainos.wallet.android.mainnet');
+                  if (Platform.OS === 'android') {
+                    if (USE_TESTNET) Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
+                    else Linking.openURL('market://details?id=org.blockchainos.wallet.android.mainnet');  
+                  } else if ( Platform.OS === 'ios') {
+                    if (USE_TESTNET) Linking.openURL('market://details?id=org.blockchainos.wallet.android.testnet');
+                    else Linking.openURL('market://details?id=org.blockchainos.wallet.android.mainnet');  
+                  }
                 },
               },
               {
@@ -126,6 +137,7 @@ class App extends React.Component {
         }
       })
       .catch((error) => {
+        console.log(JSON.stringify(error));
         if (error.message === 'Network request failed') {
           Alert.alert(
             Strings.ALERT_GENERAL_TITLE,
@@ -192,8 +204,8 @@ class App extends React.Component {
     });
 
     if (!settings || settings.useFirebase) {
-      // console.log("useCrashlystic");
-      FirebaseControl.useCrashlystic();
+      console.log("useCrashlystic");
+      // FirebaseControl.useCrashlystic();
       // console.log("useCrashlystic Done");
     }
   }

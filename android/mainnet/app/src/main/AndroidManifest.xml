@@ -1,6 +1,4 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.blockchainos.wallet.android.mainnet">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,13 +6,12 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:allowBackup="false"
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/appicon"
-        android:roundIcon="@mipmap/appicon"
+      android:roundIcon="@mipmap/appicon"
+      android:allowBackup="false"
       android:theme="@style/AppTheme">
-
         <!-- [START crash_disable_collection] -->
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
@@ -22,15 +19,15 @@
         <!-- [END crash_disable_collection] -->
 
       <activity
-        android:name=".MainActivity"
-        android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+          android:name=".MainActivity"
+          android:label="@string/app_name"
+          android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
           android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+          android:windowSoftInputMode="adjustPan">
+          <intent-filter>
+              <action android:name="android.intent.action.MAIN" />
+              <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>

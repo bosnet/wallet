@@ -226,13 +226,11 @@ class HomeScreen extends React.Component {
               USE_TESTNET && (
                 <View
                   style={{
-                    marginTop: -20,
-                    marginBottom: -40,
                     marginHorizontal: 10,
                   }}
                 >
                   <Text
-                    style={[styles.headText, { fontSize: 14, lineHeight: 20 }]}
+                    style={[styles.headText_testnet, { fontSize: 14, lineHeight: 20 }]}
                   >
                     {Strings.CAUTION}
                   </Text>

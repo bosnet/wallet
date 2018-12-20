@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ToastAndroid, Keyboard, ScrollView } from 'react-native';
+import { View, Text, ToastAndroid, Keyboard, ScrollView, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import BigNumber from 'bignumber.js';
-
+import Toast from 'react-native-simple-toast';
 import styles from '../styles';
 import strings from '../../resources/strings';
 
@@ -217,7 +217,11 @@ class SendBalance extends React.Component {
         addressNotiColor: colors.alertTextRed,
       });
 
-      ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
+      if (Platform.OS === 'ios') {
+        Toast.show(Strings.TOAST_NO_ADDRESS, Toast.SHORT);
+      } else {
+        ToastAndroid.show(Strings.TOAST_NO_ADDRESS, ToastAndroid.SHORT);
+      }
 
       errorFlag = true;
     } else {

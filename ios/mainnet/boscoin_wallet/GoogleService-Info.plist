@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>1029882598125-rf2ebatg43lf2aj5qht9o5gdmhvs5r4c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1029882598125-rf2ebatg43lf2aj5qht9o5gdmhvs5r4c</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDWVJCzvrQ0Y1y_EWdfwbC0_eulbyJtzlo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1029882598125</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.blockchainos.wallet.ios.mainnet</string>
+	<key>PROJECT_ID</key>
+	<string>boscoin-wallet</string>
+	<key>STORAGE_BUCKET</key>
+	<string>boscoin-wallet.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1029882598125:ios:a9d1512bcc5e3ecd</string>
+	<key>DATABASE_URL</key>
+	<string>https://boscoin-wallet.firebaseio.com</string>
+</dict>
+</plist>

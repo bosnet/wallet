@@ -75,6 +75,7 @@ const Settings = {
   },
   QRScan: {
     HEAD_TEXT: 'Place a QR code inside the viewfinder',
+    BACK_BUTTON: 'Close',
   },
   ServiceAgreement: {
     TITLE: 'Service improvement',

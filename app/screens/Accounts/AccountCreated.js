@@ -5,8 +5,10 @@ import {
   ScrollView,
   Clipboard,
   ToastAndroid,
+  Platform,
   Share,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import { connect } from 'react-redux';
 
 import styles from '../styles';
@@ -53,14 +55,17 @@ class AccountCreated extends React.Component {
     const { navigation } = this.props;
     const option = navigation.getParam('option', null);
 
-    if (option === 'showSecureKey') AndroidSecureMode.setSecure();
+    if (Platform.OS === 'android') {
+      if (option === 'showSecureKey') AndroidSecureMode.setSecure();
+    }
   }
 
   componentWillUnmount() {
     const { navigation } = this.props;
     const option = navigation.getParam('option', null);
-
-    if (option === 'showSecureKey') AndroidSecureMode.resetSecure();
+    if (Platform.OS === 'android') {
+      if (option === 'showSecureKey') AndroidSecureMode.resetSecure();
+    }
   }
 
   setSecureKey() {
@@ -82,6 +87,7 @@ class AccountCreated extends React.Component {
     const { key, keyText, name, backFrom, option } = this.state;
     const { settings } = this.props;
     const Strings = strings[settings.language].Accounts.AccountCreated;
+
 
     return (
       <View style={styles.container}>
@@ -124,9 +130,13 @@ class AccountCreated extends React.Component {
               color={colors.headTextBlack}
             />
             <View style={styles.alignCenter}>
-              <QRPanel
-                value={key}
-              />
+              { key != '' && 
+                (
+                  <QRPanel
+                    value={key}
+                  />
+                )
+              }
             </View>
           </View>
         </ScrollView>
@@ -144,7 +154,11 @@ class AccountCreated extends React.Component {
               callback: () => {
                 const text = (option === 'showSecureKey') ? Strings.TOAST_CLIPBOARD_SS : Strings.TOAST_CLIPBOARD_RK;
 
-                ToastAndroid.show(text, ToastAndroid.SHORT);
+                if (Platform.OS === 'ios') {
+                  Toast.show(text, Toast.SHORT)
+                } else {
+                  ToastAndroid.show(text, ToastAndroid.SHORT);
+                }
                 Clipboard.setString(key);
               },
             },

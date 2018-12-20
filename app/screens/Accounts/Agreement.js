@@ -1,7 +1,13 @@
 import React from 'react';
-import { View, ToastAndroid, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import {
+  View,
+  ToastAndroid,
+  TouchableWithoutFeedback,
+  ScrollView,
+  Platform,
+} from 'react-native';
 import { connect } from 'react-redux';
-
+import Toast from 'react-native-simple-toast';
 import styles from '../styles';
 import strings from '../../resources/strings';
 
@@ -35,7 +41,11 @@ class Agreement extends React.Component {
     const Strings = strings[settings.language].Accounts.Precaution;
 
     if (!isAllChecked) {
-      ToastAndroid.show(Strings.ALERT_NEED_CHECK, ToastAndroid.SHORT);
+      if (Platform.OS === 'ios') {
+        Toast.show(Strings.ALERT_NEED_CHECK, Toast.SHORT)
+      } else {
+        ToastAndroid.show(Strings.ALERT_NEED_CHECK, ToastAndroid.SHORT);
+      }
     }
   }
 

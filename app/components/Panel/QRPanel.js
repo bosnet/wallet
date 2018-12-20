@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import QRCode from 'react-native-qrcode';
+import QRCode from 'react-native-qrcode-svg';
 
 import styles from './styles';
 

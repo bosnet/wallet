@@ -65,6 +65,17 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     textAlign: 'center',
   },
+  headText_testnet: {
+    marginTop: 20,
+    fontSize: 18,
+    fontFamily: 'SpoqaHanSans-Regular',
+    color: colors.layoutHeadText,
+    lineHeight: 26,
+    marginBottom: 0,
+    marginHorizontal: 20,
+    alignSelf: 'stretch',
+    textAlign: 'center',
+  },
   filler: {
     alignSelf: 'center',
     flexDirection: 'column',

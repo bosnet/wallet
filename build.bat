@@ -17,6 +17,7 @@ if "%1" == "" (
     exit /b
 )
 
+echo [Windows] Build Android only
 echo Delete Existing Files...
 pushd "%cd%\android" || exit /B 1
 for /F %%F in ("*") do (
@@ -28,9 +29,13 @@ for /D %%D in ("*") do (
 )
 popd
 
+
 echo Copying %subdir% Files...
-xcopy %cd%\android\%subdir% %cd%\android /s /e /q >nul
+xcopy %cd%\android\%subdir% %cd%\android /s /e /q /y >nul
 echo DONE
+
+
+
 echo.
 echo If you want to run Debug mode :
 echo react-native run-android

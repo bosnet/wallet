@@ -6,7 +6,10 @@ import {
   ScrollView,
   ToastAndroid,
   Alert,
+  Platform,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import styles from '../styles';
@@ -240,7 +243,8 @@ class SetPassword extends React.Component {
     if (angelbotFlag) {
       this.setState({
         spinnerVisible: true,
-      });
+      });  
+
       createValidAccount(this.input1.getWrappedInstance().getText())
         .then((account) => {
           addAccount({
@@ -253,33 +257,43 @@ class SetPassword extends React.Component {
             .then(() => {
               this.setState({
                 spinnerVisible: false,
-              });
-              Alert.alert(
-                Strings.ALERT_PASSWORD_SET_TITLE,
-                Strings.ALERT_PASSWORD_SET_MESSAGE,
-                [{
-                  text: Strings.BUTTON_TEXT,
-                  onPress: () => {
-                    onAlertOk(
-                      NavAction.pushScreen(
-                        NavAction.Screens.ACCOUNT_CREATED,
-                        {
-                          name: account.name,
-                          key: account.secretSeed,
-                        },
-                      ),
-                    );
-                  },
-                }],
-                { cancelable: false },
-              );
+              });  
+              setTimeout(() => {
+                Alert.alert(
+                  Strings.ALERT_PASSWORD_SET_TITLE,
+                  Strings.ALERT_PASSWORD_SET_MESSAGE,
+                  [{
+                    text: Strings.BUTTON_TEXT,
+                    onPress: () => {
+                      onAlertOk(
+                        NavAction.pushScreen(
+                          NavAction.Screens.ACCOUNT_CREATED,
+                          {
+                            name: account.name,
+                            key: account.secretSeed,
+                          },
+                        ),
+                      );
+                    },
+                  }],
+                  { cancelable: false },
+                );
+  
+              }, 100)
             });
         })
         .catch((e) => {
-          ToastAndroid.show(Strings.TOAST_ANGELBOT_FAILED, ToastAndroid.SHORT);
-          this.setState({
-            spinnerVisible: false,
-          });
+          if (Platform.OS === 'ios') {
+            Toast.show(Strings.TOAST_ANGELBOT_FAILED, Toast.SHORT);
+          } else {
+            ToastAndroid.show(Strings.TOAST_ANGELBOT_FAILED, ToastAndroid.SHORT);
+          }
+          
+          if (Platform.OS === "android") {
+            this.setState({
+              spinnerVisible: false,
+            });  
+          }
         });
       return;
     }
@@ -321,7 +335,13 @@ class SetPassword extends React.Component {
         createRestoreKeyAsync(getSecureKey(), this.input1.getWrappedInstance().getText())
           .then((account) => {
             if (accountList.findIndex(element => element.address === account.address) > -1) {
-              ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
+              
+              if (Platform.OS === 'ios') {
+                Toast.show(Strings.TOAST_DUPLICATED_ADDRESS, Toast.SHORT);
+              } else {
+                ToastAndroid.show(Strings.TOAST_DUPLICATED_ADDRESS, ToastAndroid.SHORT);
+              }
+              
               return;
             }
 
@@ -355,7 +375,11 @@ class SetPassword extends React.Component {
               });
           })
           .catch((/* error */) => {
-            ToastAndroid.show(Strings.TOAST_ADDRESS_NOT_VALID, ToastAndroid.SHORT);
+            if (Platform.OS === 'ios') {
+              Toast.show(Strings.TOAST_ADDRESS_NOT_VALID, Toast.SHORT);
+            } else {
+              ToastAndroid.show(Strings.TOAST_ADDRESS_NOT_VALID, ToastAndroid.SHORT);
+            }
           });
       }
     }
@@ -395,7 +419,11 @@ class SetPassword extends React.Component {
                 });
             })
             .catch((/* error */) => {
-              ToastAndroid.show(Strings.TOAST_SS_NOT_VALID, ToastAndroid.SHORT);
+              if (Platform.OS === 'ios') {
+                Toast.show(Strings.TOAST_SS_NOT_VALID, Toast.SHORT);
+              } else {
+                ToastAndroid.show(Strings.TOAST_SS_NOT_VALID, ToastAndroid.SHORT);
+              }
             });
         } else {
           createRestoreKey(getSecureKey(), this.input1.getWrappedInstance().getText())
@@ -427,7 +455,11 @@ class SetPassword extends React.Component {
                 });
             })
             .catch((/* error */) => {
-              ToastAndroid.show(Strings.TOAST_SS_NOT_VALID, ToastAndroid.SHORT);
+              if (Platform.OS === 'ios') {
+                Toast.show(Strings.TOAST_SS_NOT_VALID, Toast.SHORT);
+              } else {
+                ToastAndroid.show(Strings.TOAST_SS_NOT_VALID, ToastAndroid.SHORT);
+              }
             });
         }
       }

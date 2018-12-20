@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, ToastAndroid, TouchableOpacity } from 'react-native';
+import { View, ToastAndroid, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 import styles from '../styles';
 import strings from '../../resources/strings';
@@ -386,7 +387,11 @@ class ModifyAddress extends React.Component {
             style={{ alignSelf: 'stretch' }}
             onPress={() => {
               if (mode === 'Modify') {
-                ToastAndroid.show(Strings.TOAST_MODIFY_ADDRESS, ToastAndroid.SHORT);
+                if (Platform.OS === 'ios') {
+                  Toast.show(Strings.TOAST_MODIFY_ADDRESS, Toast.SHORT);
+                } else {
+                  ToastAndroid.show(Strings.TOAST_MODIFY_ADDRESS, ToastAndroid.SHORT);
+                }
               }
             }}
           >
