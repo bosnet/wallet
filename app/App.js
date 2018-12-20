@@ -205,7 +205,7 @@ class App extends React.Component {
 
     if (!settings || settings.useFirebase) {
       console.log("useCrashlystic");
-      // FirebaseControl.useCrashlystic();
+      FirebaseControl.useCrashlystic();
       // console.log("useCrashlystic Done");
     }
   }
